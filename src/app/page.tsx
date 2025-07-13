@@ -7,6 +7,7 @@ import AboutSection from "@/custom_components/landing_section/About";
 import ContactSection from "@/custom_components/landing_section/Contact";
 import RatesSection from "@/custom_components/landing_section/Rates";
 import ServicesSection from "@/custom_components/landing_section/Services";
+import TherapistsSection from "@/app/therapist";
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <Hero />
       <ServicesSection />
       <AboutSection />
+     <TherapistsSection />
       <RatesSection />
       <ContactSection />
     </main>

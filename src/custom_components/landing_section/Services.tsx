@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import Image from "next/image";
@@ -71,7 +66,7 @@ export default function ServicesSection() {
       className="py-24 px-6 bg-white text-[#5C4A42] scroll-mt-20"
     >
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-light text-center mb-5">
+        <h2 className="text-4xl font-semibold text-center mb-5">
           Our Signature Services
         </h2>
         <div className="w-24 h-[3px] bg-teal-500 mx-auto rounded-full mb-6" />
@@ -79,15 +74,18 @@ export default function ServicesSection() {
           {services.map((service, idx) => (
             <div key={idx} className="keen-slider__slide">
               <Card className="h-full overflow-hidden shadow-md bg-[#FAF8F6] border-none rounded-xl">
-                <CardHeader className="p-0 relative h-52">
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    fill
-                    className="object-cover"
-                    priority={idx === 0}
-                  />
+                <CardHeader className="p-0">
+                  <div className="relative w-full h-52">
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      className="object-contain rounded-t-xl"
+                      priority={idx === 0}
+                    />
+                  </div>
                 </CardHeader>
+
                 <CardContent className="p-6">
                   <CardTitle className="text-xl font-semibold mb-2 text-[#5C4A42]">
                     {service.title}

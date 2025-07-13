@@ -7,7 +7,7 @@ export default function AboutSection() {
       className="py-24 px-6 bg-[#FAF8F6] text-[#5C4A42] scroll-mt-20"
     >
       <div className="max-w-3xl mx-auto space-y-6">
-        <h2 className="text-4xl font-light text-center mb-4">
+        <h2 className="text-4xl font-semibold text-center mb-4">
           About Us
         </h2>
 

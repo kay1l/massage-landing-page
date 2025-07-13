@@ -24,7 +24,7 @@ export default function Hero() {
           alt="Holden Beach Massage"
           className="mx-auto mb-6 h-20"
         />
-        <h1 className="text-4xl md:text-5xl font-semi-bold text-[#5C4A42] mb-4 drop-shadow-sm">
+        <h1 className="text-4xl md:text-5xl font-semibold text-[#5C4A42] mb-4 drop-shadow-sm">
           Relax, Rejuvenate, Restore
         </h1>
         <div className="w-24 h-[3px] bg-teal-500 mx-auto mb-4 rounded-full" />
