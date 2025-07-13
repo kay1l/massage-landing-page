@@ -23,7 +23,7 @@ export type Therapist = {
 
 export default function TherapistCard({ therapist }: { therapist: Therapist }) {
   return (
-    <Card className="flex flex-col justify-between min-h-[240px] sm:min-h-[300px] lg:min-h-[340px]">
+    <Card className="flex flex-col justify-between min-h-[240px] sm:min-h-[300px] lg:min-h-[340px] shadow-md transform transition-transform duration-300 hover:scale-105">
       <CardHeader className="p-0">
         <div className="relative w-full h-40 bg-gray-100">
           <Image
