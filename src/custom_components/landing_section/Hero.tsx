@@ -2,11 +2,11 @@
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Hero() {
   return (
     <section className="relative w-full h-[90vh] flex items-center justify-center text-center overflow-hidden">
-      
       <Image
         src="/images/hero-bg.jpg"
         alt="Hero Background"
@@ -33,9 +33,11 @@ export default function Hero() {
           Therapeutic Massage on the Island of Dumaguete
         </p>
 
-        <Button className="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 text-md rounded-full shadow-lg transition duration-300">
-          Get in Touch
-        </Button>
+        <Link href="#contact">
+          <Button className="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 text-md rounded-full shadow-lg transition duration-300">
+            Get in Touch
+          </Button>
+        </Link>
       </div>
     </section>
   );
