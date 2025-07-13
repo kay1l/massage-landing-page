@@ -1,19 +1,62 @@
-"use client"
+"use client";
+
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
+
+const rateOptions = [
+  {
+    title: "30 Minute Session",
+    price: "$50",
+    image: "/images/rates_images/rates.png",
+  },
+  {
+    title: "60 Minute Session",
+    price: "$80",
+    image: "/images/rates_images/rates.png",
+  },
+  {
+    title: "90 Minute Session",
+    price: "$110",
+    image: "/images/rates_images/rates.png",
+  },
+];
 
 export default function RatesSection() {
-    return (
-      <section id="rates" className="py-20 px-6 bg-white text-[#5C4A42]">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-semibold mb-6">Rates</h2>
-          <ul className="space-y-4">
-            <li>🕒 60-Minute Swedish Massage – ₱1,200</li>
-            <li>🕒 90-Minute Deep Tissue Massage – ₱1,800</li>
-            <li>🕒 Prenatal Massage – ₱1,300</li>
-            <li>🕯️ Aromatherapy Add-on – ₱300</li>
-            <li>🎁 Gift Certificates Available</li>
-          </ul>
-        </div>
-      </section>
-    );
-  }
-  
+  return (
+    <section
+      id="rates"
+      className="py-24 px-6 bg-[#FAF8F6] text-[#5C4A42] scroll-mt-20 flex justify-center items-center"
+    >
+      <div className="w-full">
+        <h2 className="text-4xl font-light text-center mb-8">Rates</h2>
+
+        <Card className="w-full bg-white border-none shadow-md rounded-xl">
+          <CardHeader>
+            <CardTitle className="text-xl font-medium text-center text-[#5C4A42]">
+              Massage Packages
+            </CardTitle>
+          </CardHeader>
+
+          <CardContent>
+            <div className="w-full max-w-6xl mx-auto flex flex-col md:flex-row justify-around items-center gap-8">
+              {rateOptions.map((rate, index) => (
+                <div key={index} className="flex flex-col items-center text-center">
+                  <div className="relative w-24 h-24 mb-2">
+                    <Image
+                      src={rate.image}
+                      alt={rate.title}
+                      fill
+                      className="object-contain rounded-md"
+                    />
+                  </div>
+                  <h3 className="text-base font-semibold">{rate.title}</h3>
+                  <p className="text-teal-600 font-bold text-lg">{rate.price}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </section>
+  );
+}
