@@ -52,11 +52,10 @@ export default function ServicesSection() {
     },
   });
 
-  // Autoplay effect
   useEffect(() => {
     const interval = setInterval(() => {
       instanceRef.current?.next();
-    }, 4000); // Change slide every 4 seconds
+    }, 2000); 
     return () => clearInterval(interval);
   }, [instanceRef]);
 
@@ -73,24 +72,24 @@ export default function ServicesSection() {
         <div ref={sliderRef} className="keen-slider">
           {services.map((service, idx) => (
             <div key={idx} className="keen-slider__slide">
-              <Card className="h-full overflow-hidden shadow-md bg-[#FAF8F6] border-none rounded-xl">
+              <Card className="h-full overflow-hidden rounded-2xl bg-gradient-to-b from-[#FAF8F6] to-white shadow-lg hover:shadow-xl hover:scale-[1.03] transition-transform duration-300 border border-teal-100">
                 <CardHeader className="p-0">
                   <div className="relative w-full h-52">
                     <Image
                       src={service.image}
                       alt={service.title}
                       fill
-                      className="object-contain rounded-t-xl"
+                      className="object-contain rounded-t-2xl"
                       priority={idx === 0}
                     />
                   </div>
                 </CardHeader>
 
                 <CardContent className="p-6">
-                  <CardTitle className="text-xl font-semibold mb-2 text-[#5C4A42]">
+                  <CardTitle className="text-lg sm:text-xl font-semibold mb-2 text-[#3B2E2A]">
                     {service.title}
                   </CardTitle>
-                  <p className="text-sm text-muted-foreground leading-relaxed">
+                  <p className="text-sm text-[#6B5F57] leading-relaxed">
                     {service.description}
                   </p>
                 </CardContent>
