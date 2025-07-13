@@ -5,6 +5,19 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function Hero() {
+  const scrollToSection = (id: string) => {
+    const element = document.querySelector(id);
+    if (!element) return;
+
+    const headerOffset = 80; 
+    const elementPosition = element.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    }); 
+  };
   return (
     <section className="relative w-full h-[90vh] flex items-center justify-center text-center overflow-hidden">
       <Image
@@ -33,11 +46,11 @@ export default function Hero() {
           Therapeutic Massage on the Island of Dumaguete
         </p>
 
-        <Link href="#contact">
-          <Button className="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 text-md rounded-full shadow-lg transition duration-300">
+       
+          <Button onClick={() => scrollToSection("#contact")} className="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 text-md rounded-full shadow-lg transition duration-300">
             Get in Touch
           </Button>
-        </Link>
+        
       </div>
     </section>
   );
