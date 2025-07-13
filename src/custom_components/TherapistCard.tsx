@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Star } from "lucide-react";
@@ -17,7 +23,7 @@ export type Therapist = {
 
 export default function TherapistCard({ therapist }: { therapist: Therapist }) {
   return (
-    <Card className="bg-white shadow-md rounded-xl overflow-hidden transition-transform transform hover:scale-105 hover:shadow-lg">
+    <Card className="flex flex-col justify-between min-h-[240px] sm:min-h-[300px] lg:min-h-[340px]">
       <CardHeader className="p-0">
         <div className="relative w-full h-40 bg-gray-100">
           <Image
@@ -28,8 +34,9 @@ export default function TherapistCard({ therapist }: { therapist: Therapist }) {
           />
         </div>
       </CardHeader>
-      <CardContent className="p-6">
-        <CardTitle className=" flex justify-center text-lg font-bold mb-2">
+
+      <CardContent className="flex flex-col flex-grow p-4 sm:p-5 lg:p-6">
+        <CardTitle className="text-center text-lg font-bold mb-2">
           {therapist.name}
         </CardTitle>
 
@@ -44,25 +51,27 @@ export default function TherapistCard({ therapist }: { therapist: Therapist }) {
               }`}
             />
           ))}
-          <span className="ml-2 text-sm text-gray-500">
-            ({therapist.rating})
-          </span>
+          <span className="ml-2 text-sm text-gray-500">({therapist.rating})</span>
         </div>
 
+        <div className="text-sm text-center text-muted-foreground line-clamp-2">
+          {therapist.description}
+        </div>
+      </CardContent>
+
+      <CardFooter className="flex justify-center px-4 pb-4 sm:px-6 sm:pb-6 mt-auto">
         <Dialog>
           <DialogTrigger asChild>
-            <div className="flex justify-center">
-              <Button
-                variant="outline"
-                className="rounded-full text-sm font-medium text-teal-600 border-teal-500 hover:bg-teal-50"
-              >
-                View Details
-              </Button>
-            </div>
+            <Button
+              variant="outline"
+              className="rounded-full text-sm font-medium text-teal-600 border-teal-500 hover:bg-teal-50 w-full max-w-[160px]"
+            >
+              View Details
+            </Button>
           </DialogTrigger>
           <TherapistModal therapist={therapist} />
         </Dialog>
-      </CardContent>
+      </CardFooter>
     </Card>
   );
 }

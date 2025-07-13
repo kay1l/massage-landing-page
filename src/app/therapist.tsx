@@ -8,7 +8,8 @@ const therapists: Therapist[] = [
     name: "Maria Santos",
     image: "/images/therapist_images/woman.png",
     rating: 4.8,
-    description: "Specializes in Swedish and Aromatherapy massage. 8+ years of experience.",
+    description:
+      "Specializes in Swedish and Aromatherapy massage. 8+ years of experience.",
   },
   {
     id: 2,
@@ -65,10 +66,12 @@ export default function TherapistsSection() {
   return (
     <section id="therapists" className="py-24 px-6 bg-[#FAF8F6] text-[#5C4A42]">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-semibold text-center mb-5">Meet Our Therapists</h2>
+        <h2 className="text-4xl font-semibold text-center mb-5">
+          Meet Our Therapists
+        </h2>
         <div className="w-24 h-[3px] bg-teal-500 mx-auto rounded-full mb-8" />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
           {therapists.map((therapist) => (
             <TherapistCard key={therapist.id} therapist={therapist} />
           ))}
