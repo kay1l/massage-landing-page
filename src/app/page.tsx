@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Header from "@/custom_components/Header";
-import Hero from "@/custom_components/Hero";
+import Header from "@/custom_components/landing_section/Header";
+import Hero from "@/custom_components/landing_section/Hero";
 import AboutSection from "@/custom_components/landing_section/About";
 import ContactSection from "@/custom_components/landing_section/Contact";
 import RatesSection from "@/custom_components/landing_section/Rates";
@@ -19,7 +19,7 @@ export default function Home() {
     }, 2000); 
     return () => clearTimeout(timer);
   }, []);
-  
+
   if (isLoading) return <LoadingScreen />;
 
   return (
