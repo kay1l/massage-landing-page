@@ -12,7 +12,7 @@ export default function Header() {
         <Link href="/" className="flex items-center space-x-2">
           <img src="/images/massage.png" alt="Logo" className="h-10" />
           <div className="text-lg font-semibold text-[#5C4A42]">
-          ISLAND BLISS <br />
+          ARTURO SIETE <br />
             <span className="text-sm font-light tracking-widest text-[#AD8E80]">
               MASSAGE
             </span>

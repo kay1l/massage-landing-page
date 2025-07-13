@@ -15,7 +15,7 @@ export default function AboutSection() {
 
         <div className="border-l-4 border-teal-300 pl-6 text-lg leading-relaxed tracking-wide space-y-4">
           <p>
-            At <span className="font-medium">Island Bliss Massage</span>, we believe in the healing power of touch. Our licensed therapists are passionate about helping clients achieve well-being through personalized treatments.
+            At <span className="font-medium">Arturo Siete Massage</span>, we believe in the healing power of touch. Our licensed therapists are passionate about helping clients achieve well-being through personalized treatments.
           </p>
           <p>
             Located on the beautiful island of <span className="font-medium">Negros</span>, our massage studio is a peaceful sanctuary designed for your relaxation and renewal.
