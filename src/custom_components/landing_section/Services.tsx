@@ -71,10 +71,10 @@ export default function ServicesSection() {
       className="py-24 px-6 bg-white text-[#5C4A42] scroll-mt-20"
     >
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-light text-center mb-12">
+        <h2 className="text-4xl font-light text-center mb-5">
           Our Signature Services
         </h2>
-
+        <div className="w-24 h-[3px] bg-teal-500 mx-auto rounded-full mb-6" />
         <div ref={sliderRef} className="keen-slider">
           {services.map((service, idx) => (
             <div key={idx} className="keen-slider__slide">

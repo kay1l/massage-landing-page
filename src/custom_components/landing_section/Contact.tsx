@@ -20,8 +20,8 @@ export default function ContactSection() {
         transition={{ duration: 0.8 }}
         className="max-w-xl mx-auto"
       >
-        <h2 className="text-4xl font-light text-center mb-8">Contact Us</h2>
-
+        <h2 className="text-4xl font-light text-center mb-4">Get in touch</h2>
+        <div className="w-24 h-[3px] bg-teal-500 mx-auto rounded-full mb-6" />
         <form className="space-y-5 bg-white shadow-lg rounded-2xl p-8">
           <input
             type="text"

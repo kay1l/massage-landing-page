@@ -28,12 +28,14 @@ export default function RatesSection() {
       className="py-24 px-6 bg-[#FAF8F6] text-[#5C4A42] scroll-mt-20 flex justify-center items-center"
     >
       <div className="w-full">
-        <h2 className="text-4xl font-light text-center mb-8">Rates</h2>
+        
 
         <Card className="w-full bg-white border-none shadow-md rounded-xl">
           <CardHeader>
             <CardTitle className="text-xl font-medium text-center text-[#5C4A42]">
-              Massage Packages
+            <h2 className="text-4xl font-light text-center mb-4">Rates</h2>
+            <div className="w-24 h-[3px] bg-teal-500 mx-auto rounded-full mb-6" />
+              {/* Massage Packages */}
             </CardTitle>
           </CardHeader>
 
