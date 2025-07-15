@@ -10,6 +10,7 @@ import ServicesSection from "@/custom_components/landing_section/Services";
 import TherapistsSection from "@/app/therapist";
 import LoadingScreen from "@/custom_components/LoadingScreen";
 import ScrollToTopButton from "@/custom_components/ScrollToTopButton";
+import Footer from "@/custom_components/landing_section/Footer";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -33,6 +34,7 @@ export default function Home() {
       <TherapistsSection />
       <RatesSection />
       <ContactSection />
+      <Footer />
     </main>
   );
 }
