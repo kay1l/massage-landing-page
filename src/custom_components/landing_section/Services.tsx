@@ -74,7 +74,7 @@ export default function ServicesSection() {
             <div key={idx} className="keen-slider__slide">
               <Card className="h-full overflow-hidden rounded-2xl bg-gradient-to-b from-[#FAF8F6] to-white shadow-lg hover:shadow-xl hover:scale-[1.03] transition-transform duration-300 border border-teal-100">
                 <CardHeader className="p-0">
-                  <div className="relative w-full h-52">
+                  <div className="relative w-full h-52 bg-gray-100">
                     <Image
                       src={service.image}
                       alt={service.title}
