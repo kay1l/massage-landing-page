@@ -8,7 +8,7 @@ const rateOptions = [
     title: "30 Minute Session",
     price: "$50",
     description: "Perfect for a quick refresh. Focuses on neck, shoulders, and upper back.",
-    image: "/images/rates_images/body-massage.png",
+    image: "/images/rates_images/neck.png",
   },
   {
     title: "60 Minute Session",
@@ -20,7 +20,7 @@ const rateOptions = [
     title: "90 Minute Session",
     price: "$110",
     description: "Extended full body massage with deeper focus on tension points.",
-    image: "/images/rates_images/body-massage.png",
+    image: "/images/rates_images/hot-stone.png",
   },
 ];
 
