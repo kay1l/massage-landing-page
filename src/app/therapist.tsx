@@ -1,6 +1,7 @@
 "use client";
 
 import TherapistCard, { Therapist } from "@/custom_components/TherapistCard";
+import { useState } from "react";
 
 const therapists: Therapist[] = [
   {
@@ -62,7 +63,17 @@ const therapists: Therapist[] = [
   },
 ];
 
+const ITEM_PER_PAGE = 4;
+
 export default function TherapistsSection() {
+  const [currentPage, setCurrentPage] = useState(0);
+  const totalPages = Math.ceil(therapists.length / ITEM_PER_PAGE);
+
+  const paginatedTherapist = therapists.slice(
+    currentPage * ITEM_PER_PAGE,
+    currentPage * ITEM_PER_PAGE + ITEM_PER_PAGE
+  );
+
   return (
     <section id="therapists" className="py-24 px-6 bg-[#FAF8F6] text-[#5C4A42]">
       <div className="max-w-6xl mx-auto">
@@ -71,7 +82,53 @@ export default function TherapistsSection() {
         </h2>
         <div className="w-24 h-[3px] bg-teal-500 mx-auto rounded-full mb-8" />
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
+        {/* ✅ Mobile View with Pagination */}
+        <div className="sm:hidden space-y-6">
+          <div className="grid grid-cols-2 gap-4">
+            {paginatedTherapist.map((therapists) => (
+              <TherapistCard key={therapists.id} therapist={therapists} />
+            ))}
+          </div>
+
+          <div className="flex justify-center items-center gap-3 mt-6">
+            {/* Left arrow */}
+            <button
+              onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}
+              disabled={currentPage === 0}
+              className="text-teal-600 disabled:text-gray-300"
+              aria-label="Previous Page"
+            >
+              ←
+            </button>
+
+            {/* Dots */}
+            {Array.from({ length: totalPages }).map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrentPage(i)}
+                className={`w-3 h-3 rounded-full transition-colors ${
+                  currentPage === i ? "bg-teal-600" : "bg-gray-300"
+                }`}
+                aria-label={`Go to page ${i + 1}`}
+              />
+            ))}
+
+            {/* Right arrow */}
+            <button
+              onClick={() =>
+                setCurrentPage((prev) => Math.min(prev + 1, totalPages - 1))
+              }
+              disabled={currentPage === totalPages - 1}
+              className="text-teal-600 disabled:text-gray-300"
+              aria-label="Next Page"
+            >
+              →
+            </button>
+          </div>
+        </div>
+
+        {/* ✅ Desktop/Tablet Grid */}
+        <div className="hidden sm:grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
           {therapists.map((therapist) => (
             <TherapistCard key={therapist.id} therapist={therapist} />
           ))}
