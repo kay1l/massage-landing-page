@@ -67,22 +67,22 @@ export default function Hero() {
         </div>
 
         {/* Call to action buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
-          <Button
-            onClick={() => scrollToSection("#contact")}
-            className="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 text-md rounded-full shadow-lg transition"
-          >
-            Book a Session
-          </Button>
+        <div className="grid grid-cols-2 gap-4 justify-center mb-6">
+  <Button
+    onClick={() => scrollToSection("#contact")}
+    className="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 text-md rounded-full shadow-lg transition"
+  >
+    Book a Session
+  </Button>
 
-          <Button
-            variant="outline"
-            onClick={() => scrollToSection("#services")}
-            className="border-teal-500 text-teal-600 hover:bg-teal-50 px-6 py-3 text-md rounded-full shadow-md transition"
-          >
-            View Services
-          </Button>
-        </div>
+  <Button
+    variant="outline"
+    onClick={() => scrollToSection("#services")}
+    className="border-teal-500 text-teal-600 hover:bg-teal-50 px-6 py-3 text-md rounded-full shadow-md transition"
+  >
+    View Services
+  </Button>
+</div>
 
       
       </div>
