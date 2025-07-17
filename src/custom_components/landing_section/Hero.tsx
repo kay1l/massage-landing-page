@@ -3,54 +3,88 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { FaMapMarkerAlt, FaPhoneAlt, FaSpa } from "react-icons/fa";
 
 export default function Hero() {
   const scrollToSection = (id: string) => {
     const element = document.querySelector(id);
     if (!element) return;
 
-    const headerOffset = 80; 
+    const headerOffset = 80;
     const elementPosition = element.getBoundingClientRect().top;
     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
     window.scrollTo({
       top: offsetPosition,
       behavior: "smooth",
-    }); 
+    });
   };
+
   return (
     <section className="relative w-full h-[90vh] flex items-center justify-center text-center overflow-hidden">
-      <Image
-        src="/images/hero-bg.jpg"
-        alt="Hero Background"
-        fill
-        priority
-        className="object-cover object-center -z-10"
-      />
+    {/* Background Image */}
+    <Image
+      src="/images/hero-bg.jpg"
+      alt="Massage Therapy Background"
+      fill
+      className="object-cover object-center -z-10"
+      priority
+    />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-white/60 via-white/30 to-transparent backdrop-blur-sm z-10" />
-      <div className="relative z-20 max-w-2xl px-6 mt-3">
-        <img
+      {/* Gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/50 to-transparent backdrop-blur-sm z-10" />
+
+      <div className="relative z-20 max-w-3xl px-6 text-[#5C4A42] mt-3">
+        {/* Logo */}
+        <Image
           src="/images/massage.png"
           alt="Holden Beach Massage"
-          className="mx-auto mb-6 h-20 drop-shadow-md"
+          width={100}
+          height={100}
+          className="mx-auto mb-6 drop-shadow-lg"
         />
 
-        <h1 className="text-4xl md:text-5xl font-semibold text-[#5C4A42] mb-4 drop-shadow-sm tracking-tight leading-tight">
+        {/* Headline */}
+        <h1 className="text-4xl md:text-5xl font-extrabold mb-3 drop-shadow-sm tracking-tight leading-tight">
           Relax, Rejuvenate, Restore
         </h1>
 
-        <div className="w-24 h-[3px] bg-teal-500 mx-auto mb-6 rounded-full" />
-
-        <p className="text-md md:text-lg text-[#5C4A42] tracking-wider uppercase mb-8 drop-shadow-sm">
-          Therapeutic Massage on the Island of Dumaguete
+        {/* Subheadline */}
+        <p className="text-lg md:text-xl uppercase tracking-wider text-[#5C4A42] mb-6 drop-shadow-sm">
+          Therapeutic Massage in Dumaguete Island
         </p>
 
-       
-          <Button onClick={() => scrollToSection("#contact")} className="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 text-md rounded-full shadow-lg transition duration-300">
-            Get in Touch
+        {/* Info line */}
+        <div className="flex items-center justify-center gap-4 text-sm text-[#5C4A42] mb-6">
+          <div className="flex items-center gap-2">
+            <FaMapMarkerAlt />
+            <span>Dumaguete City</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <FaPhoneAlt />
+            <span>+63 912 345 6789</span>
+          </div>
+        </div>
+
+        {/* Call to action buttons */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-6">
+          <Button
+            onClick={() => scrollToSection("#contact")}
+            className="bg-teal-500 hover:bg-teal-600 text-white px-6 py-3 text-md rounded-full shadow-lg transition"
+          >
+            Book a Session
           </Button>
-        
+
+          <Button
+            variant="outline"
+            onClick={() => scrollToSection("#services")}
+            className="border-teal-500 text-teal-600 hover:bg-teal-50 px-6 py-3 text-md rounded-full shadow-md transition"
+          >
+            View Services
+          </Button>
+        </div>
+
+      
       </div>
     </section>
   );
