@@ -29,38 +29,46 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="py-20 bg-white" id="testimonials">
+    <section className="py-24 bg-[#FEF3E2]" id="testimonials">
       <div className="max-w-6xl mx-auto px-4 text-center">
-        <h2 className="text-4xl font-bold text-teal-500 mb-2">TESTIMONIALS</h2>
-        <p className="text-gray-600 mb-12">
-          Subscribe Easy Tutorials YouTube channel to watch more videos.
+        <h2 className="text-4xl font-extrabold text-[#FA812F] mb-4 tracking-tight drop-shadow-sm">
+          TESTIMONIALS
+        </h2>
+        <p className="text-[#5C4A42] text-lg mb-12">
+          Hear what our satisfied clients have to say.
         </p>
-        <div className="grid gap-8 md:grid-cols-3">
+
+        <div className="grid gap-10 md:grid-cols-3">
           {testimonials.map((t, index) => (
             <motion.div
               key={index}
-              className="bg-gray-100 p-8 rounded-2xl shadow-lg relative pt-16"
-              initial={{ opacity: 0, y: 30 }}
+              className="bg-white p-10 pt-20 rounded-3xl shadow-xl relative text-left border-4 border-[#FFB22C]"
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.2, duration: 0.5 }}
+              transition={{ delay: index * 0.2, duration: 0.6 }}
               viewport={{ once: true }}
             >
+              {/* Avatar */}
               <div className="absolute -top-12 left-1/2 transform -translate-x-1/2">
                 <Image
                   src={t.imageUrl}
                   alt={t.name}
-                  width={80}
-                  height={80}
-                  className="rounded-full border-4 border-white shadow-md"
+                  width={100}
+                  height={100}
+                  className="rounded-full border-4 border-[#F3C623] shadow-lg"
                 />
               </div>
-              <p className="text-gray-700 italic mb-6 text-sm leading-relaxed">
-                <span className="text-teal-500 text-2xl font-serif mr-1">“</span>
+
+              {/* Message */}
+              <p className="text-[#5C4A42] italic mb-6 text-base leading-relaxed relative z-10">
+                <span className="text-[#FA812F] text-3xl font-serif mr-1">“</span>
                 {t.message}
-                <span className="text-teal-500 text-2xl font-serif ml-1">”</span>
+                <span className="text-[#FA812F] text-3xl font-serif ml-1">”</span>
               </p>
-              <h3 className="font-bold text-gray-900 text-lg">{t.name}</h3>
-              <p className="text-sm text-gray-500">{t.role}</p>
+
+              {/* Name and Role */}
+              <h3 className="font-bold text-xl text-[#3B2E2A]">{t.name}</h3>
+              <p className="text-sm text-[#7A6A64]">{t.role}</p>
             </motion.div>
           ))}
         </div>

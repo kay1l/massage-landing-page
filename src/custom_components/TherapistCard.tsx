@@ -23,9 +23,9 @@ export type Therapist = {
 
 export default function TherapistCard({ therapist }: { therapist: Therapist }) {
   return (
-    <Card className="flex flex-col justify-between min-h-[240px] sm:min-h-[300px] lg:min-h-[340px] shadow-md transform transition-transform duration-300 hover:scale-105">
+    <Card className="flex flex-col justify-between min-h-[240px] sm:min-h-[300px] lg:min-h-[340px] shadow-md transform transition-transform duration-300 hover:scale-105 border-[#FA812F]">
       <CardHeader className="p-0">
-        <div className="relative w-full h-40 bg-gray-100">
+        <div className="relative w-full h-40 bg-[#FEF3E2]">
           <Image
             src={therapist.image}
             alt={therapist.name}
@@ -35,18 +35,18 @@ export default function TherapistCard({ therapist }: { therapist: Therapist }) {
         </div>
       </CardHeader>
 
-      <CardContent className="flex flex-col flex-grow p-4 sm:p-5 lg:p-6">
-        <CardTitle className="text-center text-lg font-bold mb-2">
+      <CardContent className="flex flex-col flex-grow p-4 sm:p-5 lg:p-6 ">
+        <CardTitle className="text-center text-lg font-bold mb-2 text-[#5C4A42]">
           {therapist.name}
         </CardTitle>
 
-        <div className="flex justify-center items-center mb-4 text-yellow-500">
+        <div className="flex justify-center items-center mb-4 text-[#F3C623]">
           {Array.from({ length: 5 }).map((_, i) => (
             <Star
               key={i}
               className={`w-5 h-5 ${
                 i < Math.round(therapist.rating)
-                  ? "fill-yellow-500"
+                  ? "fill-[#F3C623]"
                   : "fill-muted"
               }`}
             />
@@ -59,12 +59,12 @@ export default function TherapistCard({ therapist }: { therapist: Therapist }) {
         </div>
       </CardContent>
 
-      <CardFooter className="flex justify-center px-4 pb-4 sm:px-6 sm:pb-6 mt-auto">
+      <CardFooter className="flex justify-center px-4 pb-4 sm:px-6 sm:pb-6 mt-auto ">
         <Dialog>
           <DialogTrigger asChild>
             <Button
               variant="outline"
-              className="rounded-full text-sm font-medium text-teal-600 border-teal-500 hover:bg-teal-50 w-full max-w-[160px]"
+              className="rounded-full text-sm font-medium text-white bg-[#FA812F] border-none hover:bg-[#f46d10] w-full max-w-[160px]"
             >
               View Details
             </Button>

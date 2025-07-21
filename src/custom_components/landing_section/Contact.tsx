@@ -44,7 +44,7 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="py-16 px-4 sm:px-6 bg-[#FAF8F6] text-[#5C4A42] scroll-mt-10"
+      className="py-16 px-4 sm:px-6 bg-[#FEF3E2] text-[#5C4A42] scroll-mt-10"
     >
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -69,7 +69,7 @@ export default function ContactSection() {
           <h2 className="text-2xl sm:text-3xl font-light text-center mb-4">
             Get in touch
           </h2>
-          <div className="w-20 h-[3px] bg-teal-500 mb-6 mx-auto rounded-full" />
+          <div className="w-20 h-[3px] bg-[#F3C623] mb-6 mx-auto rounded-full" />
 
           <form
             onSubmit={handleSubmit}
@@ -87,7 +87,7 @@ export default function ContactSection() {
                 className={`w-full rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 transition ${
                   errors.name
                     ? "border-red-500 focus:ring-red-400"
-                    : "border border-gray-200 focus:ring-teal-400"
+                    : "border border-gray-200 focus:ring-[#FFB22C]"
                 }`}
               />
               {errors.name && (
@@ -106,7 +106,7 @@ export default function ContactSection() {
                 className={`w-full rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 transition ${
                   errors.email
                     ? "border-red-500 focus:ring-red-400"
-                    : "border border-gray-200 focus:ring-teal-400"
+                    : "border border-gray-200 focus:ring-[#FFB22C]"
                 }`}
               />
               {errors.email && (
@@ -125,7 +125,7 @@ export default function ContactSection() {
                 className={`w-full rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 transition ${
                   errors.message
                     ? "border-red-500 focus:ring-red-400"
-                    : "border border-gray-200 focus:ring-teal-400"
+                    : "border border-gray-200 focus:ring-[#FFB22C]"
                 }`}
               />
               {errors.message && (
@@ -136,7 +136,7 @@ export default function ContactSection() {
             {/* Submit */}
             <Button
               type="submit"
-              className="w-full bg-teal-500 hover:bg-teal-600 text-white text-sm font-medium py-2 rounded-full transition"
+              className="w-full bg-[#FA812F] hover:bg-[#FFB22C] text-white text-sm font-medium py-2 rounded-full transition"
             >
               Send Message
             </Button>
