@@ -55,9 +55,9 @@ export default function Testimonials() {
                 />
               </div>
               <p className="text-gray-700 italic mb-6 text-sm leading-relaxed">
-                <span className="text-orange-500 text-2xl font-serif mr-1">“</span>
+                <span className="text-teal-500 text-2xl font-serif mr-1">“</span>
                 {t.message}
-                <span className="text-orange-500 text-2xl font-serif ml-1">”</span>
+                <span className="text-teal-500 text-2xl font-serif ml-1">”</span>
               </p>
               <h3 className="font-bold text-gray-900 text-lg">{t.name}</h3>
               <p className="text-sm text-gray-500">{t.role}</p>

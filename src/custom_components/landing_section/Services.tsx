@@ -4,8 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { FaMapMarkerAlt, FaPhoneAlt, FaSpa } from "react-icons/fa";
+import { useEffect } from "react";
+import { FaSpa } from "react-icons/fa";
 
 const services = [
   {
@@ -63,21 +63,21 @@ export default function ServicesSection() {
   return (
     <section
       id="services"
-      className="py-24 px-6 bg-white text-[#5C4A42] scroll-mt-20"
+      className="py-24 px-6 bg-[#FEF3E2] text-[#5C4A42] scroll-mt-20"
     >
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-4xl font-semibold text-center mb-4">
+        <h2 className="text-4xl font-extrabold text-center mb-4 text-[#3B2E2A] tracking-tight">
           Our Signature Services
         </h2>
-        <p className="text-center text-[#7A6A64] mb-6">
+        <p className="text-center text-[#7A6A64] mb-6 text-lg tracking-wide">
           Discover our relaxing and therapeutic massage options.
         </p>
-        <div className="w-24 h-[3px] bg-teal-500 mx-auto rounded-full mb-10" />
+        <div className="w-24 h-[3px] bg-[#FA812F] mx-auto rounded-full mb-10" />
 
         <div ref={sliderRef} className="keen-slider">
           {services.map((service, idx) => (
             <div key={idx} className="keen-slider__slide">
-              <Card className="h-full overflow-hidden rounded-2xl bg-gradient-to-b from-[#FAF8F6] to-white shadow-md hover:shadow-2xl hover:-rotate-1 hover:scale-[1.03] transition-transform duration-300 border border-teal-100">
+              <Card className="h-full overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-xl hover:scale-[1.03] transition-transform duration-300 border border-[#FFB22C]">
                 <CardHeader className="p-0 relative">
                   <div className="relative w-full h-52">
                     <Image
@@ -87,16 +87,15 @@ export default function ServicesSection() {
                       className="object-cover rounded-t-2xl"
                       priority={idx === 0}
                     />
-
-                    <span className="absolute top-3 right-3 bg-teal-500 text-white text-xs px-3 py-1 rounded-full shadow-sm">
+                    <span className="absolute top-3 right-3 bg-[#F3C623] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md tracking-wide">
                       Relax & Rejuvenate
                     </span>
                   </div>
                 </CardHeader>
 
-                <CardContent className="p-6">
+                <CardContent className="p-6 bg-[#FEF3E2]">
                   <CardTitle className="flex items-center gap-2 text-lg sm:text-xl font-semibold mb-2 text-[#3B2E2A]">
-                    <FaSpa className="w-5 h-5 text-teal-500" />
+                    <FaSpa className="w-5 h-5 text-[#FA812F]" />
                     {service.title}
                   </CardTitle>
                   <p className="text-sm text-[#6B5F57] leading-relaxed">
