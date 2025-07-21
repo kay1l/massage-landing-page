@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const testimonials = [
   {
@@ -89,18 +89,27 @@ const testimonials = [
       "Their deep tissue technique is perfect after rehearsals. Friendly, clean, and super effective.",
     imageUrl: "/images/therapist_images/man.png",
   },
-  
 ];
-
-const ITEMS_PER_PAGE = 6;
 
 export default function Testimonials() {
   const [currentPage, setCurrentPage] = useState(0);
-  const totalPages = Math.ceil(testimonials.length / ITEMS_PER_PAGE);
+  const [itemsPerPage, setItemsPerPage] = useState(6);
 
+  // Handle responsive items per page
+  useEffect(() => {
+    const updateItemsPerPage = () => {
+      setItemsPerPage(window.innerWidth < 640 ? 3 : 6); // sm breakpoint
+    };
+
+    updateItemsPerPage();
+    window.addEventListener("resize", updateItemsPerPage);
+    return () => window.removeEventListener("resize", updateItemsPerPage);
+  }, []);
+
+  const totalPages = Math.ceil(testimonials.length / itemsPerPage);
   const paginatedTestimonials = testimonials.slice(
-    currentPage * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE + ITEMS_PER_PAGE
+    currentPage * itemsPerPage,
+    currentPage * itemsPerPage + itemsPerPage
   );
 
   return (
@@ -143,7 +152,7 @@ export default function Testimonials() {
           ))}
         </div>
 
-        {/* Pagination Controls */}
+        {/* Pagination */}
         <div className="flex justify-center items-center gap-4 mt-10">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 0))}

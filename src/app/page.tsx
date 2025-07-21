@@ -14,6 +14,7 @@ import Testimonials from "@/custom_components/landing_section/Testimonials";
 import BenefitsSection from "@/custom_components/landing_section/Benefits";
 import ExperienceSection from "@/custom_components/landing_section/Experience";
 import { motion } from "framer-motion";
+import BackgroundAudio from "@/custom_components/BackgroundAudio";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -43,7 +44,7 @@ export default function Home() {
       <main className="relative z-10">
         <ScrollToTopButton />
         <Header />
-
+        <BackgroundAudio />
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
           <Hero />
         </motion.div>
