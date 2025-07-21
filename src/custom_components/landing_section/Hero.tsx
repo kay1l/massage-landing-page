@@ -46,12 +46,12 @@ export default function Hero() {
 
         {/* Headline */}
         <h1 className="text-4xl md:text-5xl font-extrabold mb-3 drop-shadow-sm tracking-tight leading-tight">
-          Relax, Rejuvenate, Restore
+          Professional Home Service Massage
         </h1>
 
         {/* Subheadline */}
         <p className="text-lg md:text-xl uppercase tracking-wider text-[#5C4A42] mb-6 drop-shadow-sm">
-          Therapeutic Massage in Dumaguete Island
+          Relax/Rejuvenate/Restor in your own home
         </p>
 
         {/* Info line */}

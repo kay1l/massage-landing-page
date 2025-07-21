@@ -12,6 +12,7 @@ import LoadingScreen from "@/custom_components/LoadingScreen";
 import ScrollToTopButton from "@/custom_components/ScrollToTopButton";
 import Footer from "@/custom_components/landing_section/Footer";
 import { motion } from "framer-motion";
+import Testimonials from "@/custom_components/landing_section/Testimonials";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -42,7 +43,9 @@ export default function Home() {
         <RatesSection />
       </motion.div>
   
-   
+      <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+        <Testimonials />
+      </motion.div>
   
       <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
         <TherapistsSection />
