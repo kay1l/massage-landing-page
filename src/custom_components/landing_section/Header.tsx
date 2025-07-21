@@ -19,7 +19,7 @@ export default function Header() {
     const element = document.querySelector(id);
     if (!element) return;
 
-    const headerOffset = 80; // Adjust if your header height changes
+    const headerOffset = 80; 
     const elementPosition = element.getBoundingClientRect().top;
     const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -41,7 +41,7 @@ export default function Header() {
         >
           <Image src="/images/massage.png" alt="Logo" width={40} height={40} />
           <div className="text-lg font-bold text-[#5C4A42] leading-tight text-left">
-            ARTURO SIETE
+            SHAISHA'S LIESURE HUB
             <div className="text-xs font-light tracking-widest text-[#AD8E80]">
               MASSAGE
             </div>
