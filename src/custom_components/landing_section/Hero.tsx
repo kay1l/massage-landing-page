@@ -40,7 +40,7 @@ export default function Hero() {
           alt="Holden Beach Massage"
           width={100}
           height={100}
-          className="mx-auto mb-6 drop-shadow-lg rounded-full border-4 border-[#F3C623]"
+          className="mx-auto mt-6 mb-6 drop-shadow-lg rounded-full border-4 border-[#F3C623]"
         />
 
         {/* Headline */}

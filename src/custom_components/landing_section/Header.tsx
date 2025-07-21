@@ -28,7 +28,7 @@ export default function Header() {
       behavior: "smooth",
     });
 
-    handleClose(); // for mobile
+    handleClose(); 
   };
 
   return (
