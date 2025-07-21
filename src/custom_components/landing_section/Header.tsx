@@ -101,7 +101,7 @@ export default function Header() {
                     height={40}
                   />
                   <div className="text-lg font-bold text-[#5C4A42] leading-tight text-left">
-                    SHAISHA'S LIESURE HUB
+                    SHAISHA'S LEISURE HUB
                     <div className="text-xs font-light tracking-widest text-[#FFB22C]">
                       MASSAGE
                     </div>

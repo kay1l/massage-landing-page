@@ -24,7 +24,7 @@ export default function Footer() {
               height={40}
               className="rounded-full"
             />
-            <span className="text-xl font-bold">Arturo Siete</span>
+            <span className="text-lg uppercase font-semibold">ShaiSha's Leisure Hub</span>
           </div>
           <p className="text-sm text-gray-300 leading-relaxed">
             We provide professional massage therapy tailored to your needs.
