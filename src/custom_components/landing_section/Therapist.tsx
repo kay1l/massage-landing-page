@@ -63,7 +63,7 @@ const therapists: Therapist[] = [
   },
 ];
 
-const ITEM_PER_PAGE = 4;
+const ITEM_PER_PAGE = 3;
 
 export default function TherapistsSection() {
   const [currentPage, setCurrentPage] = useState(0);
@@ -90,11 +90,10 @@ export default function TherapistsSection() {
 
         {/* ✅ Mobile View with Pagination */}
         <div className="sm:hidden space-y-6">
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             {paginatedTherapist.map((therapist) => (
               <div
                 key={therapist.id}
-                className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow border border-[#FFB22C] p-2"
               >
                 <TherapistCard therapist={therapist} />
               </div>
@@ -140,7 +139,6 @@ export default function TherapistsSection() {
           {therapists.map((therapist) => (
             <div
               key={therapist.id}
-              className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow border border-[#FFB22C] p-2"
             >
               <TherapistCard therapist={therapist} />
             </div>
