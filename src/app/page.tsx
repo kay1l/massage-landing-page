@@ -45,6 +45,7 @@ export default function Home() {
         <ScrollToTopButton />
         <Header />
         <BackgroundAudio />
+        
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
           <Hero />
         </motion.div>

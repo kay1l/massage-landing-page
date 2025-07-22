@@ -116,7 +116,7 @@ export default function Testimonials() {
     <section className="py-20 px-4 sm:px-6 md:px-10 bg-[#FEF3E2]" id="testimonials">
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-[#FA812F] mb-4 tracking-tight drop-shadow-sm">
-          TESTIMONIALS
+          REVIEWS
         </h2>
         <p className="text-[#5C4A42] text-base sm:text-lg mb-10">
           Hear what our satisfied clients have to say.
