@@ -1,22 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+
 import Header from "@/custom_components/landing_section/Header";
 import Hero from "@/custom_components/landing_section/Hero";
 import AboutSection from "@/custom_components/landing_section/About";
 import ContactSection from "@/custom_components/landing_section/Contact";
 import ServicesSection from "@/custom_components/landing_section/Services";
-
 import LoadingScreen from "@/custom_components/LoadingScreen";
 import ScrollToTopButton from "@/custom_components/ScrollToTopButton";
 import Footer from "@/custom_components/landing_section/Footer";
 import Testimonials from "@/custom_components/landing_section/Testimonials";
 import BenefitsSection from "@/custom_components/landing_section/Benefits";
 import ExperienceSection from "@/custom_components/landing_section/Experience";
-import { motion } from "framer-motion";
 import BackgroundAudio from "@/custom_components/BackgroundAudio";
 import TherapistsSection from "@/custom_components/landing_section/Therapist";
-
+import FadeOutUpSection from "@/custom_components/FadeOutUpScroll";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
@@ -31,8 +31,8 @@ export default function Home() {
   if (isLoading) return <LoadingScreen />;
 
   return (
-    <div className="relative">
-      {/* Animated background image */}
+    <div className="relative overflow-hidden">
+      {/* 🌄 Background */}
       <motion.div
         initial={{ scale: 1 }}
         animate={{ scale: 1.02 }}
@@ -46,19 +46,35 @@ export default function Home() {
         style={{ backgroundImage: "url('/images/hero-bg.jpg')" }}
       />
 
-      {/* Soft color overlay */}
       <div className="fixed top-0 left-0 w-full h-full bg-[#FEF3E2]/70 z-[-2]" />
 
-          {/* Left border */}
-      <div className="pointer-events-none absolute inset-y-0 left-2 sm:left-6 md:left-12 w-[8px] sm:w-[12px] md:w-[17px] bg-[#F3C623] z-[-1]" />
-        {/* Right border */}
-      <div className="pointer-events-none absolute inset-y-0 right-2 sm:right-6 md:right-12 w-[8px] sm:w-[12px] md:w-[17px] bg-[#F3C623] z-[-1]" />
-         
+        {/* 🌿 Bamboo Pattern Left Border (animated) */}
+          <div
+            className="fixed top-0 bottom-0 left-[1vw] w-6 sm:w-6 md:w-8 lg:w-8 z-[-1] animate-bamboo"
+            style={{
+              backgroundImage: "url('/images/bamboo-border.png')",
+              backgroundRepeat: "repeat-y",
+              backgroundPosition: "center",
+              backgroundSize: "auto 100px",
+              opacity: 0.8,
+            }}
+          />
+
+          {/* 🌿 Bamboo Pattern Right Border (animated) */}
+          <div
+            className="fixed top-0 bottom-0 right-[1vw] w-6 sm:w-6 md:w-8 lg:w-8 z-[-1] animate-bamboo"
+            style={{
+              backgroundImage: "url('/images/bamboo-border.png')",
+              backgroundRepeat: "repeat-y",
+              backgroundPosition: "center",
+              backgroundSize: "auto 100px",
+              opacity: 0.8,
+            }}
+          />
 
 
-      {/* Main content */}
-      <main className="relative z-10 px-2 sm:px-6 md:px-12 lg:px-24 py-6">
-        <div className="max-w-[1880px] mx-auto rounded-xl p-8 md:p-8 shadow-xl ">
+      <main className="relative z-10 px-4 sm:px-6 md:px-8 lg:px-12 py-6">
+        <div className="max-w-[1300px] mx-auto rounded-xl p-6">
           <ScrollToTopButton />
           <Header />
           <BackgroundAudio />
@@ -67,33 +83,33 @@ export default function Home() {
             <Hero />
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <FadeOutUpSection>
             <ServicesSection />
-          </motion.div>
+          </FadeOutUpSection>
 
-          <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <FadeOutUpSection>
             <BenefitsSection />
-          </motion.div>
+          </FadeOutUpSection>
 
-          <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <FadeOutUpSection>
             <ExperienceSection />
-          </motion.div>
+          </FadeOutUpSection>
 
-          <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <FadeOutUpSection>
             <Testimonials />
-          </motion.div>
+          </FadeOutUpSection>
 
-          <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <FadeOutUpSection>
             <TherapistsSection />
-          </motion.div>
+          </FadeOutUpSection>
 
-          <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <FadeOutUpSection>
             <AboutSection />
-          </motion.div>
+          </FadeOutUpSection>
 
-          <motion.div initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+          <FadeOutUpSection>
             <ContactSection />
-          </motion.div>
+          </FadeOutUpSection>
 
           <Footer />
         </div>

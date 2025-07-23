@@ -206,3 +206,56 @@
     gap: 1rem;
   }
 }
+@keyframes scroll {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-scroll {
+  animation-name: scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+@keyframes scroll-bamboo {
+  0% {
+    background-position-y: 0%;
+  }
+  100% {
+    background-position-y: 100%;
+  }
+}
+
+@keyframes bamboo-pulse {
+  0%, 100% {
+    transform: scaleX(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scaleX(1.02);
+    opacity: 1;
+  }
+}
+
+@keyframes bamboo-sway {
+  0%, 100% {
+    transform: translateX(0px);
+  }
+  50% {
+    transform: translateX(2px);
+  }
+}
+
+.animate-bamboo {
+  animation: 
+    scroll-bamboo 40s linear infinite,
+    bamboo-pulse 6s ease-in-out infinite,
+    bamboo-sway 10s ease-in-out infinite;
+  background-repeat: repeat-y;
+  background-size: cover;
+}
+
+

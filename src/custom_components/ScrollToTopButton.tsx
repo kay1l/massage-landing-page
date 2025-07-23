@@ -28,7 +28,7 @@ export default function ScrollToTopButton() {
       className="fixed bottom-6 right-6 z-50 bg-[#F3C623] hover:scale-105 text-white rounded-full p-3 shadow-lg transition-opacity duration-300"
       size="icon"
     >
-      <ArrowUp className="h-5 w-5" />
+      <ArrowUp className="h-15 w-15" />
     </Button>
   );
 }
