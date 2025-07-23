@@ -52,8 +52,8 @@ export default function Hero() {
         <Image
           src="/images/massage.png"
           alt="Holden Beach Massage"
-          width={100}
-          height={100}
+          width={150}
+          height={150}
           className="mx-auto mb-6 drop-shadow-lg rounded-full border-4 border-[#F3C623]"
         />
 
