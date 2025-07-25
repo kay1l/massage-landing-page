@@ -18,6 +18,7 @@ import BackgroundAudio from "@/custom_components/BackgroundAudio";
 import TherapistsSection from "@/custom_components/landing_section/Therapist";
 import FadeOutUpSection from "@/custom_components/FadeOutUpScroll";
 
+
 export default function Home() {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -48,30 +49,29 @@ export default function Home() {
 
       <div className="fixed top-0 left-0 w-full h-full bg-[#FEF3E2]/70 z-[-2]" />
 
-        {/* 🌿 Bamboo Pattern Left Border (animated) */}
-          <div
-            className="fixed top-0 bottom-0 left-[1vw] w-6 sm:w-6 md:w-8 lg:w-8 z-[-1] animate-bamboo"
-            style={{
-              backgroundImage: "url('/images/bamboo-border.png')",
-              backgroundRepeat: "repeat-y",
-              backgroundPosition: "center",
-              backgroundSize: "auto 100px",
-              opacity: 0.8,
-            }}
-          />
+      {/* 🌿 Bamboo Pattern Left Border (animated) */}
+      <div
+        className="fixed top-0 bottom-0 left-[1vw] w-6 sm:w-6 md:w-8 lg:w-8 z-[-1] animate-bamboo"
+        style={{
+          backgroundImage: "url('/images/bamboo-border.png')",
+          backgroundRepeat: "repeat-y",
+          backgroundPosition: "center",
+          backgroundSize: "auto 100px",
+          opacity: 0.8,
+        }}
+      />
 
-          {/* 🌿 Bamboo Pattern Right Border (animated) */}
-          <div
-            className="fixed top-0 bottom-0 right-[1vw] w-6 sm:w-6 md:w-8 lg:w-8 z-[-1] animate-bamboo"
-            style={{
-              backgroundImage: "url('/images/bamboo-border.png')",
-              backgroundRepeat: "repeat-y",
-              backgroundPosition: "center",
-              backgroundSize: "auto 100px",
-              opacity: 0.8,
-            }}
-          />
-
+      {/* 🌿 Bamboo Pattern Right Border (animated) */}
+      <div
+        className="fixed top-0 bottom-0 right-[1vw] w-6 sm:w-6 md:w-8 lg:w-8 z-[-1] animate-bamboo"
+        style={{
+          backgroundImage: "url('/images/bamboo-border.png')",
+          backgroundRepeat: "repeat-y",
+          backgroundPosition: "center",
+          backgroundSize: "auto 100px",
+          opacity: 0.8,
+        }}
+      />
 
       <main className="relative z-10 px-4 sm:px-6 md:px-8 lg:px-12 py-6">
         <div className="max-w-[1200px] mx-auto rounded-xl p-6">
@@ -79,7 +79,11 @@ export default function Home() {
           <Header />
           <BackgroundAudio />
 
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+          >
             <Hero />
           </motion.div>
 

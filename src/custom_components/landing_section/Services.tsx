@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
 import Image from "next/image";
@@ -18,13 +17,13 @@ const services = [
     title: "Deep Tissue Massage",
     description:
       "Targets chronic tension deep in muscles and connective tissues.",
-    image: "/images/services_images/deep-tissue.jpeg",
+    image: "/images/services_images/deep.jpeg",
   },
   {
     title: "Trigger-Point Massage",
     description:
       "Focused therapy that targets tight muscle knots to relieve pain and restore mobility.",
-    image: "/images/services_images/trigger-point.jpeg",
+    image: "/images/services_images/trigger.jpg",
   },
   {
     title: "Aromatherapy",
@@ -77,32 +76,26 @@ export default function ServicesSection() {
         <div ref={sliderRef} className="keen-slider">
           {services.map((service, idx) => (
             <div key={idx} className="keen-slider__slide">
-              <Card className="h-full overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-xl hover:scale-[1.03] transition-transform duration-300 border border-[#FFB22C]">
-                <CardHeader className="p-0 relative">
-                  <div className="relative w-full h-52">
-                    <Image
-                      src={service.image}
-                      alt={service.title}
-                      fill
-                      className="object-cover rounded-t-2xl"
-                      priority={idx === 0}
-                    />
-                    <span className="absolute top-3 right-3 bg-[#F3C623] text-white text-xs font-semibold px-3 py-1 rounded-full shadow-md tracking-wide">
-                      Relax & Rejuvenate
-                    </span>
-                  </div>
-                </CardHeader>
-
-                <CardContent className="p-6 bg-[#FEF3E2]">
-                  <CardTitle className="flex items-center gap-2 text-lg sm:text-xl font-semibold mb-2 text-[#3B2E2A]">
-                    <FaSpa className="w-5 h-5 text-[#FA812F]" />
+              <div className="relative h-[420px] rounded-2xl overflow-hidden group shadow-xl hover:scale-[1.02] transition-transform duration-300 border border-[#FFB22C]">
+                <Image
+                  src={service.image}
+                  alt={service.title}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  priority={idx === 0}
+                />
+                <div className="absolute inset-0 bg-black/10 z-10" />
+                
+                <div className="absolute bottom-0 left-0 right-0 z-20 p-5 backdrop-blur-md bg-white/40 text-[#3B2E2A]">
+                  <h3 className="text-lg font-semibold flex items-center gap-2 mb-1">
+                    <FaSpa className="text-[#FA812F] w-5 h-5" />
                     {service.title}
-                  </CardTitle>
-                  <p className="text-sm text-[#6B5F57] leading-relaxed">
+                  </h3>
+                  <p className="text-sm text-[#5C4A42] leading-snug">
                     {service.description}
                   </p>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           ))}
         </div>
