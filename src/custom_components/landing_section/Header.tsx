@@ -63,10 +63,10 @@ export default function Header() {
             About
           </button>
           <button
-            onClick={() => scrollToSection("#rates")}
+            onClick={() => scrollToSection("#reviews")}
             className="hover:text-[#FA812F] transition"
           >
-            Rates
+            Reviews
           </button>
           <button
             onClick={() => scrollToSection("#contact")}
@@ -122,10 +122,10 @@ export default function Header() {
                   About
                 </button>
                 <button
-                  onClick={() => scrollToSection("#rates")}
+                  onClick={() => scrollToSection("#reviews")}
                   className="text-left hover:text-[#FA812F] transition"
                 >
-                  Rates
+                  Reviews
                 </button>
                 <button
                   onClick={() => scrollToSection("#contact")}

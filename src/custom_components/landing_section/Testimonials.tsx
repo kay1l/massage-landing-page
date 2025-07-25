@@ -115,6 +115,7 @@ export default function Testimonials() {
     key: string
   ) => (
     <div
+      
       className="relative w-full overflow-hidden h-[700px]"
       key={key}
     >
@@ -159,7 +160,7 @@ export default function Testimonials() {
   return (
     <section
       className="py-20 px-4 sm:px-6 md:px-10 bg-[#FEF3E2] relative overflow-hidden"
-      id="testimonials"
+      id="reviews"
     >
       <div className="max-w-6xl mx-auto text-center">
         <h2 className="text-3xl sm:text-4xl font-extrabold text-[#FA812F] mb-4 tracking-tight drop-shadow-sm">
