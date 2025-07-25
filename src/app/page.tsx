@@ -51,7 +51,7 @@ export default function Home() {
 
       {/* 🌿 Bamboo Pattern Left Border (animated) */}
       <div
-        className="fixed top-0 bottom-0 left-[1vw] w-6 sm:w-6 md:w-8 lg:w-8 z-[-1] animate-bamboo"
+        className="fixed top-0 bottom-0 left-[3vw] w-6 sm:w-6 md:w-8 lg:w-10 z-[-1] animate-bamboo"
         style={{
           backgroundImage: "url('/images/bamboo-border.png')",
           backgroundRepeat: "repeat-y",
@@ -63,7 +63,7 @@ export default function Home() {
 
       {/* 🌿 Bamboo Pattern Right Border (animated) */}
       <div
-        className="fixed top-0 bottom-0 right-[1vw] w-6 sm:w-6 md:w-8 lg:w-8 z-[-1] animate-bamboo"
+        className="fixed top-0 bottom-0 right-[3vw] w-6 sm:w-6 md:w-8 lg:w-10 z-[-1] animate-bamboo"
         style={{
           backgroundImage: "url('/images/bamboo-border.png')",
           backgroundRepeat: "repeat-y",
@@ -74,7 +74,8 @@ export default function Home() {
       />
 
       <main className="relative z-10 px-4 sm:px-6 md:px-8 lg:px-12 py-6">
-        <div className="max-w-[1200px] mx-auto rounded-xl p-6">
+        <div className="max-w-[1100px] mx-auto rounded-xl p-6">
+
           <ScrollToTopButton />
           <Header />
           <BackgroundAudio />
