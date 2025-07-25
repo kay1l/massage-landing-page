@@ -57,17 +57,18 @@ export default function Header() {
             Services
           </button>
           <button
-            onClick={() => scrollToSection("#about")}
-            className="hover:text-[#FA812F] transition"
-          >
-            About
-          </button>
-          <button
             onClick={() => scrollToSection("#reviews")}
             className="hover:text-[#FA812F] transition"
           >
             Reviews
           </button>
+          <button
+            onClick={() => scrollToSection("#about")}
+            className="hover:text-[#FA812F] transition"
+          >
+            About
+          </button>
+       
           <button
             onClick={() => scrollToSection("#contact")}
             className="hover:text-[#FA812F] transition"
@@ -116,17 +117,18 @@ export default function Header() {
                   Services
                 </button>
                 <button
-                  onClick={() => scrollToSection("#about")}
-                  className="text-left hover:text-[#FA812F] transition"
-                >
-                  About
-                </button>
-                <button
                   onClick={() => scrollToSection("#reviews")}
                   className="text-left hover:text-[#FA812F] transition"
                 >
                   Reviews
                 </button>
+                <button
+                  onClick={() => scrollToSection("#about")}
+                  className="text-left hover:text-[#FA812F] transition"
+                >
+                  About
+                </button>
+               
                 <button
                   onClick={() => scrollToSection("#contact")}
                   className="text-left hover:text-[#FA812F] transition"
