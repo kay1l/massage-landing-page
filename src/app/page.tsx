@@ -74,8 +74,8 @@ export default function Home() {
       />
 
       <main className="relative z-10 px-4 sm:px-6 md:px-8 lg:px-12 py-6">
-        <div className="max-w-[1100px] mx-auto rounded-xl p-6">
-
+        <div className="   max-w-[1000px] mx-auto rounded-xl p-6">
+      
           <ScrollToTopButton />
           <Header />
           <BackgroundAudio />

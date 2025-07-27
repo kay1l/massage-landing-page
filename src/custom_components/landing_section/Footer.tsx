@@ -21,12 +21,12 @@ export default function Footer() {
               <Image
                 src="/images/massage.png"
                 alt="ShaiSha's Leisure Hub Logo"
-                width={40}
-                height={40}
+                width={50}
+                height={50}
                 className="rounded-full"
               />
               <h2 className="text-xl font-bold uppercase tracking-wide">
-                ShaiSha's Leisure Hub
+                ShaiSha's <br /> Leisure Hub
               </h2>
             </div>
             <p className="text-sm text-gray-400 leading-relaxed max-w-xs">

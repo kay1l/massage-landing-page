@@ -46,7 +46,7 @@ export default function ExperienceSection() {
         </div>
 
         {/* Responsive Feature Icons */}
-        <div className="flex flex-row flex-wrap justify-center gap-6 mt-10">
+        <div className="flex flex-row flex-wrap justify-center gap-10 mt-10">
           <Feature
             icon={<ShieldCheck className="w-6 h-6 md:w-9 md:h-9 text-[#FA812F]" />}
             title="Safe & Secure"
