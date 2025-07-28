@@ -11,7 +11,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-
+import { useRouter } from "next/navigation";
 const navItems = [
   { id: "#services", label: "Services", icon: Hand },
   { id: "#reviews", label: "Reviews", icon: Star },
@@ -19,10 +19,14 @@ const navItems = [
   { id: "#contact", label: "Contact", icon: Phone },
 ];
 
+
 export default function Header() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
-
+  const handleBookNow = () => {
+    router.push("/auth/login");
+  };
   const handleClose = () => setIsOpen(false);
 
   const scrollToSection = (id: string) => {
@@ -70,7 +74,7 @@ export default function Header() {
 
   return (
     <header className="w-full fixed top-0 left-0 z-50 bg-[#FEF3E2] shadow-md border-b border-[#F3C623]">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div className="w-full mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <button
           onClick={() => scrollToSection("body")}
@@ -101,7 +105,7 @@ export default function Header() {
             </button>
           ))}
           <Button
-            onClick={() => scrollToSection("#contact")}
+            onClick={handleBookNow}
             className="ml-4 bg-[#F3C623] hover:bg-[#FA812F] text-white rounded-full px-5 py-2 transition-all duration-300"
           >
             Book Now
