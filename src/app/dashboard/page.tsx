@@ -3,9 +3,23 @@
 import { Button } from "@/components/ui/button";
 import DashboardHeader from "@/custom_components/dashboard_section/Header";
 import Footer from "@/custom_components/landing_section/Footer";
+import LoadingScreen from "@/custom_components/LoadingScreen";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export default function UserDashboard() {
+
+     const [isLoading, setIsLoading] = useState(true);
+    
+      useEffect(() => {
+        const timer = setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
+        return () => clearTimeout(timer);
+      }, []);
+    
+      if (isLoading) return <LoadingScreen />;
+    
   return (
     <div className="min-h-screen bg-[#FEF3E2] text-[#5C4A42] font-sans">
       <DashboardHeader />
