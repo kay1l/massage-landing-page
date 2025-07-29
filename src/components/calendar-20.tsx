@@ -35,8 +35,8 @@ export function CalendarWithTime({
       <CardContent className="p-0">
         <div className="flex flex-col md:flex-row">
           {/* Calendar Section */}
-          <div className="p-4 md:p-6 md:w-[calc(100%-12rem)] w-full">
-            <div className="scale-[0.95] sm:scale-100 origin-top-left">
+          <div className="p-4 md:p-6 md:w-[calc(100%-12rem)] w-full flex justify-center">
+            <div className="scale-[0.95] sm:scale-100 md:scale-105 origin-top-left md:origin-top">
               <Calendar
                 mode="single"
                 selected={date}
@@ -47,8 +47,13 @@ export function CalendarWithTime({
                 modifiers={{ booked: bookedDates }}
                 modifiersClassNames={{
                   booked: "[&>button]:line-through opacity-100",
+                  selected:
+                    "bg-[#FA812F] hover:bg-[#f5933c] text-white !important",
                 }}
-                className="bg-transparent p-0 [--cell-size:--spacing(9)] sm:[--cell-size:--spacing(10)] md:[--cell-size:--spacing(12)]"
+                className="bg-transparent p-0 
+                  [--cell-size:--spacing(9)] 
+                  sm:[--cell-size:--spacing(10)] 
+                  md:[--cell-size:--spacing(12)]"
                 formatters={{
                   formatWeekdayName: (d) =>
                     d.toLocaleString("en-US", { weekday: "short" }),
@@ -58,15 +63,18 @@ export function CalendarWithTime({
           </div>
 
           {/* Time Slot Section */}
-          {/* Time Slot Section */}
-          <div className="w-full md:w-48 border-t md:border-t-0 md:border-l p-4 md:p-6 max-h-[300px] overflow-y-auto md:max-h-full md:overflow-visible no-scrollbar">
+          <div className="w-full md:w-48 border-t md:border-t-0 md:border-l p-4 md:p-6 h-100 overflow-y-auto no-scrollbar">
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-1 gap-2">
               {timeSlots.map((time) => (
                 <Button
                   key={time}
-                  variant={selectedTime === time ? "default" : "outline"}
+                  variant="outline"
                   onClick={() => setSelectedTime(time)}
-                  className="w-full shadow-none text-sm"
+                  className={`w-full shadow-none text-sm ${
+                    selectedTime === time
+                      ? "bg-[#FA812F] hover:bg-[#f5933c] text-white"
+                      : ""
+                  }`}
                 >
                   {time}
                 </Button>
