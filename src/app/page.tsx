@@ -46,79 +46,55 @@ export default function Home() {
         className="fixed top-0 left-0 w-full h-full bg-cover bg-center bg-no-repeat z-[-3]"
         style={{ backgroundImage: "url('/images/hero-bg.jpg')" }}
       />
-
+  
+      {/* Overlay */}
       <div className="fixed top-0 left-0 w-full h-full bg-[#FEF3E2]/70 z-[-2]" />
-
-      {/* 🌿 Bamboo Pattern Left Border (animated) */}
-      <div
-        className="fixed top-0 bottom-0 left-[3vw] w-6 sm:w-6 md:w-8 lg:w-10 z-[-1] animate-bamboo"
-        style={{
-          backgroundImage: "url('/images/bamboo-border.png')",
-          backgroundRepeat: "repeat-y",
-          backgroundPosition: "center",
-          backgroundSize: "auto 100px",
-          opacity: 0.8,
-        }}
-      />
-
-      {/* 🌿 Bamboo Pattern Right Border (animated) */}
-      <div
-        className="fixed top-0 bottom-0 right-[3vw] w-6 sm:w-6 md:w-8 lg:w-10 z-[-1] animate-bamboo"
-        style={{
-          backgroundImage: "url('/images/bamboo-border.png')",
-          backgroundRepeat: "repeat-y",
-          backgroundPosition: "center",
-          backgroundSize: "auto 100px",
-          opacity: 0.8,
-        }}
-      />
-
-      <main className="relative z-10 px-4 sm:px-6 md:px-8 lg:px-12 py-6">
-        <div className="   max-w-[1000px] mx-auto rounded-xl p-6">
-      
-          <ScrollToTopButton />
-          <Header />
-          <BackgroundAudio />
-
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-          >
-            <Hero />
-          </motion.div>
-
-          <FadeOutUpSection>
-            <ServicesSection />
-          </FadeOutUpSection>
-
-          <FadeOutUpSection>
-            <BenefitsSection />
-          </FadeOutUpSection>
-
-          <FadeOutUpSection>
-            <ExperienceSection />
-          </FadeOutUpSection>
-
-          <FadeOutUpSection>
-            <Testimonials />
-          </FadeOutUpSection>
-
-          <FadeOutUpSection>
-            <TherapistsSection />
-          </FadeOutUpSection>
-
-          <FadeOutUpSection>
-            <AboutSection />
-          </FadeOutUpSection>
-
-          <FadeOutUpSection>
-            <ContactSection />
-          </FadeOutUpSection>
-
-          <Footer />
-        </div>
+  
+      {/* Page Content */}
+      <main className="relative z-10 w-full min-h-screen">
+        <ScrollToTopButton />
+        <Header />
+        <BackgroundAudio />
+  
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Hero />
+        </motion.div>
+  
+        <FadeOutUpSection>
+          <ServicesSection />
+        </FadeOutUpSection>
+  
+        <FadeOutUpSection>
+          <BenefitsSection />
+        </FadeOutUpSection>
+  
+        <FadeOutUpSection>
+          <ExperienceSection />
+        </FadeOutUpSection>
+  
+        <FadeOutUpSection>
+          <Testimonials />
+        </FadeOutUpSection>
+  
+        <FadeOutUpSection>
+          <TherapistsSection />
+        </FadeOutUpSection>
+  
+        <FadeOutUpSection>
+          <AboutSection />
+        </FadeOutUpSection>
+  
+        <FadeOutUpSection>
+          <ContactSection />
+        </FadeOutUpSection>
+  
+        <Footer />
       </main>
     </div>
   );
+  
 }
