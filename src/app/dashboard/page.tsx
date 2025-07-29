@@ -35,6 +35,7 @@ export default function UserDashboard() {
           alt="Relax Icon"
           width={120}
           height={120}
+          priority
           className="mb-6 drop-shadow-md animate-wave"
         />
 

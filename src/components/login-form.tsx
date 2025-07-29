@@ -15,6 +15,9 @@ export function LoginForm({
   const handleClick = () => {
     router.push('/auth/register');
   }
+  const handleSubmit = () => {
+    router.push('/dashboard');
+  }
   return (
     <div
       className={cn("flex flex-col gap-6 bg-[#FEF3E2] text-[#5C4A42] p-4 rounded-xl", className)}
@@ -63,6 +66,7 @@ export function LoginForm({
               <Button
                 type="submit"
                 className="w-full bg-[#FA812F] hover:bg-[#FFB22C] text-white text-sm font-medium py-2 rounded-full transition"
+                onClick={handleSubmit}
               >
                 Login
               </Button>
