@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import {
   User,
@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/card";
 import DashboardHeader from "@/custom_components/dashboard_section/Header";
 import DashboardFooter from "@/custom_components/dashboard_section/Footer";
+import LoadingScreen from "@/custom_components/LoadingScreen";
 
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -31,7 +32,16 @@ export default function ProfilePage() {
     address: "Manila, Philippines",
     memberSince: "July 2023",
   });
-
+     const [isLoading, setIsLoading] = useState(true);
+    
+      useEffect(() => {
+        const timer = setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
+        return () => clearTimeout(timer);
+      }, []);
+    
+      if (isLoading) return <LoadingScreen />;
   const handleChange = (key: string, value: string) => {
     setProfile((prev) => ({ ...prev, [key]: value }));
   };

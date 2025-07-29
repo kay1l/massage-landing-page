@@ -1,157 +1,238 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import { useState } from "react";
 import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
-import { useRouter } from "next/navigation";
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import DashboardHeader from "@/custom_components/dashboard_section/Header";
+import DashboardFooter from "@/custom_components/dashboard_section/Footer";
 
-const navItems = [
-  { id: "#home", label: "Home" },
-  { id: "#services", label: "Services" },
-  { id: "#book", label: "Book a Massage" },
-  { id: "#appointments", label: "Appointments" },
-  { id: "#profile", label: "Profile" },
-  { id: "#logout", label: "Logout" },
+const appointments = [
+  {
+    id: 1,
+    type: "Swedish Massage",
+    date: "2025-08-01",
+    time: "3:00 PM",
+    therapist: "Jane Doe",
+    status: "upcoming",
+  },
+  {
+    id: 2,
+    type: "Hot Stone Massage",
+    date: "2025-07-15",
+    time: "1:30 PM",
+    therapist: "Anna Cruz",
+    status: "completed",
+  },
+  {
+    id: 3,
+    type: "Deep Tissue Massage",
+    date: "2025-07-10",
+    time: "10:00 AM",
+    therapist: "Mike Santos",
+    status: "cancelled",
+  },
+  // Add more dummy appointments to test pagination
+  ...Array.from({ length: 20 }, (_, i) => ({
+    id: i + 4,
+    type: "Aromatherapy",
+    date: "2025-08-02",
+    time: "2:00 PM",
+    therapist: "Ella Rose",
+    status: i % 3 === 0 ? "completed" : i % 3 === 1 ? "cancelled" : "upcoming",
+  })),
 ];
 
-export default function DashboardHeader() {
-  const router = useRouter();
-  const [isOpen, setIsOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState("");
+const getStatusBadge = (status: string) => {
+  switch (status) {
+    case "upcoming":
+      return <Badge className="bg-[#FA812F]/90 text-white">Upcoming</Badge>;
+    case "completed":
+      return <Badge className="bg-green-600/90 text-white">Completed</Badge>;
+    case "cancelled":
+      return <Badge className="bg-red-500/90 text-white">Cancelled</Badge>;
+    default:
+      return null;
+  }
+};
 
-  const handleClose = () => setIsOpen(false);
+export default function AppointmentsPage() {
+  const [search, setSearch] = useState("");
+  const [filterStatus, setFilterStatus] = useState("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
-  const scrollToSection = (id: string) => {
-    const element = document.querySelector(id);
-    if (!element) return;
+  const filteredAppointments = appointments.filter((a) => {
+    const matchSearch =
+      a.type.toLowerCase().includes(search.toLowerCase()) ||
+      a.therapist.toLowerCase().includes(search.toLowerCase());
+    const matchStatus = filterStatus === "all" ? true : a.status === filterStatus;
+    return matchSearch && matchStatus;
+  });
 
-    const headerOffset = 80;
-    const elementPosition = element.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+  const totalPages = Math.ceil(filteredAppointments.length / itemsPerPage);
+  const paginatedData = filteredAppointments.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
 
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth",
-    });
-
-    setActiveSection(id);
-    handleClose();
+  const summary = {
+    upcoming: appointments.filter((a) => a.status === "upcoming").length,
+    completed: appointments.filter((a) => a.status === "completed").length,
+    cancelled: appointments.filter((a) => a.status === "cancelled").length,
   };
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPos = window.scrollY + 90;
-
-      navItems.forEach(({ id }) => {
-        const el = document.querySelector(id);
-        if (el) {
-          const top = el.getBoundingClientRect().top + window.scrollY;
-          const bottom = top + el.clientHeight;
-          if (scrollPos >= top && scrollPos < bottom) {
-            setActiveSection(id);
-          }
-        }
-      });
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const navLinkClass = (id: string) =>
-    `relative flex items-center gap-1 after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:h-[2px] after:w-0 after:bg-[#FA812F] hover:after:w-full after:transition-all after:duration-300 ${
-      activeSection === id ? "text-[#FA812F] font-semibold after:w-full" : ""
-    }`;
 
   return (
-    <header className="w-full fixed top-0 left-0 z-50 bg-[#FEF3E2] shadow-md border-b border-[#F3C623]">
-      <div className="w-full mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <button
-          onClick={() => scrollToSection("#home")}
-          className="flex items-center space-x-3"
-        >
-          <Image src="/images/massage.png" alt="Logo" width={50} height={50} />
-          <div className="leading-tight text-left">
-            <h1 className="text-xl font-extrabold text-[#5C4A42] tracking-tight">
-              SHAISHA’S
-            </h1>
-            <h2 className="text-lg font-medium text-[#5C4A42]">LEISURE HUB</h2>
-            <div className="text-xs font-light tracking-wider text-[#FFB22C]">
-              MASSAGE
-            </div>
-          </div>
-        </button>
+    <div className="min-h-screen bg-[#FEF3E2] text-[#5C4A42] pt-32">
+      <DashboardHeader />
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-6 items-center text-[#5C4A42] text-sm font-medium tracking-wide">
-          {navItems.map(({ id, label }) => (
-            <button
-              key={id}
-              onClick={() => scrollToSection(id)}
-              className={navLinkClass(id)}
-            >
-              {label}
-            </button>
-          ))}
-        </nav>
+      <div className="max-w-6xl mx-auto px-4 py-10">
+        <h1 className="text-4xl font-bold mb-8 text-center text-[#5C4A42]">
+          My Appointments
+        </h1>
 
-        {/* Mobile Menu */}
-        <div className="md:hidden">
-          <Sheet open={isOpen} onOpenChange={setIsOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6 text-[#5C4A42]" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent
-              side="right"
-              className="bg-[#FEF3E2] p-6 flex flex-col"
-            >
-              <SheetHeader className="flex flex-col items-start space-y-3">
-                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
-                <div className="flex items-center space-x-3">
-                  <Image
-                    src="/images/massage.png"
-                    alt="Logo"
-                    width={40}
-                    height={40}
-                  />
-                  <div className="text-lg font-bold text-[#5C4A42] leading-tight text-left">
-                    SHAISHA'S LEISURE HUB
-                    <div className="text-xs font-light tracking-widest text-[#FFB22C]">
-                      MASSAGE
-                    </div>
-                  </div>
-                </div>
-              </SheetHeader>
+        {/* Summary Section */}
+        <div className="grid sm:grid-cols-3 gap-4 mb-8">
+          <Card className="bg-white border border-[#F3C623] shadow-sm text-center">
+            <CardHeader>
+              <CardTitle className="text-[#FA812F] text-xl">Upcoming</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-3xl font-bold">{summary.upcoming}</p>
+            </CardContent>
+          </Card>
 
-              <nav className="flex flex-col gap-6 mt-10 text-[#5C4A42] text-base font-medium">
-                {navItems.map(({ id, label }) => (
-                  <button
-                    key={id}
-                    onClick={() => scrollToSection(id)}
-                    className={`text-left transition-all ${
-                      activeSection === id
-                        ? "text-[#FA812F] font-semibold"
-                        : "hover:text-[#FA812F]"
-                    }`}
-                  >
-                    {label}
-                  </button>
-                ))}
-              </nav>
-            </SheetContent>
-          </Sheet>
+          <Card className="bg-white border border-[#F3C623] shadow-sm text-center">
+            <CardHeader>
+              <CardTitle className="text-green-600 text-xl">Completed</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-3xl font-bold">{summary.completed}</p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white border border-[#F3C623] shadow-sm text-center">
+            <CardHeader>
+              <CardTitle className="text-red-500 text-xl">Cancelled</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-3xl font-bold">{summary.cancelled}</p>
+            </CardContent>
+          </Card>
         </div>
+
+        {/* Table Card */}
+        <Card className="shadow-lg border-none">
+          <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <CardTitle className="text-xl text-[#5C4A42]">
+              Appointments Overview
+            </CardTitle>
+
+            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+              <Input
+                type="text"
+                placeholder="Search by type or therapist..."
+                value={search}
+                onChange={(e) => {
+                  setSearch(e.target.value);
+                  setCurrentPage(1);
+                }}
+                className="w-full sm:w-64"
+              />
+              <Select value={filterStatus} onValueChange={(value) => {
+                setFilterStatus(value);
+                setCurrentPage(1);
+              }}>
+                <SelectTrigger className="w-full sm:w-48">
+                  <span className="capitalize">{filterStatus}</span>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value="upcoming">Upcoming</SelectItem>
+                  <SelectItem value="completed">Completed</SelectItem>
+                  <SelectItem value="cancelled">Cancelled</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </CardHeader>
+
+          <CardContent className="overflow-x-auto">
+            {paginatedData.length === 0 ? (
+              <p className="text-center text-sm text-gray-500 py-4">
+                No matching appointments found.
+              </p>
+            ) : (
+              <table className="min-w-full table-auto text-sm text-left text-[#5C4A42]">
+                <thead className="bg-[#FEE8CC] text-xs uppercase tracking-wider text-[#5C4A42]">
+                  <tr>
+                    <th className="px-6 py-4 font-medium">Massage Type</th>
+                    <th className="px-6 py-4 font-medium">Date</th>
+                    <th className="px-6 py-4 font-medium">Time</th>
+                    <th className="px-6 py-4 font-medium">Therapist</th>
+                    <th className="px-6 py-4 font-medium">Status</th>
+                    <th className="px-6 py-4 font-medium text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[#EFD7BC]">
+                  {paginatedData.map((a) => (
+                    <tr key={a.id} className="hover:bg-[#FFF8F2] transition-colors">
+                      <td className="px-6 py-4 whitespace-nowrap font-medium">{a.type}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{a.date}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{a.time}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{a.therapist}</td>
+                      <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(a.status)}</td>
+                      <td className="px-6 py-4 text-center">
+                        {a.status === "upcoming" ? (
+                          <Button
+                            variant="outline"
+                            className="text-red-500 border-red-300 hover:bg-red-100"
+                          >
+                            Cancel
+                          </Button>
+                        ) : (
+                          "-"
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex justify-between items-center mt-6">
+                <Button
+                  variant="ghost"
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((p) => p - 1)}
+                >
+                  Previous
+                </Button>
+                <span className="text-sm text-muted-foreground">
+                  Page {currentPage} of {totalPages}
+                </span>
+                <Button
+                  variant="ghost"
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((p) => p + 1)}
+                >
+                  Next
+                </Button>
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
-    </header>
+
+      <DashboardFooter />
+    </div>
   );
 }

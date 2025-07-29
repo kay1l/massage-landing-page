@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { CalendarWithTime } from "@/components/calendar-20";
 import StepWizard from "@/custom_components/dashboard_section/Wizard";
 import DashboardFooter from "@/custom_components/dashboard_section/Footer";
+import LoadingScreen from "@/custom_components/LoadingScreen";
 
 export default function BookingPage() {
   const [step, setStep] = useState(1);
@@ -31,7 +32,16 @@ export default function BookingPage() {
 
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
-
+     const [isLoading, setIsLoading] = useState(true);
+    
+      useEffect(() => {
+        const timer = setTimeout(() => {
+          setIsLoading(false);
+        }, 2000);
+        return () => clearTimeout(timer);
+      }, []);
+    
+      if (isLoading) return <LoadingScreen />;
   return (
     <div className="min-h-screen bg-[#FEF3E2] text-[#5C4A42] pt-40">
       <DashboardHeader />
