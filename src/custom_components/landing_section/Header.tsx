@@ -157,7 +157,7 @@ export default function Header() {
                   </button>
                 ))}
                 <Button
-                  onClick={() => scrollToSection("#contact")}
+                  onClick={handleBookNow}
                   className="bg-[#F3C623] hover:bg-[#FA812F] text-white rounded-full w-full transition"
                 >
                   Book Now
