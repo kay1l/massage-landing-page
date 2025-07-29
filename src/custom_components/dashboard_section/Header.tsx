@@ -13,7 +13,6 @@ import {
 } from "@/components/ui/sheet";
 import { useRouter } from "next/navigation";
 
-// Dashboard-specific navigation items
 const navItems = [
   { id: "#home", label: "Home" },
   { id: "#services", label: "Services" },
@@ -46,8 +45,6 @@ export default function DashboardHeader() {
     setActiveSection(id);
     handleClose();
   };
-
-  // Highlight active section on scroll
   useEffect(() => {
     const handleScroll = () => {
       const scrollPos = window.scrollY + 90;

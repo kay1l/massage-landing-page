@@ -1,14 +1,15 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import DashboardFooter from "@/custom_components/dashboard_section/Footer";
 import DashboardHeader from "@/custom_components/dashboard_section/Header";
-import Footer from "@/custom_components/landing_section/Footer";
 import LoadingScreen from "@/custom_components/LoadingScreen";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function UserDashboard() {
-
+    const router = useRouter();
      const [isLoading, setIsLoading] = useState(true);
     
       useEffect(() => {
@@ -20,6 +21,9 @@ export default function UserDashboard() {
     
       if (isLoading) return <LoadingScreen />;
     
+    const handleClick = () => {
+        router.push('/dashboard/pages/booking_page');
+    }
   return (
     <div className="min-h-screen bg-[#FEF3E2] text-[#5C4A42] font-sans">
       <DashboardHeader />
@@ -43,13 +47,13 @@ export default function UserDashboard() {
         {/* CTA Button */}
         <Button
           className="mt-6 bg-[#FA812F] hover:bg-[#f5933c] text-white px-6 py-3 rounded-full shadow-md transition duration-300 animate-fade-in-up delay-300"
-          onClick={() => window.scrollTo({ top: 800, behavior: "smooth" })}
+          onClick={handleClick}
         >
-          Book Your Massage Now
+          Book Massage Now
         </Button>
       </main>
 
-      <Footer />
+      <DashboardFooter />
     </div>
   );
 }
