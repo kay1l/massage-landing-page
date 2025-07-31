@@ -25,12 +25,12 @@ const services = [
       "Focused therapy that targets tight muscle knots to relieve pain and restore mobility.",
     image: "/images/services_images/trigger.jpg",
   },
-  {
-    title: "Aromatherapy",
-    description:
-      "Essential oils enhance your relaxation and sensory experience.",
-    image: "/images/services_images/aromatherapy.jpeg",
-  },
+  // {
+  //   title: "Aromatherapy",
+  //   description:
+  //     "Essential oils enhance your relaxation and sensory experience.",
+  //   image: "/images/services_images/aromatherapy.jpeg",
+  // },
 ];
 
 export default function ServicesSection() {
