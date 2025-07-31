@@ -21,10 +21,10 @@ export default function AboutSection() {
 
         <div className="border-l-4 border-[#F3C623] pl-6 text-lg leading-relaxed tracking-wide space-y-4">
           <p>
-            At <span className="font-medium">Arturo Siete Massage</span>, we believe in the healing power of touch. Our licensed therapists are passionate about helping clients achieve well-being through personalized treatments.
+            At <span className="font-medium">Shaisha's Leisure Hub</span>, we believe in the healing power of touch. Our professional therapists are passionate about helping clients achieve well-being through personalized treatments.
           </p>
           <p>
-            Located on the beautiful island of <span className="font-medium">Negros</span>, our massage studio is a peaceful sanctuary designed for your relaxation and renewal.
+            Based in the beautiful city of <span className="font-medium">Dumaguete, Negros Oriental</span>, we bring the spa experience to your doorstep—offering home massage services that prioritize your comfort, privacy, and convenience.
           </p>
         </div>
 

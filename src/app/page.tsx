@@ -52,6 +52,7 @@ export default function Home() {
   
       {/* Page Content */}
       <main className="relative z-10 w-full min-h-screen">
+      <div className="max-w-[1200px] mx-auto rounded-xl p-6">
         <ScrollToTopButton />
         <Header />
         <BackgroundAudio />
@@ -80,9 +81,9 @@ export default function Home() {
           <Testimonials />
         </FadeOutUpSection>
   
-        <FadeOutUpSection>
+        {/* <FadeOutUpSection>
           <TherapistsSection />
-        </FadeOutUpSection>
+        </FadeOutUpSection> */}
   
         <FadeOutUpSection>
           <AboutSection />
@@ -93,6 +94,7 @@ export default function Home() {
         </FadeOutUpSection>
   
         <Footer />
+        </div>
       </main>
     </div>
   );

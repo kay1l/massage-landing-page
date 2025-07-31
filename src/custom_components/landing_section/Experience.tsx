@@ -17,7 +17,7 @@ export default function ExperienceSection() {
       <div className="max-w-6xl mx-auto space-y-14">
         {/* Title */}
         <div className="text-center">
-          <h2 className="text-4xl mb-4 font-bold">Your Experience</h2>
+          <h2 className="text-4xl mb-4 font-bold">Experience the Luxury Touch</h2>
           <div className="w-24 h-[3px] bg-[#F3C623] mx-auto rounded-full" />
         </div>
 
@@ -26,10 +26,10 @@ export default function ExperienceSection() {
           {/* Description */}
           <div className="space-y-4 text-lg leading-relaxed">
             <p>
-              Booking a massage is as simple as one click. No need to step out — just choose your desired service, fill in your details, and confirm. For your protection, we don’t allow choosing a specific therapist. This ensures safety and fairness across our team.
+              Booking a massage is as simple as one click. No need to step out  just choose your desired service, fill in your details, and confirm. For your protection, we don’t allow choosing a specific therapist. This ensures safety and fairness across our team.
             </p>
             <p>
-              Once booked, our licensed therapist will travel to your location, bringing everything needed for a relaxing, professional massage experience — right at the comfort of your home.
+              Once booked, our professional therapist will travel to your location, bringing everything needed for a relaxing, professional massage experience  right at the comfort of your home.
             </p>
           </div>
 
@@ -55,7 +55,7 @@ export default function ExperienceSection() {
           <Feature
             icon={<Truck className="w-6 h-6 md:w-9 md:h-9 text-[#F3C623]" />}
             title="We Come to You"
-            desc="Our licensed therapist arrives at your home, fully equipped."
+            desc="Our professional therapist arrives at your home, fully equipped."
           />
           <Feature
             icon={<Sparkles className="w-6 h-6 md:w-9 md:h-9 text-[#FFB22C]" />}

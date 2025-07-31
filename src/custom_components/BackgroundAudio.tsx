@@ -31,7 +31,7 @@ export default function BackgroundAudio() {
 
   return (
     <>
-      <audio ref={audioRef} src="/audio/spa-audio.mp3" loop autoPlay muted />
+      <audio ref={audioRef} src="/audio/water.mp3" loop autoPlay muted />
 
       <div className="fixed bottom-6 left-6 z-50">
         {/* Fancy speech bubble */}

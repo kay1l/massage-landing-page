@@ -30,8 +30,8 @@ export default function Footer() {
               </h2>
             </div>
             <p className="text-sm text-gray-400 leading-relaxed max-w-xs">
-              Experience professional massage therapy designed to soothe, heal, and refresh.
-              Your wellness journey begins with us in a calm and serene space.
+            Our goal is to give and experience professional massage therapy designed to soothe, heal, and refresh.
+            Your wellness journey begins with us right in the comfort of your own home.
             </p>
           </div>
 
@@ -48,12 +48,12 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <Phone className="w-5 h-5 mt-0.5" />
                 <a href="tel:+639123456789" className="hover:underline">
-                  +63 912 345 6789
+                  +63 905 578 9461
                 </a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 mt-0.5" />
-                <span>Ormoc City, Leyte, Philippines</span>
+                <span>San Miguel, Bacong Negros Oriental</span>
               </li>
             </ul>
           </div>
