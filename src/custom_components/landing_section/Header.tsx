@@ -25,7 +25,7 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const handleBookNow = () => {
-    router.push("/auth/login");
+    router.push("/dashboard");
   };
   const handleClose = () => setIsOpen(false);
 

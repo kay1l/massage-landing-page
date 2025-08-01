@@ -57,16 +57,16 @@ export default function BookingPage() {
           {step === 1 && (
             <>
               <h2 className="text-2xl font-bold text-[#FA812F] mb-6">
-                Step 1: Choose a Service
+              Choose a Service
               </h2>
               <Select onValueChange={setSelectedService}>
-                <SelectTrigger className="w-full h-12 text-base px-4 rounded-xl border-[#E4CBB5]">
+                <SelectTrigger className="w-full  text-base px-4 rounded-lg border-[#E4CBB5]">
                   <SelectValue placeholder="Select a massage type" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="swedish">Swedish Massage</SelectItem>
                   <SelectItem value="deep-tissue">Deep Tissue Massage</SelectItem>
-                  <SelectItem value="hot-stone">Hot Stone Massage</SelectItem>
+                  <SelectItem value="trigger-point">Trigger-Point Massage</SelectItem>
                 </SelectContent>
               </Select>
               <Button
@@ -82,7 +82,7 @@ export default function BookingPage() {
           {step === 2 && (
             <>
               <h2 className="text-2xl font-bold text-[#FA812F] mb-6">
-                Step 2: Select a Date and Time
+                 Select a Date and Time
               </h2>
               <CalendarWithTime
                 date={selectedDate}
@@ -109,7 +109,7 @@ export default function BookingPage() {
           {step === 3 && (
             <>
               <h2 className="text-2xl font-bold text-[#FA812F] mb-6">
-                Step 3: Your Information
+                Personal Information
               </h2>
 
               <div className="mb-6">
