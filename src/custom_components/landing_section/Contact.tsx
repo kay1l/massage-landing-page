@@ -1,46 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { z } from "zod";
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import Image from "next/image";
-
-// Zod schema
-const contactSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email"),
-  message: z.string().min(1, "Message is required"),
-});
+import { Button } from "@/components/ui/button";
 
 export default function ContactSection() {
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const result = contactSchema.safeParse(form);
-
-    if (!result.success) {
-      const newErrors: { [key: string]: string } = {};
-      result.error.errors.forEach((err) => {
-        const field = err.path[0];
-        newErrors[field] = err.message;
-      });
-      setErrors(newErrors);
-    } else {
-      setErrors({});
-      console.log("Valid submission", result.data);
-      // handle actual form submission here (e.g. API call)
-    }
-  };
-
   return (
     <section
       id="contact"
@@ -64,83 +28,30 @@ export default function ContactSection() {
           />
         </div>
 
-        {/* Form */}
-        <div className="w-full max-w-[350px]">
-          <h2 className="text-2xl sm:text-3xl font-light text-center mb-4">
-            Get in touch
+        {/* Call to Action */}
+        <div className="w-full max-w-[350px] text-center">
+          <h2 className="text-2xl sm:text-3xl font-light mb-4">
+            Ready To Book Your Massage?
           </h2>
           <div className="w-20 h-[3px] bg-[#F3C623] mb-6 mx-auto rounded-full" />
 
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-4 bg-white shadow-lg rounded-2xl p-4"
-            noValidate
+          <Button
+            onClick={() => {
+              const el = document.querySelector("#booking");
+              if (el) {
+                const offset = el.getBoundingClientRect().top + window.scrollY - 80;
+                window.scrollTo({ top: offset, behavior: "smooth" });
+              }
+            }}
+            className="w-full bg-[#FA812F] hover:bg-[#FFB22C] text-white text-sm font-medium py-2 rounded-full transition"
           >
-            {/* Name */}
-            <div>
-              <input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                value={form.name}
-                onChange={handleChange}
-                className={`w-full rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 transition ${
-                  errors.name
-                    ? "border-red-500 focus:ring-red-400"
-                    : "border border-gray-200 focus:ring-[#FFB22C]"
-                }`}
-              />
-              {errors.name && (
-                <p className="text-red-500 text-xs mt-1">{errors.name}</p>
-              )}
-            </div>
+            BOOK NOW
+          </Button>
 
-            {/* Email */}
-            <div>
-              <input
-                type="email"
-                name="email"
-                placeholder="Your Email"
-                value={form.email}
-                onChange={handleChange}
-                className={`w-full rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 transition ${
-                  errors.email
-                    ? "border-red-500 focus:ring-red-400"
-                    : "border border-gray-200 focus:ring-[#FFB22C]"
-                }`}
-              />
-              {errors.email && (
-                <p className="text-red-500 text-xs mt-1">{errors.email}</p>
-              )}
-            </div>
-
-            {/* Message */}
-            <div>
-              <textarea
-                name="message"
-                placeholder="Your Message"
-                rows={3}
-                value={form.message}
-                onChange={handleChange}
-                className={`w-full rounded-xl px-4 py-2 text-sm focus:outline-none focus:ring-2 transition ${
-                  errors.message
-                    ? "border-red-500 focus:ring-red-400"
-                    : "border border-gray-200 focus:ring-[#FFB22C]"
-                }`}
-              />
-              {errors.message && (
-                <p className="text-red-500 text-xs mt-1">{errors.message}</p>
-              )}
-            </div>
-
-            {/* Submit */}
-            <Button
-              type="submit"
-              className="w-full bg-[#FA812F] hover:bg-[#FFB22C] text-white text-sm font-medium py-2 rounded-full transition"
-            >
-              Send Message
-            </Button>
-          </form>
+          <p className="text-sm mt-4">
+            If you have any questions, please text or call us at{" "}
+            <span className="font-semibold">+63 905 578 9461</span>
+          </p>
         </div>
       </motion.div>
     </section>

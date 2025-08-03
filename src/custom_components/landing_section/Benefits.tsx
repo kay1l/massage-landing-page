@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import { CheckCircle } from "lucide-react";
 
 const benefits = [
-  "Professional licensed therapists",
+  "Professional therapists",
   "Tailored treatments to your needs",
   "Home comfort & convenience",
-  "Improved sleep & reduced stress",
+  "Improved sleep & reduce stress",
   "No need to travel or wait",
 ];
 
