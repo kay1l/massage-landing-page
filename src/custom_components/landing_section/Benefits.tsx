@@ -142,7 +142,7 @@ export default function TherapistsSection() {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl font-bold text-[#FA812F] mb-4">
-          A Trust-worthy well trained professionals
+           Trustworthy well trained professionals
           </h2>
           <div className="w-20 h-1 bg-[#F3C623] mb-6" />
           <div className="space-y-4 leading-relaxed text-base tracking-wide">
@@ -151,7 +151,7 @@ export default function TherapistsSection() {
               Each has undergone extensive training in techniques such as Swedish, Deep Tissue, Trigger-Point, and Reflexology.
             </p>
             <p>
-            Their approach blends technical precision with a warm, caring presence. Whether for relaxation or recovery, you're in expert hands—committed to your health, comfort, and privacy.
+            Their approach blends technical precision with a warm, caring presence. Whether for relaxation or recovery, you're in expert hands committed to your health, comfort, and privacy.
             </p>
           </div>
         </motion.div>

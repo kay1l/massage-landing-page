@@ -21,15 +21,15 @@ export default function AboutSection() {
 
         <div className="border-l-4 border-[#F3C623] pl-6 text-lg leading-relaxed tracking-wide space-y-4">
           <p>
-            At <span className="font-medium">Shaisha's Leisure Hub</span>, we believe in the healing power of touch. Our professional therapists are passionate about helping clients achieve well-being through personalized treatments.
+            At <span className="font-medium">Shaisha's Leisure Hub</span>, we believe in the healing power of touch. Our professional therapists are passionate about helping clients achieve well being through personalized treatments.
           </p>
           <p>
-            Based in the beautiful city of <span className="font-medium">Dumaguete, Negros Oriental</span>, we bring the spa experience to your doorstep—offering home massage services that prioritize your comfort, privacy, and convenience.
+            Based in the beautiful city of <span className="font-medium">Dumaguete, Negros Oriental</span>, we bring the spa experience to your doorstep offering home massage services that prioritize your comfort, privacy, and convenience.
           </p>
         </div>
 
         <blockquote className="italic text-center text-[#FA812F] text-lg mt-10">
-          “Our hands listen to your body’s needs — and bring it back to balance.”
+          “Our hands listen to your body’s needs  and bring it back to balance.”
         </blockquote>
       </div>
     </motion.section>
