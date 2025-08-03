@@ -76,7 +76,7 @@ export default function Hero() {
           </div>
           <div className="flex items-center gap-2">
             <FaPhoneAlt className="text-[#FA812F]" />
-            <span>+63 912 345 6789</span>
+            <span>+63 905 578 9461</span>
           </div>
         </div>
 
