@@ -3,8 +3,18 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+
+
+
 
 export default function ContactSection() {
+  const router = useRouter();
+
+
+  const handleClick = () => {
+    router.push('/dashboard');
+  }
   return (
     <section
       id="contact"
@@ -36,13 +46,7 @@ export default function ContactSection() {
           <div className="w-20 h-[3px] bg-[#F3C623] mb-6 mx-auto rounded-full" />
 
           <Button
-            onClick={() => {
-              const el = document.querySelector("#booking");
-              if (el) {
-                const offset = el.getBoundingClientRect().top + window.scrollY - 80;
-                window.scrollTo({ top: offset, behavior: "smooth" });
-              }
-            }}
+            onClick={handleClick}
             className="w-full bg-[#FA812F] hover:bg-[#FFB22C] text-white text-sm font-medium py-2 rounded-full transition"
           >
             BOOK NOW
