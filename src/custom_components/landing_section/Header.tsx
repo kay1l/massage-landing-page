@@ -16,7 +16,7 @@ const navItems = [
   { id: "#services", label: "Services", icon: Hand },
   { id: "#reviews", label: "Reviews", icon: Star },
   { id: "#about", label: "About", icon: Info },
-  { id: "#contact", label: "Contact", icon: Phone },
+  { id: "#footer", label: "Contact", icon: Phone },
 ];
 
 
@@ -46,7 +46,7 @@ export default function Header() {
     handleClose();
   };
 
-  // Highlight active section on scroll
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPos = window.scrollY + 90; // include offset

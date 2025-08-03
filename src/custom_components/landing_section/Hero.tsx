@@ -47,7 +47,7 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-[#FEF3E2]/80 via-white/50 to-transparent backdrop-blur-sm z-10" />
 
       {/* Content */}
-      <div className="relative z-20 max-w-3xl w-full px-4 sm:px-6 py-10 text-[#5C4A42]">
+      <div className="relative mb-10 sm:mb-16 md:mb-[100px] z-20 max-w-3xl w-full px-4 sm:px-6 pt-6 pb-10 sm:pt-10 text-[#5C4A42]">
         {/* Logo */}
         <Image
           src="/images/massage.png"

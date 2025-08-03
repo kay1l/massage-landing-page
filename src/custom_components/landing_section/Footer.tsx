@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 
 export default function Footer() {
   return (
+    <div id="footer">
     <motion.footer
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
@@ -13,6 +14,7 @@ export default function Footer() {
       viewport={{ once: true }}
       className="bg-gray-900 text-white w-full py-12"
     >
+      
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left justify-items-center md:justify-items-start">
           {/* Logo + Description */}
@@ -87,6 +89,8 @@ export default function Footer() {
           &copy; {new Date().getFullYear()} ShaiSha's Leisure Hub. All rights reserved.
         </div>
       </div>
+      
     </motion.footer>
+    </div>
   );
 }
