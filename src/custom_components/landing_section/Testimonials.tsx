@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useMemo } from "react";
+import { Star } from "lucide-react"; // ✅ Star icon
 
 const testimonials = [
   {
@@ -39,57 +40,7 @@ const testimonials = [
       "Hands-down the best massage therapy I’ve experienced. Total reset!",
     imageUrl: "/images/therapist_images/man.png",
   },
-  {
-    name: "Grace L.",
-    role: "Yoga Instructor",
-    message:
-      "Their professionalism and calming energy is unmatched. Highly recommended!",
-    imageUrl: "/images/therapist_images/woman1.png",
-  },
-  {
-    name: "Emily Chen",
-    role: "Corporate Wellness Director",
-    message:
-      "The attention to both body and mind made this experience truly special. I recommend it to all my employees!",
-    imageUrl: "/images/therapist_images/woman2.png",
-  },
-  {
-    name: "Rahul Mehta",
-    role: "Entrepreneur",
-    message:
-      "After just one session, I felt my back pain ease significantly. Exceptional skill and care.",
-    imageUrl: "/images/therapist_images/man.png",
-  },
-  {
-    name: "Sarah Lopez",
-    role: "Fitness Coach",
-    message:
-      "The therapists here understand the body like no other. Great for recovery and relaxation.",
-    imageUrl: "/images/therapist_images/woman.png",
-  },
-  {
-    name: "Daniel Reyes",
-    role: "Software Engineer",
-    message:
-      "Working long hours at a desk takes a toll — these massages are my go-to stress relief!",
-    imageUrl: "/images/therapist_images/boy.png",
-  },
-  {
-    name: "Monica A.",
-    role: "Mom of Two",
-    message:
-      "A peaceful break from my busy routine. I always walk out feeling like a new person.",
-    imageUrl: "/images/therapist_images/woman1.png",
-  },
-  {
-    name: "Leo Tanaka",
-    role: "Professional Dancer",
-    message:
-      "Their deep tissue technique is perfect after rehearsals. Friendly, clean, and super effective.",
-    imageUrl: "/images/therapist_images/man.png",
-  },
-  // Duplicated to ensure scroll loop feels natural
-  // You can add more real testimonials
+  
 ];
 
 function shuffleArray<T>(array: T[]): T[] {
@@ -98,14 +49,14 @@ function shuffleArray<T>(array: T[]): T[] {
 
 export default function Testimonials() {
   const [col1, col2, col3, mobileCol] = useMemo(() => {
-    const duplicated = testimonials.concat(testimonials); 
+    const duplicated = testimonials.concat(testimonials);
     const shuffled = shuffleArray(duplicated);
     const len = Math.ceil(shuffled.length / 3);
     return [
       shuffled.slice(0, len),
       shuffled.slice(len, len * 2),
       shuffled.slice(len * 2),
-      shuffled, 
+      shuffled,
     ];
   }, []);
 
@@ -114,19 +65,14 @@ export default function Testimonials() {
     speed: number,
     key: string
   ) => (
-    <div
-      
-      className="relative w-full overflow-hidden h-[700px]"
-      key={key}
-    >
+    <div className="relative w-full overflow-hidden h-[700px]" key={key}>
       <div
         className="flex flex-col animate-scroll"
         style={{
           animationDuration: `${speed}s`,
           animationDelay: `${Math.random() * 5}s`,
           animationDirection: key === "col2" ? "normal" : "reverse",
-        }}        
-        
+        }}
       >
         {items.concat(items).map((t, index) => (
           <div
@@ -141,16 +87,26 @@ export default function Testimonials() {
                 height={80}
                 className="rounded-full border-4 border-[#F3C623] shadow-md"
               />
+
             </div>
-            <p className="text-[#5C4A42] italic mb-6 text-sm sm:text-base leading-relaxed text-center">
+             {/* ⭐ Star Rating */}
+             <div className="flex justify-center gap-1 mb-4">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+              ))}
+            </div>
+            <p className="text-[#5C4A42] italic mb-4 text-sm sm:text-base leading-relaxed text-center">
               <span className="text-[#FA812F] text-2xl font-serif mr-1">“</span>
               {t.message}
               <span className="text-[#FA812F] text-2xl font-serif ml-1">”</span>
             </p>
+
+           
+
             <h3 className="font-semibold text-lg text-center text-[#3B2E2A]">
               {t.name}
             </h3>
-            <p className="text-xs text-center text-[#7A6A64]">{t.role}</p>
+
           </div>
         ))}
       </div>
