@@ -21,7 +21,7 @@ export default function Footer() {
           <div className="flex flex-col items-center md:items-start">
             <div className="flex items-center gap-3 mb-4">
               <Image
-                src="/images/massage.png"
+                src="/images/final.png"
                 alt="ShaiSha's Leisure Hub Logo"
                 width={50}
                 height={50}

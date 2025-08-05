@@ -50,11 +50,11 @@ export default function Hero() {
       <div className="relative mb-10 sm:mb-16 md:mb-[100px] z-20 max-w-3xl w-full px-4 sm:px-6 pt-6 pb-10 sm:pt-10 text-[#5C4A42]">
         {/* Logo */}
         <Image
-          src="/images/massage.png"
+          src="/images/final.png"
           alt="Holden Beach Massage"
-          width={150}
-          height={150}
-          className="mx-auto mb-6 drop-shadow-lg rounded-full border-4 border-[#F3C623]"
+          width={250}
+          height={250}
+          className="mx-auto mb-2 drop-shadow-lg "
         />
 
         {/* Headline */}
