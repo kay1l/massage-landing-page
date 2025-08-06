@@ -20,16 +20,34 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative w-full min-h-screen flex items-center justify-center text-center overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 h-full w-full">
-        <Image
-          src="/images/hero-bg.jpg"
-          alt="Massage Therapy Background"
-          fill
-          className="object-cover object-center -z-10"
-          priority
-        />
+    <section className="relative w-full min-h-screen flex items-end justify-center text-center overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div className="absolute inset-0 h-full w-full -z-10">
+        {/* ✅ Mobile Image */}
+        <div className="absolute inset-0 h-full w-full block sm:hidden">
+          <Image
+            src="/images/massage1.jpg"
+            alt="Massage Therapy Mobile"
+            fill
+            className="object-cover object-center brightness-75"
+            priority
+          />
+        </div>
+
+        {/* ✅ Desktop Image */}
+        <div className="absolute inset-0 h-full w-full hidden sm:block">
+          <Image
+            src="/images/massage.jpg"
+            alt="Massage Therapy Background"
+            fill
+            className="object-cover object-center brightness-75"
+            priority
+          />
+        </div>
+
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#FEF3E2]/80 via-[#FEF3E2]/50 to-transparent" />
+
         {/* Decorative Bottom SVG Divider */}
         <svg
           className="absolute bottom-0 left-0 w-full"
@@ -43,20 +61,8 @@ export default function Hero() {
         </svg>
       </div>
 
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#FEF3E2]/80 via-white/50 to-transparent backdrop-blur-sm z-10" />
-
       {/* Content */}
-      <div className="relative mb-10 sm:mb-16 md:mb-[100px] z-20 max-w-3xl w-full px-4 sm:px-6 pt-6 pb-10 sm:pt-10 text-[#5C4A42]">
-        {/* Logo */}
-        <Image
-          src="/images/final.png"
-          alt="Holden Beach Massage"
-          width={250}
-          height={250}
-          className="mx-auto mb-2 drop-shadow-lg "
-        />
-
+      <div className="relative z-20 w-full max-w-3xl px-4 sm:px-6 pb-20 text-[#5C4A42]">
         {/* Headline */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl uppercase font-extrabold mb-4 drop-shadow-md tracking-tight leading-tight text-[#FFB22C]">
           Professional Home Service Massage

@@ -54,6 +54,7 @@ export default function ContactSection() {
 
           <p className="text-sm mt-4">
             If you have any questions, please text or call us at{" "}
+            <br />
             <span className="font-semibold">+63 905 578 9461</span>
           </p>
         </div>
