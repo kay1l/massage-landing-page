@@ -44,19 +44,15 @@ export default function DashboardHeader() {
       <div className="w-full mx-auto px-6 py-4 flex items-center justify-between">
         {/* Logo */}
         <button
-          onClick={() => handleNavigation("/")}
-          className="flex items-center space-x-3"
-        >
-          <Image src="/images/massage.png" alt="Logo" width={50} height={50} />
-          <div className="leading-tight text-left">
-            <h1 className="text-xl font-extrabold text-[#5C4A42] tracking-tight">
-              SHAISHA’S
-            </h1>
-            <h2 className="text-lg font-medium text-[#5C4A42]">LEISURE HUB</h2>
-            <div className="text-xs font-light tracking-wider text-[#FFB22C]">
-              MASSAGE
-            </div>
-          </div>
+          className="flex items-center space-x-3 h-[60px] overflow-hidden pl-2">
+        
+          <Image
+            src="/images/logo.png"
+            alt="Logo"
+            width={100}
+            height={100}
+            className="transform scale-[1.1] object-contain ml-2"
+          />
         </button>
 
         {/* Desktop Navigation */}
@@ -88,10 +84,10 @@ export default function DashboardHeader() {
                 <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
                 <div className="flex items-center space-x-3">
                   <Image
-                    src="/images/massage.png"
+                    src="/images/final.png"
                     alt="Logo"
-                    width={40}
-                    height={40}
+                    width={100}
+                    height={100}
                   />
                   <div className="text-lg font-bold text-[#5C4A42] leading-tight text-left">
                     SHAISHA'S LEISURE HUB

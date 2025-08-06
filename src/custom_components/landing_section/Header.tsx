@@ -13,12 +13,11 @@ import {
 } from "@/components/ui/sheet";
 import { useRouter } from "next/navigation";
 const navItems = [
-  { id: "#services", label: "Services", },
-  { id: "#reviews", label: "Reviews", },
-  { id: "#about", label: "About", },
-  { id: "#footer", label: "Contact",  },
+  { id: "#services", label: "Services" },
+  { id: "#reviews", label: "Reviews" },
+  { id: "#about", label: "About" },
+  { id: "#footer", label: "Contact" },
 ];
-
 
 export default function Header() {
   const router = useRouter();
@@ -45,7 +44,6 @@ export default function Header() {
     setActiveSection(id);
     handleClose();
   };
-
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,29 +73,28 @@ export default function Header() {
   return (
     <header className="w-full fixed top-0 left-0 z-50 bg-[#FEF3E2] shadow-md border-b border-[#F3C623]">
       <div className="w-full mx-auto px-6 py-4 flex items-center justify-between">
-      {/* Logo */}
-<button
-  onClick={() => scrollToSection("body")}
-  className="flex items-center space-x-3 h-[60px] overflow-hidden pl-2" // added `pl-2`
->
-  <Image
-    src="/images/logo.png"
-    alt="Logo"
-    width={100}
-    height={100}
-    className="transform scale-[1.1] object-contain ml-2" 
-  />
-</button>
+        {/* Logo */}
+        <button
+          onClick={() => scrollToSection("body")}
+          className="flex items-center space-x-3 h-[60px] overflow-hidden pl-2" // added `pl-2`
+        >
+          <Image
+            src="/images/logo.png"
+            alt="Logo"
+            width={100}
+            height={100}
+            className="transform scale-[1.1] object-contain ml-2"
+          />
+        </button>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-6 items-center text-[#5C4A42] text-sm font-medium tracking-wide">
-          {navItems.map(({ id, label}) => (
+          {navItems.map(({ id, label }) => (
             <button
               key={id}
               onClick={() => scrollToSection(id)}
               className={navLinkClass(id)}
             >
-             
               {label}
             </button>
           ))}
@@ -139,7 +136,7 @@ export default function Header() {
                 </div>
               </SheetHeader>
               <nav className="flex flex-col gap-6 mt-10 text-[#5C4A42] text-base font-medium">
-                {navItems.map(({ id, label, }) => (
+                {navItems.map(({ id, label }) => (
                   <button
                     key={id}
                     onClick={() => scrollToSection(id)}
@@ -149,7 +146,6 @@ export default function Header() {
                         : "hover:text-[#FA812F]"
                     }`}
                   >
-                    
                     {label}
                   </button>
                 ))}

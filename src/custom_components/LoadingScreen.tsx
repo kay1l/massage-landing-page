@@ -5,12 +5,12 @@ export default function LoadingScreen() {
   return (
     <div className="flex items-center justify-center h-screen bg-[#FAF8F6]">
       <div className="flex flex-col items-center space-y-4">
-        <div className="w-16 h-16 animate-spin">
+        <div className="w-60 h-60 animate-pulse ">
           <Image
-            src="/images/massage.png"
+            src="/images/final.png"
             alt="Loading"
-            width={100}
-            height={100}
+            width={140}
+            height={140}
             className="w-full h-full object-contain"
           />
         </div>
