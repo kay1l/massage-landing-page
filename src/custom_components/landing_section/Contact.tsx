@@ -13,7 +13,7 @@ export default function ContactSection() {
 
 
   const handleClick = () => {
-    router.push('/dashboard');
+    router.push('/dashboard/pages/booking_page');
   }
   return (
     <section

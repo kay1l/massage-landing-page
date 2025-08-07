@@ -6,38 +6,38 @@ import { Star } from "lucide-react"; // ✅ Star icon
 
 const testimonials = [
   {
-    name: "Avinash Kr",
+    name: "Katrina Mendoza",
     role: "Co-Founder at xyz",
     message:
-      "The massage experience was calming and professional. I left feeling fully relaxed and recharged. Highly recommended!",
+      "Had an amazing massage with Shaisha’s Leisure Hub. Kay na fully bookan sa ticket to go back to bohol kay summer gikan siquijor. While waiting for the tomorrow trip. A friend of mine mentioned about a home massage and there it is. I felt completely refreshed after. Will be booking again soon.",
     imageUrl: "/images/therapist_images/man.png",
   },
   {
-    name: "Bharat Kunal",
+    name: "Marie S.",
     role: "Manager at xyz",
     message:
-      "A beautiful, relaxing space with skilled therapists. The attention to detail made it an exceptional experience.",
-    imageUrl: "/images/therapist_images/man1.png",
+      "First time booking with Shaisha’s Leisure Hub and it was such a treat!. The therapist came to our house and worked on my back and shoulders. I felt so much lighter and relaxed after. She was really friendly and professional. Will definitely book again.",
+    imageUrl: "/images/therapist_images/woman1.png",
   },
   {
-    name: "Prabhakar D",
+    name: "Jerome D.C",
     role: "Founder / CEO at xyz",
     message:
-      "Amazing ambiance and soothing hands! Definitely a place I’ll keep coming back to for stress relief.",
+      "Booked a home service massage and everything was smooth. The staff was very accommodating with my questions. The therapist was really nice and she knew how to ease my tension. Solid experience ever. Di na hasol sa traffic😉.",
     imageUrl: "/images/therapist_images/boy.png",
   },
   {
-    name: "Jane Doe",
+    name: "Lea V.",
     role: "Wellness Coach",
     message:
-      "Incredible service and attention. I felt at ease from the moment I walked in.",
+      "Fantastic home massage service. Have a stop over in my cousins place and recommended shaisha's home service massage. Kay tungod sa kakapuy ang byahe.  They brought everything, even offered me tea after . Yung therapists were   friendly. It was the perfect way to unwind nga walay hasol. I’ll definitely book again.",
     imageUrl: "/images/therapist_images/woman.png",
   },
   {
-    name: "John Smith",
+    name: "Mark Angelo Reyes",
     role: "Athlete",
     message:
-      "Hands-down the best massage therapy I’ve experienced. Total reset!",
+      "I’ve tried a lot of home massage services but Shaisha’s Leisure Hub really stands out. The therapist was very skilled and adjusted the pressure just right. It was exactly what I needed after a long week. This will be my goto from now on.",
     imageUrl: "/images/therapist_images/man.png",
   },
   
