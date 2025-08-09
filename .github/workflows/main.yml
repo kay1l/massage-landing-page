@@ -29,6 +29,5 @@ jobs:
           username: 'frontend@shaishasleisurehub.com'
           password: 'A}8*f+!IpN#t'
           local-dir: ./out/
-          server-dir: /public_html/
           port: 21
         
