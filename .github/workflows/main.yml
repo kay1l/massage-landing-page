@@ -30,6 +30,5 @@ jobs:
           server: 'ftp.shaishasleisurehub.com'
           username: 'frontend@shaishasleisurehub.com'
           password: 'A}8*f+!IpN#t'
-          local-dir: out/
           port: 21
         
