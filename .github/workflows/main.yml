@@ -27,7 +27,7 @@ jobs:
       - name: 📁 FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: 'ftp.shaishasleisurehub.com'
+          server: '184.168.101.39'
           username: 'frontend@shaishasleisurehub.com'
           password: 'A}8*f+!IpN#t'
           port: 21
