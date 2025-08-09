@@ -6,7 +6,7 @@ import { Star } from "lucide-react"; // ✅ Star icon
 
 const testimonials = [
   {
-    name: "Katrina Mendoza",
+    name: "Katrina M.",
     role: "Co-Founder at xyz",
     message:
       "Had an amazing massage with Shaisha’s Leisure Hub. Kay na fully bookan sa ticket to go back to bohol kay summer gikan siquijor. While waiting for the tomorrow trip. A friend of mine mentioned about a home massage and there it is. I felt completely refreshed after. Will be booking again soon.",
@@ -34,7 +34,7 @@ const testimonials = [
     imageUrl: "/images/therapist_images/woman.png",
   },
   {
-    name: "Mark Angelo Reyes",
+    name: "Mark A. R.",
     role: "Athlete",
     message:
       "I’ve tried a lot of home massage services but Shaisha’s Leisure Hub really stands out. The therapist was very skilled and adjusted the pressure just right. It was exactly what I needed after a long week. This will be my goto from now on.",
@@ -129,13 +129,13 @@ export default function Testimonials() {
         <div className="relative z-0">
           {/* Desktop view */}
           <div className="hidden lg:grid grid-cols-3 gap-6 sm:gap-10">
-            {renderColumn(col1, 30, "col1")}
-            {renderColumn(col2, 38, "col2")}
-            {renderColumn(col3, 35, "col3")}
+            {renderColumn(col1, 60, "col1")}
+            {renderColumn(col2, 75, "col2")}
+            {renderColumn(col3, 80, "col3")}
           </div>
 
           {/* Mobile view */}
-          <div className="lg:hidden">{renderColumn(mobileCol, 60, "mobile")}</div>
+          <div className="lg:hidden">{renderColumn(mobileCol, 120, "mobile")}</div>
         </div>
       </div>
     </section>
