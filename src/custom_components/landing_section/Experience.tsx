@@ -17,7 +17,7 @@ export default function ExperienceSection() {
       <div className="max-w-6xl mx-auto space-y-14">
         {/* Title */}
         <div className="text-center">
-          <h2 className="text-4xl mb-4 font-bold">
+          <h2 className="text-4xl mb-4 text-[#FA812F] font-bold">
             Experience the Luxury Touch of Our Therapist
           </h2>
           <div className="w-24 h-[3px] bg-[#F3C623] mx-auto rounded-full" />
