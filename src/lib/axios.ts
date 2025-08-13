@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from "axios";
 
 const apiClient: AxiosInstance = axios.create({
-  baseURL: "/api/proxy",
+  baseURL: "/api",
   timeout: 10000,
   headers: {
     // "Content-Type": "application/json",
