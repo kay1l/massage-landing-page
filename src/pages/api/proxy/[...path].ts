@@ -1,16 +1,20 @@
+// src/pages/api/proxy/[...path].ts
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export const config = {
   api: {
-    bodyParser: false,
+    bodyParser: false, // allow streaming request body
   },
 };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { path = [] } = req.query;
-  const targetUrl = `http://api.shaishasleisurehub.com/api/${(path as string[]).join("/")}`;
+
+  // Adjust this URL to match your backend routes
+  const targetUrl = `http://api.shaishasleisurehub.com/${(path as string[]).join("/")}`;
 
   try {
+    // Read request body for POST/PUT/PATCH requests
     let body: string | undefined;
     if (req.method !== "GET" && req.method !== "HEAD") {
       body = await new Promise<string>((resolve, reject) => {
@@ -23,16 +27,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       });
     }
 
+    // Forward request to backend
     const backendResponse = await fetch(targetUrl, {
       method: req.method,
       headers: {
         ...req.headers,
-        host: undefined,
+        host: undefined, // prevent overwriting
       } as any,
       body,
     });
 
-    // Forward status
+    // Forward status code
     res.status(backendResponse.status);
 
     // Forward headers
@@ -40,7 +45,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.setHeader(key, value);
     });
 
-    // Forward body
+    // Forward response body
     const responseText = await backendResponse.text();
     res.send(responseText);
   } catch (error: any) {
