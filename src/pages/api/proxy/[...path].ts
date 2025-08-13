@@ -1,9 +1,9 @@
-// src/pages/api/proxy/[...path].ts
+
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export const config = {
   api: {
-    bodyParser: false, // allow streaming request body
+    bodyParser: false, 
   },
 };
 
@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const { path = [] } = req.query;
 
   // Adjust this URL to match your backend routes
-  const targetUrl = `http://api.shaishasleisurehub.com/${(path as string[]).join("/")}`;
+  const targetUrl = `http://api.shaishasleisurehub.com/api/${(path as string[]).join("/")}`;
 
   try {
     // Read request body for POST/PUT/PATCH requests
