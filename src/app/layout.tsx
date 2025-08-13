@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   title: "Shaisha's Leisure Hub | Massage",
   description: "Relax,Rejuvinate,Restore in your own home.",
   icons: {
-    icon: "/favicon.ico", 
+    icon: "/images/final.png",
   },
 };
 
