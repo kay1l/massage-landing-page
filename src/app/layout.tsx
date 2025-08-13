@@ -34,6 +34,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={montserrat.variable}>
+       <head>
+        {/* Explicit favicon links */}
+        <link rel="icon" href="/images/final.png?v=2" type="image/png" />
+        <link rel="apple-touch-icon" href="/images/final.png?v=2" />
+      </head>
       <body className="font-sans">{children}
       <Toaster richColors position="top-right" />
       </body>
