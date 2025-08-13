@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import { StepWizardProps } from "@/types/wizard";
 import {
   CheckCircle,
   User,
@@ -11,10 +12,6 @@ import {
 
 const stepIcons = [User, MapPin, Calendar, CreditCard];
 
-interface StepWizardProps {
-  steps: string[];
-  step: number;
-}
 
 export default function StepWizard({ steps, step }: StepWizardProps) {
   return (

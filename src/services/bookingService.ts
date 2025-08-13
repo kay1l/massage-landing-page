@@ -1,9 +1,9 @@
 import apiClient from "@/lib/axios";
-import type { BookingPayload,Booking } from "@/types/booking";
+import type { BookingApiResponse, BookingPayload } from "@/types/booking";
 import type { ApiResponse } from "@/types/api";
 import { ENDPOINTS } from "@/constants/endpoints";
 
 export const bookingServices = {
-    createBooking: (payload: BookingPayload) => 
-        apiClient.post<ApiResponse<Booking>>(ENDPOINTS.BOOKINGS.CREATE, payload)
-};
+    createBooking: (payload: BookingPayload): Promise<BookingApiResponse> =>
+      apiClient.post(ENDPOINTS.BOOKINGS.CREATE, payload),
+  };
