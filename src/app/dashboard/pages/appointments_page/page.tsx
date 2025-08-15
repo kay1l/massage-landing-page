@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import DashboardHeader from "@/custom_components/dashboard_section/Header";
 import DashboardFooter from "@/custom_components/dashboard_section/Footer";
-import AppointmentsTable, {AppointmentStatus } from "@/custom_components/dashboard_section/AppointmentTable";
+import AppointmentsTable, { } from "@/custom_components/dashboard_section/AppointmentTable";
 import { bookingServices } from "@/services/bookingService";
 import { BookingResponse } from "@/types/booking";
 

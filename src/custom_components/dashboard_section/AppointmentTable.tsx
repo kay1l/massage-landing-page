@@ -22,23 +22,26 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CalendarClock, XCircle } from "lucide-react";
-import { BookingApiResponse, BookingResponse } from "@/types/booking";
-// ✅ Define strict status type
-export type AppointmentStatus = "upcoming" | "completed" | "cancelled";
+import { AppointmentStatus, BookingApiResponse, BookingResponse } from "@/types/booking";
 
-function getStatusBadge(status: string) {
+// ✅ Define strict status type
+
+
+function getStatusBadge(status: AppointmentStatus) {
   const baseClass =
     "text-white px-1.5 py-0.5 rounded-md text-[9px] sm:text-[10px] sm:px-2 sm:py-0.5 whitespace-nowrap";
 
   switch (status) {
-    case "upcoming":
+    case "Pending":
       return <Badge className={`${baseClass} bg-[#FA812F]/90`}>Upcoming</Badge>;
-    case "completed":
+    case "Completed":
       return (
         <Badge className={`${baseClass} bg-green-600/90`}>Completed</Badge>
       );
-    case "cancelled":
+    case "Cancelled":
       return <Badge className={`${baseClass} bg-red-500/90`}>Cancelled</Badge>;
+    case "Rejected":
+      return <Badge className={`${baseClass} bg-red-500/90`}>Rejected</Badge>;
   }
 }
 
@@ -205,7 +208,7 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
                       </div>
                     </td>
                     <td className="px-4 py-3 text-center">
-                      {a.status === "pending" ? (
+                      {a.status === "Pending" ? (
                         <div className="flex justify-center gap-2">
                           <Button
                             variant="outline"

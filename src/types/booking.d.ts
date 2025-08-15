@@ -8,6 +8,7 @@ export interface BookingPayload {
     service_id: number;
   }
   
+  export type AppointmentStatus = "Pending" | "Completed" | "Cancelled" | "Rejected";
   export interface BookingResponse {
     booking_date: string;
     booking_time: string,
@@ -21,7 +22,7 @@ export interface BookingPayload {
     id: number;
     user_id: number | NULL;
     service: Service;
-    status: string;
+    status: AppointmentStatus;
   }
 
   export interface Service {

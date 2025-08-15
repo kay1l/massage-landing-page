@@ -84,17 +84,12 @@ export default function BookingPage() {
     
       const response = await bookingServices.createBooking(payload);
     
-      if (response.success) {
+      if (response) {
         router.push("/dashboard")
-        toast.success("Booking successful!", {
-          description: response.message,
-        });
+        toast.success("Booking successfully created!");
 
       } else {
-        toast.error("Booking failed", {
-          description: response.message,
-        });
-      
+        toast.error("Booking failed to create");
       }
     } catch (error) {
       console.error(error);
