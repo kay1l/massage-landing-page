@@ -1,7 +1,7 @@
 export const ENDPOINTS = {
     BOOKINGS: {
       CREATE: "/bookings",
-    //   LIST: "/bookings",
+      LIST: "/appointments",
       SHOW: (id: number | string) => `/bookings/${id}`,
       UPDATE: (id: number | string) => `/bookings/${id}`,
       DELETE: (id: number | string) => `/bookings/${id}`,

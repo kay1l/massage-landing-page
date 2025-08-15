@@ -1,53 +1,34 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import DashboardHeader from "@/custom_components/dashboard_section/Header";
 import DashboardFooter from "@/custom_components/dashboard_section/Footer";
-import AppointmentsTable, { Appointment, AppointmentStatus } from "@/custom_components/dashboard_section/AppointmentTable";
-
-const appointments: Appointment[] = [
-  {
-    id: 1,
-    type: "Swedish Massage",
-    date: "2025-08-01",
-    time: "3:00 PM",
-    therapist: "Jane Doe",
-    status: "upcoming",
-  },
-  {
-    id: 2,
-    type: "Hot Stone Massage",
-    date: "2025-07-15",
-    time: "1:30 PM",
-    therapist: "Anna Cruz",
-    status: "completed",
-  },
-  {
-    id: 3,
-    type: "Deep Tissue Massage",
-    date: "2025-07-10",
-    time: "10:00 AM",
-    therapist: "Mike Santos",
-    status: "cancelled",
-  },
-  ...Array.from({ length: 20 }, (_, i) => ({
-    id: i + 4,
-    type: "Aromatherapy",
-    date: "2025-08-02",
-    time: "2:00 PM",
-    therapist: "Ella Rose",
-    status: (["completed", "cancelled", "upcoming"][i % 3]) as AppointmentStatus,
-  })),
-];
+import AppointmentsTable, { } from "@/custom_components/dashboard_section/AppointmentTable";
+import { bookingServices } from "@/services/bookingService";
+import { BookingResponse } from "@/types/booking";
 
 
 export default function AppointmentsPage() {
+  const [ appointments, setAppointments ] = useState<BookingResponse[]>([]);
+  const [ loadingState, setLoadingState ] = useState(true);
+  useEffect(() => {
+    async function fetchBookings() {
+      const response = await bookingServices.getBookings();
+      console.log('response: ', response);
+      setAppointments(response);
+      setLoadingState(false)
+    }
+
+    fetchBookings();
+  
+  }, []);
+
   const summary = {
-    upcoming: appointments.filter((a) => a.status === "upcoming").length,
-    completed: appointments.filter((a) => a.status === "completed").length,
-    cancelled: appointments.filter((a) => a.status === "cancelled").length,
+    upcoming: 0,
+    completed: 0,
+    cancelled: 0,
   };
 
   return (
@@ -102,7 +83,12 @@ export default function AppointmentsPage() {
         </div>
 
         {/* Table Card */}
-       <AppointmentsTable data={appointments} />
+        { loadingState ? <p className="text-center text-sm text-gray-500 py-4">
+              No matching appointments found.
+            </p>
+            : <AppointmentsTable data={appointments} />
+        }
+       
       </div>
 
       <DashboardFooter />

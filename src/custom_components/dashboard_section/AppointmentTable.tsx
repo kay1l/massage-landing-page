@@ -22,46 +22,42 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CalendarClock, XCircle } from "lucide-react";
+import { AppointmentStatus, BookingApiResponse, BookingResponse } from "@/types/booking";
 
 // ✅ Define strict status type
-export type AppointmentStatus = "upcoming" | "completed" | "cancelled";
 
-export interface Appointment {
-  id: number;
-  type: string;
-  date: string;
-  time: string;
-  therapist: string;
-  status: AppointmentStatus;
-}
 
 function getStatusBadge(status: AppointmentStatus) {
   const baseClass =
     "text-white px-1.5 py-0.5 rounded-md text-[9px] sm:text-[10px] sm:px-2 sm:py-0.5 whitespace-nowrap";
 
   switch (status) {
-    case "upcoming":
+    case "Pending":
       return <Badge className={`${baseClass} bg-[#FA812F]/90`}>Upcoming</Badge>;
-    case "completed":
+    case "Completed":
       return (
         <Badge className={`${baseClass} bg-green-600/90`}>Completed</Badge>
       );
-    case "cancelled":
+    case "Cancelled":
       return <Badge className={`${baseClass} bg-red-500/90`}>Cancelled</Badge>;
+    case "Rejected":
+      return <Badge className={`${baseClass} bg-red-500/90`}>Rejected</Badge>;
   }
 }
 
 interface AppointmentsTableProps {
-  data: Appointment[];
+  data: BookingResponse[];
 }
 
 export default function AppointmentsTable({ data }: AppointmentsTableProps) {
+
+  console.log('DATA: ', data);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<"all" | AppointmentStatus>(
     "all"
   );
-  const [selectedAppointment, setSelectedAppointment] =
-    useState<Appointment | null>(null);
+  const [selectedAppointment, setSelectedAppointment] = useState<BookingResponse | null>(null);
+
   const [modalType, setModalType] = useState<"reschedule" | "cancel" | null>(
     null
   );
@@ -69,24 +65,24 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  const filteredData = useMemo(() => {
-    return data.filter((a) => {
-      const matchesStatus = filterStatus === "all" || a.status === filterStatus;
-      const matchesSearch =
-        a.type.toLowerCase().includes(search.toLowerCase()) ||
-        a.therapist.toLowerCase().includes(search.toLowerCase());
-      return matchesStatus && matchesSearch;
-    });
-  }, [data, search, filterStatus]);
+  // const filteredData = useMemo(() => {
+  //   return data.filter((a) => {
+  //     const matchesStatus = filterStatus === "all" || a.status === filterStatus;
+  //     const matchesSearch =
+  //       a.type.toLowerCase().includes(search.toLowerCase()) ||
+  //       a.therapist.toLowerCase().includes(search.toLowerCase());
+  //     return matchesStatus && matchesSearch;
+  //   });
+  // }, [data, search, filterStatus]);
 
-  const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  const paginatedData = filteredData.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
+  // const paginatedData = filteredData.slice(
+  //   (currentPage - 1) * itemsPerPage,
+  //   currentPage * itemsPerPage
+  // );
 
   const openModal = (
-    appointment: Appointment,
+    appointment: BookingResponse,
     type: "reschedule" | "cancel"
   ) => {
     setSelectedAppointment(appointment);
@@ -109,20 +105,20 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
             </DialogTitle>
             <DialogDescription>
               {modalType === "reschedule"
-                ? `You're about to reschedule your appointment with ${selectedAppointment?.therapist}.`
-                : `Are you sure you want to cancel your appointment with ${selectedAppointment?.therapist}?`}
+                ? `You're about to reschedule your appointment.`
+                : `Are you sure you want to cancel your appointment?`}
             </DialogDescription>
           </DialogHeader>
 
           {/* Modal Body */}
           <div className="space-y-4">
             <p className="text-sm text-muted-foreground">
-              Type: <strong>{selectedAppointment?.type}</strong>
+              Type: <strong>{selectedAppointment?.full_name}</strong>
             </p>
             <p className="text-sm text-muted-foreground">
               Date & Time:{" "}
               <strong>
-                {selectedAppointment?.date} at {selectedAppointment?.time}
+                {selectedAppointment?.booking_date} at {selectedAppointment?.booking_time}
               </strong>
             </p>
           </div>
@@ -176,7 +172,7 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
         </CardHeader>
 
         <CardContent className="overflow-x-auto">
-          {paginatedData.length === 0 ? (
+          {data.length === 0 ? (
             <p className="text-center text-sm text-gray-500 py-4">
               No matching appointments found.
             </p>
@@ -193,18 +189,18 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#EFD7BC]">
-                {paginatedData.map((a) => (
+                {data.map((a) => (
                   <tr
                     key={a.id}
                     className="hover:bg-[#FFF8F2] transition-colors"
                   >
                     <td className="px-4 py-3 whitespace-nowrap font-medium">
-                      {a.type}
+                      {a.service.name}
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap">{a.date}</td>
-                    <td className="px-4 py-3 whitespace-nowrap">{a.time}</td>
+                    <td className="px-4 py-3 whitespace-nowrap">{a.booking_date}</td>
+                    <td className="px-4 py-3 whitespace-nowrap">{a.booking_time}</td>
                     <td className="px-4 py-3 whitespace-nowrap">
-                      {a.therapist}
+                      John
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap">
                       <div className="flex items-center">
@@ -212,7 +208,7 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
                       </div>
                     </td>
                     <td className="px-4 py-3 text-center">
-                      {a.status === "upcoming" ? (
+                      {a.status === "Pending" ? (
                         <div className="flex justify-center gap-2">
                           <Button
                             variant="outline"
@@ -241,27 +237,7 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
             </table>
           )}
 
-          {totalPages > 1 && (
-            <div className="flex justify-between items-center mt-6">
-              <Button
-                variant="ghost"
-                disabled={currentPage === 1}
-                onClick={() => setCurrentPage((p) => p - 1)}
-              >
-                Previous
-              </Button>
-              <span className="text-sm text-muted-foreground">
-                Page {currentPage} of {totalPages}
-              </span>
-              <Button
-                variant="ghost"
-                disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage((p) => p + 1)}
-              >
-                Next
-              </Button>
-            </div>
-          )}
+         
         </CardContent>
       </Card>
     </>
