@@ -1,7 +1,9 @@
 "use client"
 import { LoginForm } from "@/components/login-form"
+import { useRedirectIfAuthenticated } from "@/hooks/useRedirectIfAuthenticated"
 
 export default function LoginPage() {
+  useRedirectIfAuthenticated()
   return (
     <div className="bg-[#FEF3E2] flex min-h-svh flex-col items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm md:max-w-3xl">

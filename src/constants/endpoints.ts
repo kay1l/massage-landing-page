@@ -11,9 +11,9 @@ export const ENDPOINTS = {
       SHOW: (id: number | string) => `/services/${id}`,
     },
     AUTH: {
-      LOGIN: "/auth/login",
-      REGISTER: "/auth/register",
-      LOGOUT: "/auth/logout",
+      LOGIN: "/login",
+      REGISTER: "/register",
+      LOGOUT: "/logout",
     },
   };
   

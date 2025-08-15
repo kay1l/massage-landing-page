@@ -6,6 +6,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { LoginPayload } from "@/types/auth";
+import { authServices } from "@/services/authService";
+import { toast } from "sonner";
 export function LoginForm({
   className,
   ...props
@@ -15,8 +19,47 @@ export function LoginForm({
   const handleClick = () => {
     router.push('/auth/register');
   }
-  const handleSubmit = () => {
-    router.push('/dashboard');
+  const [formData, setFormData] = useState<LoginPayload>({
+    email: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try{
+      const response = await authServices.loginUser(formData);
+      if (response.status) {
+
+        const { access_token } = response;
+
+        if(!localStorage.getItem('access_token')) {
+          localStorage.setItem("access_token", access_token);
+        }
+
+        toast.success("Login successful!", {
+          description: response.message,
+        });
+
+        router.push('/dashboard');
+      } else {
+        toast.error("Login failed", {
+          description: response.message,
+        });
+      }
+    } catch (error: any) {
+      toast.error("Login failed", {
+        description:
+          error.response?.data?.message || "An unexpected error occurred.",
+      });
+    } finally {
+      setLoading(false);
+    }
   }
   return (
     <div
@@ -25,7 +68,7 @@ export function LoginForm({
     >
       <Card className="overflow-hidden p-0 bg-white shadow-md rounded-xl">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form className="p-6 md:p-8" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl text-[#5C4A42] font-bold">Welcome back</h1>
@@ -40,6 +83,8 @@ export function LoginForm({
                   id="email"
                   type="email"
                   placeholder="m@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
                   required
                   className="rounded-xl border-gray-300 focus:ring-[#FFB22C]"
                 />
@@ -58,6 +103,8 @@ export function LoginForm({
                 <Input
                   id="password"
                   type="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   required
                   className="rounded-xl border-gray-300 focus:ring-[#FFB22C]"
                 />
@@ -65,10 +112,10 @@ export function LoginForm({
 
               <Button
                 type="submit"
+                disabled={loading}
                 className="w-full bg-[#FA812F] hover:bg-[#FFB22C] text-white text-sm font-medium py-2 rounded-full transition"
-                onClick={handleSubmit}
               >
-                Login
+                {loading ? "Logging in..." : "Login"}
               </Button>
 
               <div className="after:border-[#F3C623] relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">

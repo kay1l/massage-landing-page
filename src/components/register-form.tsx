@@ -6,16 +6,62 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
+import { authServices } from "@/services/authService";
+import type { RegisterPayload } from "@/types/auth";
+
 export function RegisterForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const router = useRouter();
 
-    const router = useRouter();
+  const [formData, setFormData] = useState<RegisterPayload>({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+  });
 
-    const handleClick = () => {
-        router.push('/auth/login');
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const response = await authServices.registerUser(formData);
+  
+      if (response.status) {
+        toast.success("Registration successful!", {
+          description: response.message,
+        });
+        router.push("/auth/login");
+      } else {
+        toast.error("Registration failed", {
+          description: response.message,
+        });
+      }
+    } catch (error: any) {
+      console.error("Registration error:", error.response?.data || error);
+      toast.error("Registration failed", {
+        description:
+          error.response?.data?.message || "An unexpected error occurred.",
+      });
+    } finally {
+      setLoading(false);
     }
+  };
+  
+
+  const handleClick = () => {
+    router.push("/auth/login");
+  };
+
   return (
     <div
       className={cn(
@@ -26,7 +72,7 @@ export function RegisterForm({
     >
       <Card className="overflow-hidden p-0 bg-white shadow-md rounded-xl">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8">
+          <form className="p-6 md:p-8" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl text-[#5C4A42] font-bold">Create Account</h1>
@@ -42,6 +88,8 @@ export function RegisterForm({
                   id="name"
                   type="text"
                   placeholder="John Doe"
+                  value={formData.name}
+                  onChange={handleChange}
                   required
                   className="rounded-xl border-gray-300 focus:ring-[#FFB22C]"
                 />
@@ -54,6 +102,8 @@ export function RegisterForm({
                   id="email"
                   type="email"
                   placeholder="m@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
                   required
                   className="rounded-xl border-gray-300 focus:ring-[#FFB22C]"
                 />
@@ -65,6 +115,8 @@ export function RegisterForm({
                 <Input
                   id="password"
                   type="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   required
                   className="rounded-xl border-gray-300 focus:ring-[#FFB22C]"
                 />
@@ -72,10 +124,12 @@ export function RegisterForm({
 
               {/* Confirm Password */}
               <div className="grid gap-3">
-                <Label htmlFor="confirm-password">Confirm Password</Label>
+                <Label htmlFor="password_confirmation">Confirm Password</Label>
                 <Input
-                  id="confirm-password"
+                  id="password_confirmation"
                   type="password"
+                  value={formData.password_confirmation}
+                  onChange={handleChange}
                   required
                   className="rounded-xl border-gray-300 focus:ring-[#FFB22C]"
                 />
@@ -83,9 +137,10 @@ export function RegisterForm({
 
               <Button
                 type="submit"
+                disabled={loading}
                 className="w-full bg-[#FA812F] hover:bg-[#FFB22C] text-white text-sm font-medium py-2 rounded-full transition"
               >
-                Register
+                {loading ? "Registering..." : "Register"}
               </Button>
 
               <div className="after:border-[#F3C623] relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
@@ -96,7 +151,10 @@ export function RegisterForm({
 
               <div className="text-center text-sm">
                 Already have an account?{" "}
-                <span onClick={handleClick} className="underline text-[#FA812F] cursor-pointer underline-offset-4">
+                <span
+                  onClick={handleClick}
+                  className="underline text-[#FA812F] cursor-pointer underline-offset-4"
+                >
                   Login
                 </span>
               </div>

@@ -12,7 +12,7 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet";
 import { useRouter, usePathname } from "next/navigation";
-
+import { authServices } from "@/services/authService";
 const navItems = [
   { path: "/dashboard", label: "Home" },
   { path: "/services", label: "Services" },
@@ -29,9 +29,20 @@ export default function DashboardHeader() {
 
   const handleClose = () => setIsOpen(false);
 
-  const handleNavigation = (path: string) => {
-    router.push(path);
-    handleClose();
+  const handleNavigation = async (path: string) => {
+
+    if(path === '/logout') {
+      const response = await authServices.logoutUser();
+      if(response.status) {
+        localStorage.removeItem("access_token");
+        router.push('/auth/login');
+      }
+      
+    }else{
+      router.push(path);
+      handleClose();
+    }
+
   };
 
   const navLinkClass = (path: string) =>
