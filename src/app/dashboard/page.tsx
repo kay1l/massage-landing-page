@@ -8,6 +8,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { withAuth } from "@/hoc/withAuth";
+import DashboardSidebar from "@/custom_components/dashboard_section/dashboard_sidebar";
 
  function UserDashboard() {
     const router = useRouter();
@@ -28,7 +29,7 @@ import { withAuth } from "@/hoc/withAuth";
   return (
     <div className="min-h-screen bg-[#FEF3E2] text-[#5C4A42] font-sans">
       <DashboardHeader />
-
+      <DashboardSidebar />
       <main className="pt-24 px-6 flex flex-col items-center justify-center min-h-[calc(100vh-160px)] text-center relative overflow-hidden">
  
         <Image
