@@ -7,8 +7,9 @@ import LoadingScreen from "@/custom_components/LoadingScreen";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { withAuth } from "@/hoc/withAuth";
 
-export default function UserDashboard() {
+ function UserDashboard() {
     const router = useRouter();
      const [isLoading, setIsLoading] = useState(true);
     
@@ -58,3 +59,4 @@ export default function UserDashboard() {
     </div>
   );
 }
+export default withAuth(UserDashboard);

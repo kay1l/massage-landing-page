@@ -8,9 +8,10 @@ import DashboardFooter from "@/custom_components/dashboard_section/Footer";
 import AppointmentsTable, { } from "@/custom_components/dashboard_section/AppointmentTable";
 import { bookingServices } from "@/services/bookingService";
 import { BookingResponse } from "@/types/booking";
+import { withAuth } from "@/hoc/withAuth";
 
 
-export default function AppointmentsPage() {
+function AppointmentsPage() {
   const [ appointments, setAppointments ] = useState<BookingResponse[]>([]);
   const [ loadingState, setLoadingState ] = useState(true);
   useEffect(() => {
@@ -95,3 +96,4 @@ export default function AppointmentsPage() {
     </div>
   );
 }
+export default withAuth(AppointmentsPage);

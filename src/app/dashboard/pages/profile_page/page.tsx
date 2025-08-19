@@ -22,8 +22,9 @@ import {
 import DashboardHeader from "@/custom_components/dashboard_section/Header";
 import DashboardFooter from "@/custom_components/dashboard_section/Footer";
 import LoadingScreen from "@/custom_components/LoadingScreen";
+import { withAuth } from "@/hoc/withAuth";
 
-export default function ProfilePage() {
+ function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
     name: "Kyle Gomez",
@@ -169,3 +170,4 @@ function Field({
     </div>
   );
 }
+export default withAuth(ProfilePage);

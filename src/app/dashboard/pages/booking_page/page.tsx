@@ -31,8 +31,9 @@ import {
   User,
 } from "lucide-react";
 import Image from "next/image";
+import { withAuth } from "@/hoc/withAuth";
 
-export default function BookingPage() {
+function BookingPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [selectedService, setSelectedService] = useState("");
@@ -390,3 +391,4 @@ export default function BookingPage() {
     </div>
   );
 }
+export default withAuth(BookingPage);
