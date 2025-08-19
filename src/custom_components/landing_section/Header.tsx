@@ -24,7 +24,14 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const handleBookNow = () => {
-    router.push("/dashboard");
+    const token = localStorage.getItem('access_token');
+
+    if(token) {
+      router.push("/dashboard");
+    } else {
+      router.push("/auth/login");
+    }
+    
   };
   const handleClose = () => setIsOpen(false);
 
@@ -47,7 +54,7 @@ export default function Header() {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPos = window.scrollY + 90; // include offset
+      const scrollPos = window.scrollY + 90; 
 
       navItems.forEach(({ id }) => {
         const el = document.querySelector(id);

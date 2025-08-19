@@ -31,8 +31,10 @@ import {
   User,
 } from "lucide-react";
 import Image from "next/image";
+import { withAuth } from "@/hoc/withAuth";
+import DashboardSidebar from "@/custom_components/dashboard_section/dashboard_sidebar";
 
-export default function BookingPage() {
+function BookingPage() {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const [selectedService, setSelectedService] = useState("");
@@ -105,7 +107,7 @@ export default function BookingPage() {
   return (
     <div className="min-h-screen bg-[#FEF3E2] text-[#5C4A42] pt-40">
       <DashboardHeader />
-
+      <DashboardSidebar />
       <StepWizard
         steps={["Personal Info", "Location", "Schedule", "Payment"]}
         step={step}
@@ -390,3 +392,4 @@ export default function BookingPage() {
     </div>
   );
 }
+export default withAuth(BookingPage);

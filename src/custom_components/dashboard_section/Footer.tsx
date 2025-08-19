@@ -11,7 +11,7 @@ export default function DashboardFooter() {
       viewport={{ once: true }}
       className="fixed bottom-0 w-full bg-gray-900 text-white py-2 z-50"
     >
-      <div className="border-t border-gray-700 pt-1 text-center text-xs text-gray-500">
+      <div className=" border-gray-700 pt-1 text-center text-xs text-gray-500">
         &copy; {new Date().getFullYear()} ShaiSha's Leisure Hub. All rights reserved.
       </div>
     </motion.footer>

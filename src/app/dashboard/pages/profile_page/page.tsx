@@ -22,8 +22,9 @@ import {
 import DashboardHeader from "@/custom_components/dashboard_section/Header";
 import DashboardFooter from "@/custom_components/dashboard_section/Footer";
 import LoadingScreen from "@/custom_components/LoadingScreen";
+import { withAuth } from "@/hoc/withAuth";
 
-export default function ProfilePage() {
+ function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
   const [profile, setProfile] = useState({
     name: "Kyle Gomez",
@@ -48,6 +49,7 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-[#FEF3E2] text-[#5C4A42] pt-24 px-4 md:px-10">
+      <DashboardHeader />
       <DashboardHeader />
       <div className="max-w-5xl mx-auto mt-10 space-y-8">
         {/* Header */}
@@ -169,3 +171,4 @@ function Field({
     </div>
   );
 }
+export default withAuth(ProfilePage);

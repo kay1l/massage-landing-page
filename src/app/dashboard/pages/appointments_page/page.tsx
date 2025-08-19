@@ -8,9 +8,11 @@ import DashboardFooter from "@/custom_components/dashboard_section/Footer";
 import AppointmentsTable, { } from "@/custom_components/dashboard_section/AppointmentTable";
 import { bookingServices } from "@/services/bookingService";
 import { BookingResponse } from "@/types/booking";
+import { withAuth } from "@/hoc/withAuth";
+import DashboardSidebar from "@/custom_components/dashboard_section/dashboard_sidebar";
 
 
-export default function AppointmentsPage() {
+function AppointmentsPage() {
   const [ appointments, setAppointments ] = useState<BookingResponse[]>([]);
   const [ loadingState, setLoadingState ] = useState(true);
   useEffect(() => {
@@ -34,7 +36,7 @@ export default function AppointmentsPage() {
   return (
     <div className="min-h-screen bg-[#FEF3E2] text-[#5C4A42] pt-32">
       <DashboardHeader />
-
+      <DashboardSidebar />
       <div className="max-w-6xl mx-auto px-4 py-10">
         <h1 className="text-4xl font-bold mb-8 text-center text-[#5C4A42]">
           My Appointments
@@ -95,3 +97,4 @@ export default function AppointmentsPage() {
     </div>
   );
 }
+export default withAuth(AppointmentsPage);
