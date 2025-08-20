@@ -45,13 +45,13 @@ export default function DashboardHeader() {
             <button className="flex items-center gap-3 focus:outline-none">
               <Image
                 src={user?.avatar || '/images/therapist_images/man.png'}
-                alt={user.name}
+                alt={user?.name}
                 width={40}
                 height={40}
                 className="rounded-full border border-gray-200 object-cover"
               />
               <span className="font-medium text-[#5C4A42] hidden sm:inline">
-                {user.name}
+                {user?.name}
               </span>
             </button>
           </DropdownMenuTrigger>
