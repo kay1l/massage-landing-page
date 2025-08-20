@@ -14,6 +14,11 @@ export interface Service {
     status: boolean;
     message: string;
   }
+
+  export interface updateServiceApiResponse {
+    status: boolean;
+    message: string;
+  }
   
   export interface ServicePayload {
     name: string;

@@ -9,7 +9,7 @@ export const ENDPOINTS = {
     SERVICES: {
        LIST: "/getAllServices",
       CREATE: "/createService",
-      UPDATE: (id: number | string) => `/services/${id}`,
+      UPDATE: "/updateService",
     },
     AUTH: {
       LOGIN: "/login",

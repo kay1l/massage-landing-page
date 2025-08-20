@@ -1,5 +1,5 @@
 import apiClient from "@/lib/axios";
-import type { createServiceApiResponse, ServiceApiResponse, ServicePayload } from "@/types/service";
+import type { createServiceApiResponse, ServiceApiResponse, ServicePayload, updateServiceApiResponse } from "@/types/service";
 import { ENDPOINTS } from "@/constants/endpoints";
 
 export const serviceServices = {
@@ -9,6 +9,6 @@ export const serviceServices = {
   getServices: (): Promise<ServiceApiResponse> =>
     apiClient.get(ENDPOINTS.SERVICES.LIST),
 
-  updateService: (id: number, payload: ServicePayload): Promise<ServiceApiResponse> =>
-    apiClient.put(`${ENDPOINTS.SERVICES.UPDATE}/${id}`, payload),
+  updateService: (id: number, payload: ServicePayload): Promise<updateServiceApiResponse> =>
+    apiClient.post(ENDPOINTS.SERVICES.UPDATE, payload),
 };
