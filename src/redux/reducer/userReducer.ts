@@ -3,7 +3,7 @@ const intialState = {
     loadingUser: false
 }
 
-const userReducer = (state = intialState, action) => {
+const userReducer = (state = intialState, action: any) => {
     switch (action.type) {
         case 'LOGIN_SUCCESS':
             return {
