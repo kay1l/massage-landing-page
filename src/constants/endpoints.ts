@@ -7,13 +7,17 @@ export const ENDPOINTS = {
       DELETE: (id: number | string) => `/bookings/${id}`,
     },
     SERVICES: {
-      LIST: "/services",
-      SHOW: (id: number | string) => `/services/${id}`,
+       LIST: "/getAllServices",
+      CREATE: "/createService",
+      UPDATE: (id: number | string) => `/services/${id}`,
     },
     AUTH: {
       LOGIN: "/login",
       REGISTER: "/register",
       LOGOUT: "/logout",
     },
+    PROFILE: {
+      UPDATE: "updateRecord",
+    }
   };
   

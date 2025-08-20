@@ -11,6 +11,12 @@ const userReducer = (state = intialState, action: any) => {
                 ...state,
                 user: action.payload
             }
+        case 'SET_USER_DATA':
+            console.log('action SET_USER_DATA: ', action);
+            return {
+                ...state,
+                user: action.payload
+            }
     
         default:
             return state;
