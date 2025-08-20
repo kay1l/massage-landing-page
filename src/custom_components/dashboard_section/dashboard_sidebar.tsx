@@ -17,7 +17,7 @@ import {
 
 const navItems = [
   { path: "/dashboard", label: "Home", icon: Home },
-  { path: "/services", label: "Services", icon: Bath },
+  { path: "/dashboard/pages/services_page", label: "Services", icon: Bath },
   { path: "/dashboard/pages/booking_page", label: "Book a Massage", icon: Calendar },
   { path: "/dashboard/pages/appointments_page", label: "Appointments", icon: ClipboardList },
   { path: "/dashboard/pages/profile_page", label: "Profile", icon: User },
