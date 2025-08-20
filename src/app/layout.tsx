@@ -3,6 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Montserrat } from 'next/font/google';
 import "./globals.css";
 import { Toaster } from "sonner";
+import { Provider } from "react-redux";
+import store from "@/redux/store"; // <-- adjust path if needed
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,8 +41,11 @@ export default function RootLayout({
         <link rel="icon" href="/images/final.png?v=2" type="image/png" />
         <link rel="apple-touch-icon" href="/images/final.png?v=2" />
       </head>
-      <body className="font-sans">{children}
-      <Toaster richColors position="top-right" />
+      <body className="font-sans">
+      <Provider store={store}>
+        {children}
+        <Toaster richColors position="top-right" />
+      </Provider>
       </body>
     </html>
   );
