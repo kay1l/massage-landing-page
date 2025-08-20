@@ -23,6 +23,7 @@ import DashboardHeader from "@/custom_components/dashboard_section/Header";
 import DashboardFooter from "@/custom_components/dashboard_section/Footer";
 import LoadingScreen from "@/custom_components/LoadingScreen";
 import { withAuth } from "@/hoc/withAuth";
+import DashboardSidebar from "@/custom_components/dashboard_section/dashboard_sidebar";
 
  function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -50,7 +51,7 @@ import { withAuth } from "@/hoc/withAuth";
   return (
     <div className="min-h-screen bg-[#FEF3E2] text-[#5C4A42] pt-24 px-4 md:px-10">
       <DashboardHeader />
-      <DashboardHeader />
+      <DashboardSidebar />
       <div className="max-w-5xl mx-auto mt-10 space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">
