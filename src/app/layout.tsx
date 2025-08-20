@@ -42,10 +42,10 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/images/final.png?v=2" />
       </head>
       <body className="font-sans">
-      <Provider store={store}>
+      {/* <Provider store={store}> */}
         {children}
         <Toaster richColors position="top-right" />
-      </Provider>
+      {/* </Provider> */}
       </body>
     </html>
   );
