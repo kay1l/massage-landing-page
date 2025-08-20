@@ -8,6 +8,11 @@ import DashboardHeader from "@/custom_components/dashboard_section/Header";
 import { bookingServices } from "@/services/bookingService";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+
+
 import {
   Select,
   SelectTrigger,
@@ -50,6 +55,8 @@ function BookingPage() {
   const prevStep = () => setStep((prev) => prev - 1);
   const [isLoading, setIsLoading] = useState(true);
 
+  const { user } = useSelector((state: RootState) => state.user);
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -185,7 +192,7 @@ function BookingPage() {
                 <Input
                   placeholder="Your Full Name"
                   className="h-12 px-4 text-base rounded-xl border-[#E4CBB5]"
-                  value={name}
+                  value={user?.name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
@@ -197,7 +204,7 @@ function BookingPage() {
                 <Input
                   placeholder="Contact Number"
                   className="h-12 px-4 text-base rounded-xl border-[#E4CBB5]"
-                  value={contact}
+                  value={user?.contact || '09999852039'}
                   onChange={(e) => setContact(e.target.value)}
                 />
               </div>
@@ -251,141 +258,121 @@ function BookingPage() {
                   onClick={nextStep}
                   disabled={!name || !contact || !address}
                 >
-                  Submit
+                  Next
                 </Button>
               </div>
             </>
           )}
 
-          {/* Step 4 */}
-          {step === 4 && (
-            <div className="overflow-hidden rounded-2xl shadow-lg border border-gray-100 bg-white">
-              <div className="relative h-40 w-full">
-                <Image
-                  src="/images/hero-bg.jpg" 
-                  alt="Booking Confirmation"
-                  fill
-                  className="object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <h2 className="absolute bottom-4 left-6 text-2xl font-bold text-white drop-shadow-md">
-                  Review & Confirm
-                </h2>
-              </div>
+        {/* Step 4 */}
+{step === 4 && (
+  <div className="w-full bg-white">
+    <div className="relative h-40 w-full">
+      <Image
+        src="/images/hero-bg.jpg"
+        alt="Booking Confirmation"
+        fill
+        className="object-cover"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+      <h2 className="absolute bottom-4 left-6 text-2xl font-bold text-white drop-shadow-md">
+        Review & Confirm
+      </h2>
+    </div>
 
-       
-              <div className="p-6 space-y-5">
-     
-                <div className="flex items-start gap-3">
-                  <Calendar className="text-[#FA812F] w-5 h-5 mt-1" />
-                  <div>
-                    <p className="text-sm text-gray-500">Service</p>
-                    <p className="text-lg font-semibold text-gray-800">
-                      {selectedService === "1"
-                        ? "Swedish Massage"
-                        : selectedService === "2"
-                        ? "Deep Tissue Massage"
-                        : "Trigger-Point Massage"}
-                    </p>
-                  </div>
-                </div>
+    <div className="px-4 py-6 space-y-5"> {/* reduced padding */}
+      <div className="flex items-start gap-2"> {/* reduce gap */}
+        <Calendar className="text-[#FA812F] w-5 h-5 mt-1" />
+        <div className="text-left"> {/* align text left */}
+          <p className="text-sm text-gray-500">Service</p>
+          <p className="text-lg font-semibold text-gray-800">
+            {selectedService === "1"
+              ? "Swedish Massage"
+              : selectedService === "2"
+              ? "Deep Tissue Massage"
+              : "Trigger-Point Massage"}
+          </p>
+        </div>
+      </div>
 
-          
-                <div className="flex items-start gap-3">
-                  <Clock className="text-[#FA812F] w-5 h-5 mt-1" />
-                  <div>
-                    <p className="text-sm text-gray-500">Date & Time</p>
-                    <p className="text-lg font-semibold text-gray-800">
-                      {selectedDate?.toLocaleDateString("en-US", {
-                        weekday: "long",
-                        day: "numeric",
-                        month: "long",
-                      })}{" "}
-                      at {selectedTime}
-                    </p>
-                  </div>
-                </div>
+      <div className="flex items-start gap-2">
+        <Clock className="text-[#FA812F] w-5 h-5 mt-1" />
+        <div className="text-left">
+          <p className="text-sm text-gray-500">Date & Time</p>
+          <p className="text-lg font-semibold text-gray-800">
+            {selectedDate?.toLocaleDateString("en-US", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+            })}{" "}
+            at {selectedTime}
+          </p>
+        </div>
+      </div>
 
-           
-                <div className="flex items-start gap-3">
-                  <User className="text-[#FA812F] w-5 h-5 mt-1" />
-                  <div>
-                    <p className="text-sm text-gray-500">Full Name</p>
-                    <p className="text-lg font-semibold text-gray-800">
-                      {name}
-                    </p>
-                  </div>
-                </div>
+      <div className="flex items-start gap-2">
+        <User className="text-[#FA812F] w-5 h-5 mt-1" />
+        <div className="text-left">
+          <p className="text-sm text-gray-500">Full Name</p>
+          <p className="text-lg font-semibold text-gray-800">{name}</p>
+        </div>
+      </div>
 
-          
-                <div className="flex items-start gap-3">
-                  <Phone className="text-[#FA812F] w-5 h-5 mt-1" />
-                  <div>
-                    <p className="text-sm text-gray-500">Contact Number</p>
-                    <p className="text-lg font-semibold text-gray-800">
-                      {contact}
-                    </p>
-                  </div>
-                </div>
+      <div className="flex items-start gap-2">
+        <Phone className="text-[#FA812F] w-5 h-5 mt-1" />
+        <div className="text-left">
+          <p className="text-sm text-gray-500">Contact Number</p>
+          <p className="text-lg font-semibold text-gray-800">{contact}</p>
+        </div>
+      </div>
 
-              
-                <div className="flex items-start gap-3">
-                  <MapPin className="text-[#FA812F] w-5 h-5 mt-1" />
-                  <div>
-                    <p className="text-sm text-gray-500">Address</p>
-                    <p className="text-lg font-semibold text-gray-800">
-                      {address}
-                    </p>
-                  </div>
-                </div>
+      <div className="flex items-start gap-2">
+        <MapPin className="text-[#FA812F] w-5 h-5 mt-1" />
+        <div className="text-left">
+          <p className="text-sm text-gray-500">Address</p>
+          <p className="text-lg font-semibold text-gray-800">{address}</p>
+        </div>
+      </div>
 
-             
-                {landmark && (
-                  <div className="flex items-start gap-3">
-                    <Landmark className="text-[#FA812F] w-5 h-5 mt-1" />
-                    <div>
-                      <p className="text-sm text-gray-500">Landmark</p>
-                      <p className="text-lg font-semibold text-gray-800">
-                        {landmark}
-                      </p>
-                    </div>
-                  </div>
-                )}
+      {landmark && (
+        <div className="flex items-start gap-2">
+          <Landmark className="text-[#FA812F] w-5 h-5 mt-1" />
+          <div className="text-left">
+            <p className="text-sm text-gray-500">Landmark</p>
+            <p className="text-lg font-semibold text-gray-800">{landmark}</p>
+          </div>
+        </div>
+      )}
 
-             
-                {notes && (
-                  <div className="flex items-start gap-3">
-                    <StickyNote className="text-[#FA812F] w-5 h-5 mt-1" />
-                    <div>
-                      <p className="text-sm text-gray-500">
-                        Notes / Preferences
-                      </p>
-                      <p className="text-lg font-semibold text-gray-800">
-                        {notes}
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </div>
+      {notes && (
+        <div className="flex items-start gap-2">
+          <StickyNote className="text-[#FA812F] w-5 h-5 mt-1" />
+          <div className="text-left">
+            <p className="text-sm text-gray-500">Notes / Preferences</p>
+            <p className="text-lg font-semibold text-gray-800">{notes}</p>
+          </div>
+        </div>
+      )}
+    </div>
 
-           
-              <div className="flex gap-4 px-6 pb-6">
-                <Button
-                  onClick={prevStep}
-                  variant="outline"
-                  className="w-1/2 h-12 text-base border-[#FA812F] text-[#5C4A42]"
-                >
-                  Back
-                </Button>
-                <Button
-                  className="w-1/2 h-12 text-base bg-[#FA812F] hover:bg-[#f5933c]"
-                  onClick={handleSubmit}
-                >
-                  Confirm Booking
-                </Button>
-              </div>
-            </div>
-          )}
+    <div className="flex gap-4 px-4 pb-6">
+      <Button
+        onClick={prevStep}
+        variant="outline"
+        className="w-1/2 h-12 text-base border-[#FA812F] text-[#5C4A42]"
+      >
+        Back
+      </Button>
+      <Button
+        className="w-1/2 h-12 text-base bg-[#FA812F] hover:bg-[#f5933c]"
+        onClick={handleSubmit}
+      >
+        Confirm Booking
+      </Button>
+    </div>
+  </div>
+)}
+
         </div>
       </div>
       <DashboardFooter />

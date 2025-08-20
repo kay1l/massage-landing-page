@@ -23,6 +23,7 @@ export default function Header() {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("");
+  
   const handleBookNow = () => {
     const token = localStorage.getItem('access_token');
 

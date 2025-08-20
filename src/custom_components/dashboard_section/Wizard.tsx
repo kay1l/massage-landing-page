@@ -8,9 +8,11 @@ import {
   MapPin,
   Calendar,
   CreditCard,
+  CheckCircle2
+
 } from "lucide-react";
 
-const stepIcons = [User, MapPin, Calendar, CreditCard];
+const stepIcons = [User, MapPin, Calendar, CheckCircle2];
 
 
 export default function StepWizard({ steps, step }: StepWizardProps) {

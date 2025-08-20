@@ -23,6 +23,10 @@ import DashboardHeader from "@/custom_components/dashboard_section/Header";
 import DashboardFooter from "@/custom_components/dashboard_section/Footer";
 import LoadingScreen from "@/custom_components/LoadingScreen";
 import { withAuth } from "@/hoc/withAuth";
+import DashboardSidebar from "@/custom_components/dashboard_section/dashboard_sidebar";
+
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
  function ProfilePage() {
   const [isEditing, setIsEditing] = useState(false);
@@ -34,7 +38,8 @@ import { withAuth } from "@/hoc/withAuth";
     memberSince: "July 2023",
   });
      const [isLoading, setIsLoading] = useState(true);
-    
+     const { user } = useSelector((state: RootState) => state.user);
+
       useEffect(() => {
         const timer = setTimeout(() => {
           setIsLoading(false);
@@ -47,10 +52,11 @@ import { withAuth } from "@/hoc/withAuth";
     setProfile((prev) => ({ ...prev, [key]: value }));
   };
 
+
   return (
     <div className="min-h-screen bg-[#FEF3E2] text-[#5C4A42] pt-24 px-4 md:px-10">
       <DashboardHeader />
-      <DashboardHeader />
+      <DashboardSidebar />
       <div className="max-w-5xl mx-auto mt-10 space-y-8">
         {/* Header */}
         <div className="flex items-center justify-between">
@@ -79,7 +85,7 @@ import { withAuth } from "@/hoc/withAuth";
             />
             <div className="text-center md:text-left">
               <CardTitle className="text-2xl font-semibold text-[#5C4A42]">
-                {profile.name}
+                {user?.name}
               </CardTitle>
               <p className="text-base text-gray-500 mt-1">Premium Member</p>
             </div>
@@ -89,14 +95,14 @@ import { withAuth } from "@/hoc/withAuth";
             <Field
               icon={User}
               label="Full Name"
-              value={profile.name}
+              value={user?.name}
               editable={isEditing}
               onChange={(val) => handleChange("name", val)}
             />
             <Field
               icon={Mail}
               label="Email"
-              value={profile.email}
+              value={user?.email}
               editable={isEditing}
               onChange={(val) => handleChange("email", val)}
             />
@@ -117,7 +123,7 @@ import { withAuth } from "@/hoc/withAuth";
             <Field
               icon={Calendar}
               label="Member Since"
-              value={profile.memberSince}
+              value={user?.created_at}
               editable={false}
             />
             <div className="flex items-start gap-3">

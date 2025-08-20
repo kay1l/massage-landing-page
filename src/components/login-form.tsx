@@ -9,12 +9,15 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { LoginPayload } from "@/types/auth";
 import { authServices } from "@/services/authService";
+import { loginSuccess } from "@/redux/actions/userActions";
+import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     router.push('/auth/register');
@@ -35,7 +38,7 @@ export function LoginForm({
     try{
       const response = await authServices.loginUser(formData);
       if (response.status) {
-
+        dispatch(loginSuccess(response.user))
         const { access_token } = response;
 
         if(!localStorage.getItem('access_token')) {
