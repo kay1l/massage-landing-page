@@ -8,6 +8,11 @@ import DashboardHeader from "@/custom_components/dashboard_section/Header";
 import { bookingServices } from "@/services/bookingService";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
+
+
 import {
   Select,
   SelectTrigger,
@@ -50,6 +55,8 @@ function BookingPage() {
   const prevStep = () => setStep((prev) => prev - 1);
   const [isLoading, setIsLoading] = useState(true);
 
+  const { user } = useSelector((state: RootState) => state.user);
+  
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -185,7 +192,7 @@ function BookingPage() {
                 <Input
                   placeholder="Your Full Name"
                   className="h-12 px-4 text-base rounded-xl border-[#E4CBB5]"
-                  value={name}
+                  value={user?.name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
@@ -197,7 +204,7 @@ function BookingPage() {
                 <Input
                   placeholder="Contact Number"
                   className="h-12 px-4 text-base rounded-xl border-[#E4CBB5]"
-                  value={contact}
+                  value={user?.contact || '09999852039'}
                   onChange={(e) => setContact(e.target.value)}
                 />
               </div>

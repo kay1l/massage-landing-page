@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { authServices } from "@/services/authService";
 import { LogOut, User } from "lucide-react";
 import Image from "next/image";
+import { useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 // shadcn/ui components
 import {
@@ -17,11 +19,7 @@ import {
 
 export default function DashboardHeader() {
   const router = useRouter();
-
-  const user = {
-    name: "Kyle Gomez",
-    avatar: "/images/therapist_images/man.png",
-  };
+  const { user } = useSelector((state: RootState) => state.user);
 
   const handleLogout = async () => {
     const response = await authServices.logoutUser();
@@ -46,14 +44,14 @@ export default function DashboardHeader() {
           <DropdownMenuTrigger asChild>
             <button className="flex items-center gap-3 focus:outline-none">
               <Image
-                src={user.avatar}
-                alt={user.name}
+                src={user?.avatar || '/images/therapist_images/man.png'}
+                alt={user?.name}
                 width={40}
                 height={40}
                 className="rounded-full border border-gray-200 object-cover"
               />
               <span className="font-medium text-[#5C4A42] hidden sm:inline">
-                {user.name}
+                {user?.name}
               </span>
             </button>
           </DropdownMenuTrigger>
