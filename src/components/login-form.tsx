@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ import { authServices } from "@/services/authService";
 import { loginSuccess } from "@/redux/actions/userActions";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
+import Image from "next/image";
 export function LoginForm({
   className,
   ...props
@@ -20,8 +21,8 @@ export function LoginForm({
   const dispatch = useDispatch();
 
   const handleClick = () => {
-    router.push('/auth/register');
-  }
+    router.push("/auth/register");
+  };
   const [formData, setFormData] = useState<LoginPayload>({
     email: "",
     password: "",
@@ -35,13 +36,13 @@ export function LoginForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    try{
+    try {
       const response = await authServices.loginUser(formData);
       if (response.status) {
-        dispatch(loginSuccess(response.user))
+        dispatch(loginSuccess(response.user));
         const { access_token } = response;
 
-        if(!localStorage.getItem('access_token')) {
+        if (!localStorage.getItem("access_token")) {
           localStorage.setItem("access_token", access_token);
         }
 
@@ -49,7 +50,7 @@ export function LoginForm({
           description: response.message,
         });
 
-        router.push('/dashboard');
+        router.push("/dashboard");
       } else {
         toast.error("Login failed", {
           description: response.message,
@@ -63,10 +64,13 @@ export function LoginForm({
     } finally {
       setLoading(false);
     }
-  }
+  };
   return (
     <div
-      className={cn("flex flex-col gap-6 bg-[#FEF3E2] text-[#5C4A42] p-4 rounded-xl", className)}
+      className={cn(
+        "flex flex-col gap-6 bg-[#FEF3E2] text-[#5C4A42] p-4 rounded-xl",
+        className
+      )}
       {...props}
     >
       <Card className="overflow-hidden p-0 bg-white shadow-md rounded-xl">
@@ -74,7 +78,9 @@ export function LoginForm({
           <form className="p-6 md:p-8" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl text-[#5C4A42] font-bold">Welcome back</h1>
+                <h1 className="text-2xl text-[#5C4A42] font-bold">
+                  Welcome back
+                </h1>
                 <p className="text-[#5C4A42]/70 text-balance">
                   Login to your Acme Inc account
                 </p>
@@ -122,34 +128,36 @@ export function LoginForm({
               </Button>
 
               <div className="after:border-[#F3C623] relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
-                <span className="bg-white text-[#5C4A42]/60 relative z-10 px-2">
-                  
-                </span>
+                <span className="bg-white text-[#5C4A42]/60 relative z-10 px-2"></span>
               </div>
 
               <div className="text-center text-sm">
-              Don&apos;t have an account?{" "}
-                <span onClick={handleClick} className="underline text-[#FA812F] cursor-pointer underline-offset-4">
-                Sign up
+                Don&apos;t have an account?{" "}
+                <span
+                  onClick={handleClick}
+                  className="underline text-[#FA812F] cursor-pointer underline-offset-4"
+                >
+                  Sign up
                 </span>
               </div>
             </div>
           </form>
 
-          {/* Right Side Image */}
-          <div className="bg-[#F3C623]/10 relative hidden md:block">
-            <img
-              src="/images/rock.jpg"
+          <div className="bg-[#F3C623]/10 relative hidden md:flex items-center justify-center">
+            <Image
+              src="/images/final.png"
               alt="Image"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+              width={400}
+              height={400}
+              className="object-contain"
             />
           </div>
         </CardContent>
       </Card>
 
       <div className="text-[#5C4A42]/70 *:[a]:hover:text-[#FA812F] text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our{" "}
-        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
+        and <a href="#">Privacy Policy</a>.
       </div>
     </div>
   );

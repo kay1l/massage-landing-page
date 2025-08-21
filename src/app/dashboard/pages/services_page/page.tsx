@@ -45,11 +45,9 @@ export default function ServicesPage() {
   });
   const [editDialogOpen, setEditDialogOpen] = useState(false);
 
-  // Loading states
   const [isAdding, setIsAdding] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  // Fetch services from API
   useEffect(() => {
     const fetchServices = async () => {
       try {
@@ -219,7 +217,9 @@ export default function ServicesPage() {
                       <TableRow key={service.id} className="hover:bg-gray-50">
                         <TableCell>{service.id}</TableCell>
                         <TableCell className="font-medium text-gray-800">{service.name}</TableCell>
-                        <TableCell>{service.description}</TableCell>
+                        <TableCell className="max-w-xs truncate">
+                            {service.description}
+                        </TableCell>
                         <TableCell>₱{service.price}</TableCell>
                         <TableCell>60 mins</TableCell>
                         <TableCell className="text-right space-x-2">

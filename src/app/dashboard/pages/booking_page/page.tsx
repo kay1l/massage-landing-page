@@ -38,6 +38,8 @@ import {
 import Image from "next/image";
 import { withAuth } from "@/hoc/withAuth";
 import DashboardSidebar from "@/custom_components/dashboard_section/dashboard_sidebar";
+import { Service } from "@/types/service";
+import { serviceServices } from "@/services/serviceTypesService";
 
 function BookingPage() {
   const router = useRouter();
@@ -45,11 +47,7 @@ function BookingPage() {
   const [selectedService, setSelectedService] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>();
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
-  const [name, setName] = useState("");
-  const [notes, setNotes] = useState("");
-  const [address, setAddress] = useState("");
-  const [landmark, setLandmark] = useState("");
-  const [contact, setContact] = useState("");
+ 
 
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
@@ -57,12 +55,32 @@ function BookingPage() {
 
   const { user } = useSelector((state: RootState) => state.user);
   
+
+  const [name, setName] = useState(user?.name || "");
+  const [notes, setNotes] = useState("");
+  const [address, setAddress] = useState(user?.address || "");
+  const [landmark, setLandmark] = useState("");
+  const [contact, setContact] = useState(user?.contact || "");
+  const [services, setServices] = useState<Service[]>([]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
+
+    useEffect(() => {
+      const fetchServices = async () => {
+        try {
+          const response = await serviceServices.getServices();
+          if (response.status) setServices(response.services);
+        } catch (error) {
+          console.error("Failed to fetch services:", error);
+        }
+      };
+      fetchServices();
+    }, []);
 
   const handleSubmit = async () => {
     if (
@@ -73,7 +91,7 @@ function BookingPage() {
       !contact ||
       !address
     ) {
-      alert("Please fill in all required fields");
+      toast.warning("Please fill in all required fields");
       return;
     }
 
@@ -132,9 +150,11 @@ function BookingPage() {
                   <SelectValue placeholder="Select a massage type" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="1">Swedish Massage</SelectItem>
-                  <SelectItem value="2">Deep Tissue Massage</SelectItem>
-                  <SelectItem value="3">Trigger-Point Massage</SelectItem>
+                  {services.map((service) => (
+                     <SelectItem key={service.id} value={service.id.toString()}>
+                     {service.name}
+                   </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <Button
@@ -192,7 +212,7 @@ function BookingPage() {
                 <Input
                   placeholder="Your Full Name"
                   className="h-12 px-4 text-base rounded-xl border-[#E4CBB5]"
-                  value={user?.name}
+                  value={name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
@@ -204,7 +224,7 @@ function BookingPage() {
                 <Input
                   placeholder="Contact Number"
                   className="h-12 px-4 text-base rounded-xl border-[#E4CBB5]"
-                  value={user?.contact || '09999852039'}
+                  value={contact || '09999852039'}
                   onChange={(e) => setContact(e.target.value)}
                 />
               </div>
