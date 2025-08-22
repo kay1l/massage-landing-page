@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -8,6 +8,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import {
   Dialog,
@@ -15,17 +16,13 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog";
-
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CalendarClock, XCircle } from "lucide-react";
-import { AppointmentStatus, BookingApiResponse, BookingResponse } from "@/types/booking";
-
-// ✅ Define strict status type
-
+import { CalendarWithTime } from "@/components/calendar-20"; // ✅ reuse your existing component
+import { AppointmentStatus, BookingResponse } from "@/types/booking";
 
 function getStatusBadge(status: AppointmentStatus) {
   const baseClass =
@@ -50,36 +47,21 @@ interface AppointmentsTableProps {
 }
 
 export default function AppointmentsTable({ data }: AppointmentsTableProps) {
-
-  console.log('DATA: ', data);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<"all" | AppointmentStatus>(
     "all"
   );
-  const [selectedAppointment, setSelectedAppointment] = useState<BookingResponse | null>(null);
 
+  const [selectedAppointment, setSelectedAppointment] =
+    useState<BookingResponse | null>(null);
   const [modalType, setModalType] = useState<"reschedule" | "cancel" | null>(
     null
   );
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-
-  // const filteredData = useMemo(() => {
-  //   return data.filter((a) => {
-  //     const matchesStatus = filterStatus === "all" || a.status === filterStatus;
-  //     const matchesSearch =
-  //       a.type.toLowerCase().includes(search.toLowerCase()) ||
-  //       a.therapist.toLowerCase().includes(search.toLowerCase());
-  //     return matchesStatus && matchesSearch;
-  //   });
-  // }, [data, search, filterStatus]);
-
-  // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  // const paginatedData = filteredData.slice(
-  //   (currentPage - 1) * itemsPerPage,
-  //   currentPage * itemsPerPage
-  // );
+  // ✅ reschedule state
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const openModal = (
     appointment: BookingResponse,
@@ -92,48 +74,113 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
   const closeModal = () => {
     setSelectedAppointment(null);
     setModalType(null);
+    setSelectedDate(undefined);
+    setSelectedTime(null);
   };
+
+  const handleRescheduleConfirm = () => {
+    console.log("Rescheduling:", {
+      id: selectedAppointment?.id,
+      newDate: selectedDate,
+      newTime: selectedTime,
+    });
+    setShowConfirm(true);
+  };
+
   return (
     <>
-      <Dialog open={!!selectedAppointment} onOpenChange={closeModal}>
-        <DialogContent className="sm:max-w-md">
+      {/* Main Modal */}
+      <Dialog
+        open={!!selectedAppointment && !showConfirm}
+        onOpenChange={closeModal}
+      >
+        <DialogContent className="sm:max-w-2xl w-full p-8">
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="text-[#FA812F]">
               {modalType === "reschedule"
                 ? "Reschedule Appointment"
                 : "Cancel Appointment"}
             </DialogTitle>
             <DialogDescription>
               {modalType === "reschedule"
-                ? `You're about to reschedule your appointment.`
-                : `Are you sure you want to cancel your appointment?`}
+                ? `Choose a new date and time for your appointment.`
+                : `Are you sure you want to cancel this appointment?`}
             </DialogDescription>
           </DialogHeader>
 
-          {/* Modal Body */}
-          <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Type: <strong>{selectedAppointment?.full_name}</strong>
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Date & Time:{" "}
-              <strong>
-                {selectedAppointment?.booking_date} at {selectedAppointment?.booking_time}
-              </strong>
-            </p>
-          </div>
+          {modalType === "reschedule" ? (
+            <>
+              {/* Calendar & Time Picker */}
+              <CalendarWithTime
+                date={selectedDate}
+                setDate={setSelectedDate}
+                selectedTime={selectedTime}
+                setSelectedTime={setSelectedTime}
+              />
 
-          <DialogFooter className="mt-4">
-            <Button variant="ghost" onClick={closeModal}>
-              Close
-            </Button>
-            <Button variant="destructive">
-              {modalType === "reschedule" ? "Reschedule" : "Cancel"}
-            </Button>
-          </DialogFooter>
+              <div className="flex gap-3 mt-6">
+                <Button
+                  onClick={closeModal}
+                  variant="outline"
+                  className="w-1/2 h-11 border-[#FA812F] text-[#5C4A42]"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleRescheduleConfirm}
+                  className="w-1/2 h-11 bg-[#FA812F] hover:bg-[#f5933c]"
+                  disabled={!selectedDate || !selectedTime}
+                >
+                  Confirm
+                </Button>
+              </div>
+            </>
+          ) : (
+            <DialogFooter className="mt-4">
+              <Button variant="ghost" onClick={closeModal}>
+                Close
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  console.log("Cancelling:", selectedAppointment?.id);
+                  closeModal();
+                }}
+              >
+                Cancel Appointment
+              </Button>
+            </DialogFooter>
+          )}
         </DialogContent>
       </Dialog>
 
+      {/* Success Confirmation */}
+      <Dialog open={showConfirm} onOpenChange={setShowConfirm}>
+        <DialogContent className="sm:max-w-md text-center">
+          <DialogHeader>
+            <DialogTitle className="text-green-600">
+              ✅ Schedule Updated
+            </DialogTitle>
+            <DialogDescription>
+              Appointment rescheduled to{" "}
+              <strong>
+                {selectedDate?.toLocaleDateString()} at {selectedTime}
+              </strong>
+            </DialogDescription>
+          </DialogHeader>
+          <Button
+            onClick={() => {
+              setShowConfirm(false);
+              closeModal();
+            }}
+            className="mt-4 bg-[#FA812F] hover:bg-[#f5933c] w-full"
+          >
+            Done
+          </Button>
+        </DialogContent>
+      </Dialog>
+
+      {/* === Table === */}
       <Card className="shadow-lg border-none">
         <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <CardTitle className="text-xl text-[#5C4A42]">
@@ -145,27 +192,23 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
               type="text"
               placeholder="Search by type or therapist..."
               value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setCurrentPage(1);
-              }}
+              onChange={(e) => setSearch(e.target.value)}
               className="w-full sm:w-64"
             />
             <Select
               value={filterStatus}
-              onValueChange={(value) => {
-                setFilterStatus(value as AppointmentStatus | "all");
-                setCurrentPage(1);
-              }}
+              onValueChange={(value) =>
+                setFilterStatus(value as AppointmentStatus | "all")
+              }
             >
-              <SelectTrigger className="w-full  sm:w-48 capitalize">
+              <SelectTrigger className="w-full sm:w-48 capitalize">
                 {filterStatus}
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
-                <SelectItem value="upcoming">Upcoming</SelectItem>
-                <SelectItem value="completed">Completed</SelectItem>
-                <SelectItem value="cancelled">Cancelled</SelectItem>
+                <SelectItem value="Pending">Upcoming</SelectItem>
+                <SelectItem value="Completed">Completed</SelectItem>
+                <SelectItem value="Cancelled">Cancelled</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -197,15 +240,36 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
                     <td className="px-4 py-3 whitespace-nowrap font-medium">
                       {a.service.name}
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap">{a.booking_date}</td>
-                    <td className="px-4 py-3 whitespace-nowrap">{a.booking_time}</td>
                     <td className="px-4 py-3 whitespace-nowrap">
-                      John
+                      {a.booking_date}
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap">
-                      <div className="flex items-center">
-                        {getStatusBadge(a.status)}
-                      </div>
+                      {a.booking_time}
+                    </td>
+                    <td className="px-4 py-3 whitespace-nowrap">John</td>
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      <Select
+                        defaultValue={a.status}
+                        onValueChange={(value) => {
+                          console.log("New status:", value);
+                          // 👉 here you can call API or update state
+                        }}
+                      >
+                        <SelectTrigger className="w-[140px]">
+                          <SelectValue>{getStatusBadge(a.status)}</SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="pending">
+                            {getStatusBadge("Pending")}
+                          </SelectItem>
+                          <SelectItem value="completed">
+                            {getStatusBadge("Completed")}
+                          </SelectItem>
+                          <SelectItem value="cancelled">
+                            {getStatusBadge("Cancelled")}
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
                     </td>
                     <td className="px-4 py-3 text-center">
                       {a.status === "Pending" ? (
@@ -236,8 +300,6 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
               </tbody>
             </table>
           )}
-
-         
         </CardContent>
       </Card>
     </>
