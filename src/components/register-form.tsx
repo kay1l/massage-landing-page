@@ -10,6 +10,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 import { authServices } from "@/services/authService";
 import type { RegisterPayload } from "@/types/auth";
+import Image from "next/image";
 
 export function RegisterForm({
   className,
@@ -35,7 +36,7 @@ export function RegisterForm({
     setLoading(true);
     try {
       const response = await authServices.registerUser(formData);
-  
+
       if (response.status) {
         toast.success("Registration successful!", {
           description: response.message,
@@ -56,7 +57,6 @@ export function RegisterForm({
       setLoading(false);
     }
   };
-  
 
   const handleClick = () => {
     router.push("/auth/login");
@@ -75,7 +75,9 @@ export function RegisterForm({
           <form className="p-6 md:p-8" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl text-[#5C4A42] font-bold">Create Account</h1>
+                <h1 className="text-2xl text-[#5C4A42] font-bold">
+                  Create Account
+                </h1>
                 <p className="text-[#5C4A42]/70 text-balance">
                   Sign up to book relaxing massage therapy sessions
                 </p>
@@ -162,19 +164,21 @@ export function RegisterForm({
           </form>
 
           {/* Right Side Image */}
-          <div className="bg-[#F3C623]/10 relative hidden md:block">
-            <img
-              src="/images/rock.jpg"
-              alt="Massage therapy"
-              className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          <div className="bg-[#F3C623]/10 relative hidden md:flex items-center justify-center">
+            <Image
+              src="/images/final.png"
+              alt="Image"
+              width={400}
+              height={400}
+              className="object-contain"
             />
           </div>
         </CardContent>
       </Card>
 
       <div className="text-[#5C4A42]/70 *:[a]:hover:text-[#FA812F] text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
-        By clicking continue, you agree to our{" "}
-        <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
+        and <a href="#">Privacy Policy</a>.
       </div>
     </div>
   );

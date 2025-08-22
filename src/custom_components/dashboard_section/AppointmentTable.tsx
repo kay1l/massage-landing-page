@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -8,6 +8,7 @@ import {
   SelectContent,
   SelectItem,
   SelectTrigger,
+  SelectValue,
 } from "@/components/ui/select";
 import {
   Dialog,
@@ -15,17 +16,20 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog";
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal, UserCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CalendarClock, XCircle } from "lucide-react";
-import { AppointmentStatus, BookingApiResponse, BookingResponse } from "@/types/booking";
-
-// ✅ Define strict status type
-
+import { CalendarWithTime } from "@/components/calendar-20";
+import { AppointmentStatus, BookingResponse } from "@/types/booking";
 
 function getStatusBadge(status: AppointmentStatus) {
   const baseClass =
@@ -50,36 +54,21 @@ interface AppointmentsTableProps {
 }
 
 export default function AppointmentsTable({ data }: AppointmentsTableProps) {
-
-  console.log('DATA: ', data);
   const [search, setSearch] = useState("");
   const [filterStatus, setFilterStatus] = useState<"all" | AppointmentStatus>(
     "all"
   );
-  const [selectedAppointment, setSelectedAppointment] = useState<BookingResponse | null>(null);
 
+  const [selectedAppointment, setSelectedAppointment] =
+    useState<BookingResponse | null>(null);
   const [modalType, setModalType] = useState<"reschedule" | "cancel" | null>(
     null
   );
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
-
-  // const filteredData = useMemo(() => {
-  //   return data.filter((a) => {
-  //     const matchesStatus = filterStatus === "all" || a.status === filterStatus;
-  //     const matchesSearch =
-  //       a.type.toLowerCase().includes(search.toLowerCase()) ||
-  //       a.therapist.toLowerCase().includes(search.toLowerCase());
-  //     return matchesStatus && matchesSearch;
-  //   });
-  // }, [data, search, filterStatus]);
-
-  // const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-  // const paginatedData = filteredData.slice(
-  //   (currentPage - 1) * itemsPerPage,
-  //   currentPage * itemsPerPage
-  // );
+  // Reschedule state
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const openModal = (
     appointment: BookingResponse,
@@ -92,48 +81,130 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
   const closeModal = () => {
     setSelectedAppointment(null);
     setModalType(null);
+    setSelectedDate(undefined);
+    setSelectedTime(null);
   };
+
+  const handleRescheduleConfirm = () => {
+    console.log("Rescheduling:", {
+      id: selectedAppointment?.id,
+      newDate: selectedDate,
+      newTime: selectedTime,
+    });
+    setShowConfirm(true);
+  };
+
   return (
     <>
-      <Dialog open={!!selectedAppointment} onOpenChange={closeModal}>
-        <DialogContent className="sm:max-w-md">
+      {/* Main Modal */}
+      <Dialog
+        open={!!selectedAppointment && !showConfirm}
+        onOpenChange={closeModal}
+      >
+        {modalType === "reschedule" ? (
+          <DialogContent className="sm:max-w-2xl w-full p-8">
+            <DialogHeader>
+              <DialogTitle className="text-[#FA812F]">
+                Reschedule Appointment
+              </DialogTitle>
+              <DialogDescription>
+                Choose a new date and time for your appointment.
+              </DialogDescription>
+            </DialogHeader>
+
+            <CalendarWithTime
+              date={selectedDate}
+              setDate={setSelectedDate}
+              selectedTime={selectedTime}
+              setSelectedTime={setSelectedTime}
+            />
+
+            <div className="flex gap-3 mt-6">
+              <Button
+                onClick={closeModal}
+                variant="outline"
+                className="w-1/2 h-11 border-[#FA812F] text-[#5C4A42]"
+              >
+                Cancel
+              </Button>
+              <Button
+                onClick={handleRescheduleConfirm}
+                className="w-1/2 h-11 bg-[#FA812F] hover:bg-[#f5933c]"
+                disabled={!selectedDate || !selectedTime}
+              >
+                Confirm
+              </Button>
+            </div>
+          </DialogContent>
+        ) : (
+          <DialogContent className="sm:max-w-2xl w-full p-10 text-center">
           <DialogHeader>
-            <DialogTitle>
-              {modalType === "reschedule"
-                ? "Reschedule Appointment"
-                : "Cancel Appointment"}
+            <DialogTitle className="flex flex-col items-center gap-5 text-red-600">
+              <XCircle className="w-20 h-20" />
+              <span className="text-2xl font-bold">Cancel Appointment</span>
             </DialogTitle>
-            <DialogDescription>
-              {modalType === "reschedule"
-                ? `You're about to reschedule your appointment.`
-                : `Are you sure you want to cancel your appointment?`}
+            <DialogDescription className="mt-4 text-lg text-gray-700 leading-relaxed">
+              Are you sure you want to{" "}
+              <span className="font-semibold text-red-600">Cancel</span> this
+              appointment?
+              <br />
+              <span className="block mt-2 text-red-600 font-semibold text-lg">
+                This action cannot be undone.
+              </span>
             </DialogDescription>
           </DialogHeader>
-
-          {/* Modal Body */}
-          <div className="space-y-4">
-            <p className="text-sm text-muted-foreground">
-              Type: <strong>{selectedAppointment?.full_name}</strong>
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Date & Time:{" "}
-              <strong>
-                {selectedAppointment?.booking_date} at {selectedAppointment?.booking_time}
-              </strong>
-            </p>
+        
+          <div className="flex gap-4 mt-10 justify-center">
+            <Button
+              onClick={closeModal}
+              variant="outline"
+              className="w-1/2 h-12 text-base border-gray-300 text-gray-700 hover:bg-gray-100"
+            >
+              Keep Appointment
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                console.log("Cancelling:", selectedAppointment?.id);
+                closeModal();
+              }}
+              className="w-1/2 h-12 text-base"
+            >
+              Cancel Appointment
+            </Button>
           </div>
+        </DialogContent>
+        
+        )}
+      </Dialog>
 
-          <DialogFooter className="mt-4">
-            <Button variant="ghost" onClick={closeModal}>
-              Close
-            </Button>
-            <Button variant="destructive">
-              {modalType === "reschedule" ? "Reschedule" : "Cancel"}
-            </Button>
-          </DialogFooter>
+      {/* Success Confirmation */}
+      <Dialog open={showConfirm} onOpenChange={setShowConfirm}>
+        <DialogContent className="sm:max-w-md text-center">
+          <DialogHeader>
+            <DialogTitle className="text-green-600">
+              ✅ Schedule Updated
+            </DialogTitle>
+            <DialogDescription>
+              Appointment rescheduled to{" "}
+              <strong>
+                {selectedDate?.toLocaleDateString()} at {selectedTime}
+              </strong>
+            </DialogDescription>
+          </DialogHeader>
+          <Button
+            onClick={() => {
+              setShowConfirm(false);
+              closeModal();
+            }}
+            className="mt-4 bg-[#FA812F] hover:bg-[#f5933c] w-full"
+          >
+            Done
+          </Button>
         </DialogContent>
       </Dialog>
 
+      {/* Table */}
       <Card className="shadow-lg border-none">
         <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <CardTitle className="text-xl text-[#5C4A42]">
@@ -145,27 +216,23 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
               type="text"
               placeholder="Search by type or therapist..."
               value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setCurrentPage(1);
-              }}
+              onChange={(e) => setSearch(e.target.value)}
               className="w-full sm:w-64"
             />
             <Select
               value={filterStatus}
-              onValueChange={(value) => {
-                setFilterStatus(value as AppointmentStatus | "all");
-                setCurrentPage(1);
-              }}
+              onValueChange={(value) =>
+                setFilterStatus(value as AppointmentStatus | "all")
+              }
             >
-              <SelectTrigger className="w-full  sm:w-48 capitalize">
-                {filterStatus}
+              <SelectTrigger className="w-full sm:w-48 capitalize">
+                <SelectValue>{filterStatus}</SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
-                <SelectItem value="upcoming">Upcoming</SelectItem>
-                <SelectItem value="completed">Completed</SelectItem>
-                <SelectItem value="cancelled">Cancelled</SelectItem>
+                <SelectItem value="Pending">Upcoming</SelectItem>
+                <SelectItem value="Completed">Completed</SelectItem>
+                <SelectItem value="Cancelled">Cancelled</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -197,36 +264,47 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
                     <td className="px-4 py-3 whitespace-nowrap font-medium">
                       {a.service.name}
                     </td>
-                    <td className="px-4 py-3 whitespace-nowrap">{a.booking_date}</td>
-                    <td className="px-4 py-3 whitespace-nowrap">{a.booking_time}</td>
                     <td className="px-4 py-3 whitespace-nowrap">
-                      John
+                      {a.booking_date}
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap">
-                      <div className="flex items-center">
-                        {getStatusBadge(a.status)}
-                      </div>
+                      {a.booking_time}
+                    </td>
+                    <td className="px-4 py-3 whitespace-nowrap">John</td>
+                    <td className="px-4 py-3 whitespace-nowrap">
+                      {getStatusBadge(a.status)}
                     </td>
                     <td className="px-4 py-3 text-center">
                       {a.status === "Pending" ? (
-                        <div className="flex justify-center gap-2">
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => openModal(a, "reschedule")}
-                            className="text-blue-500 border-blue-300 hover:bg-blue-100"
-                          >
-                            <CalendarClock className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => openModal(a, "cancel")}
-                            className="text-red-500 border-red-300 hover:bg-red-100"
-                          >
-                            <XCircle className="w-4 h-4" />
-                          </Button>
-                        </div>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                              <MoreHorizontal className="w-7 h-7" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-52">
+                            <DropdownMenuItem
+                              onClick={() => openModal(a, "reschedule")}
+                            >
+                              <CalendarClock className="mr-2 h-4 w-4 text-blue-500" />
+                              <span>Reschedule</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => openModal(a, "cancel")}
+                            >
+                              <XCircle className="mr-2 h-4 w-4 text-red-500" />
+                              <span>Cancel</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() =>
+                                console.log("Assign Therapist", a.id)
+                              }
+                            >
+                              <UserCheck className="mr-2 h-4 w-4 text-green-500" />
+                              <span>Assign Therapist</span>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       ) : (
                         "-"
                       )}
@@ -236,8 +314,6 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
               </tbody>
             </table>
           )}
-
-         
         </CardContent>
       </Card>
     </>

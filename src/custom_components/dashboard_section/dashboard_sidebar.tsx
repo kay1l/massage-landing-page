@@ -13,6 +13,8 @@ import {
   User,
   Menu,
   X,
+  FlowerIcon,
+  Users2,
 } from "lucide-react";
 
 const navItems = [
@@ -20,7 +22,8 @@ const navItems = [
   { path: "/dashboard/pages/services_page", label: "Services", icon: Bath },
   { path: "/dashboard/pages/booking_page", label: "Book a Massage", icon: Calendar },
   { path: "/dashboard/pages/appointments_page", label: "Appointments", icon: ClipboardList },
-  { path: "/dashboard/pages/profile_page", label: "Profile", icon: User },
+  // { path: "/dashboard/pages/profile_page", label: "Profile", icon: User },
+  { path: "/dashboard/pages/therapist_page", label: "Therapists", icon: Users2 },
 ];
 
 export default function DashboardSidebar() {

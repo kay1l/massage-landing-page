@@ -34,7 +34,7 @@ function AppointmentsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FEF3E2] text-[#5C4A42] pt-32">
+    <div className="min-h-screen bg-[#FEF3E2] text-[#5C4A42] pt-15">
       <DashboardHeader />
       <DashboardSidebar />
       <div className="max-w-6xl mx-auto px-4 py-10">
