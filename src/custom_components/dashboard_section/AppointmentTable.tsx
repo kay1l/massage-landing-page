@@ -18,10 +18,17 @@ import {
   DialogTitle,
   DialogFooter,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal, UserCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CalendarClock, XCircle } from "lucide-react";
-import { CalendarWithTime } from "@/components/calendar-20"; // ✅ reuse your existing component
+import { CalendarWithTime } from "@/components/calendar-20";
 import { AppointmentStatus, BookingResponse } from "@/types/booking";
 
 function getStatusBadge(status: AppointmentStatus) {
@@ -58,7 +65,7 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
     null
   );
 
-  // ✅ reschedule state
+  // Reschedule state
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
@@ -94,64 +101,81 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
         open={!!selectedAppointment && !showConfirm}
         onOpenChange={closeModal}
       >
-        <DialogContent className="sm:max-w-2xl w-full p-8">
-          <DialogHeader>
-            <DialogTitle className="text-[#FA812F]">
-              {modalType === "reschedule"
-                ? "Reschedule Appointment"
-                : "Cancel Appointment"}
-            </DialogTitle>
-            <DialogDescription>
-              {modalType === "reschedule"
-                ? `Choose a new date and time for your appointment.`
-                : `Are you sure you want to cancel this appointment?`}
-            </DialogDescription>
-          </DialogHeader>
+        {modalType === "reschedule" ? (
+          <DialogContent className="sm:max-w-2xl w-full p-8">
+            <DialogHeader>
+              <DialogTitle className="text-[#FA812F]">
+                Reschedule Appointment
+              </DialogTitle>
+              <DialogDescription>
+                Choose a new date and time for your appointment.
+              </DialogDescription>
+            </DialogHeader>
 
-          {modalType === "reschedule" ? (
-            <>
-              {/* Calendar & Time Picker */}
-              <CalendarWithTime
-                date={selectedDate}
-                setDate={setSelectedDate}
-                selectedTime={selectedTime}
-                setSelectedTime={setSelectedTime}
-              />
+            <CalendarWithTime
+              date={selectedDate}
+              setDate={setSelectedDate}
+              selectedTime={selectedTime}
+              setSelectedTime={setSelectedTime}
+            />
 
-              <div className="flex gap-3 mt-6">
-                <Button
-                  onClick={closeModal}
-                  variant="outline"
-                  className="w-1/2 h-11 border-[#FA812F] text-[#5C4A42]"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  onClick={handleRescheduleConfirm}
-                  className="w-1/2 h-11 bg-[#FA812F] hover:bg-[#f5933c]"
-                  disabled={!selectedDate || !selectedTime}
-                >
-                  Confirm
-                </Button>
-              </div>
-            </>
-          ) : (
-            <DialogFooter className="mt-4">
-              <Button variant="ghost" onClick={closeModal}>
-                Close
+            <div className="flex gap-3 mt-6">
+              <Button
+                onClick={closeModal}
+                variant="outline"
+                className="w-1/2 h-11 border-[#FA812F] text-[#5C4A42]"
+              >
+                Cancel
               </Button>
               <Button
-                variant="destructive"
-                onClick={() => {
-                  console.log("Cancelling:", selectedAppointment?.id);
-                  closeModal();
-                }}
+                onClick={handleRescheduleConfirm}
+                className="w-1/2 h-11 bg-[#FA812F] hover:bg-[#f5933c]"
+                disabled={!selectedDate || !selectedTime}
               >
-                Cancel Appointment
+                Confirm
               </Button>
-            </DialogFooter>
-          )}
+            </div>
+          </DialogContent>
+        ) : (
+          <DialogContent className="sm:max-w-2xl w-full p-10 text-center">
+          <DialogHeader>
+            <DialogTitle className="flex flex-col items-center gap-5 text-red-600">
+              <XCircle className="w-20 h-20" />
+              <span className="text-2xl font-bold">Cancel Appointment</span>
+            </DialogTitle>
+            <DialogDescription className="mt-4 text-lg text-gray-700 leading-relaxed">
+              Are you sure you want to{" "}
+              <span className="font-semibold text-red-600">Cancel</span> this
+              appointment?
+              <br />
+              <span className="block mt-2 text-red-600 font-semibold text-lg">
+                This action cannot be undone.
+              </span>
+            </DialogDescription>
+          </DialogHeader>
+        
+          <div className="flex gap-4 mt-10 justify-center">
+            <Button
+              onClick={closeModal}
+              variant="outline"
+              className="w-1/2 h-12 text-base border-gray-300 text-gray-700 hover:bg-gray-100"
+            >
+              Keep Appointment
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                console.log("Cancelling:", selectedAppointment?.id);
+                closeModal();
+              }}
+              className="w-1/2 h-12 text-base"
+            >
+              Cancel Appointment
+            </Button>
+          </div>
         </DialogContent>
+        
+        )}
       </Dialog>
 
       {/* Success Confirmation */}
@@ -180,7 +204,7 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
         </DialogContent>
       </Dialog>
 
-      {/* === Table === */}
+      {/* Table */}
       <Card className="shadow-lg border-none">
         <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <CardTitle className="text-xl text-[#5C4A42]">
@@ -202,7 +226,7 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
               }
             >
               <SelectTrigger className="w-full sm:w-48 capitalize">
-                {filterStatus}
+                <SelectValue>{filterStatus}</SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All</SelectItem>
@@ -248,49 +272,39 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
                     </td>
                     <td className="px-4 py-3 whitespace-nowrap">John</td>
                     <td className="px-4 py-3 whitespace-nowrap">
-                      <Select
-                        defaultValue={a.status}
-                        onValueChange={(value) => {
-                          console.log("New status:", value);
-                          // 👉 here you can call API or update state
-                        }}
-                      >
-                        <SelectTrigger className="w-[140px]">
-                          <SelectValue>{getStatusBadge(a.status)}</SelectValue>
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="pending">
-                            {getStatusBadge("Pending")}
-                          </SelectItem>
-                          <SelectItem value="completed">
-                            {getStatusBadge("Completed")}
-                          </SelectItem>
-                          <SelectItem value="cancelled">
-                            {getStatusBadge("Cancelled")}
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
+                      {getStatusBadge(a.status)}
                     </td>
                     <td className="px-4 py-3 text-center">
                       {a.status === "Pending" ? (
-                        <div className="flex justify-center gap-2">
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => openModal(a, "reschedule")}
-                            className="text-blue-500 border-blue-300 hover:bg-blue-100"
-                          >
-                            <CalendarClock className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            onClick={() => openModal(a, "cancel")}
-                            className="text-red-500 border-red-300 hover:bg-red-100"
-                          >
-                            <XCircle className="w-4 h-4" />
-                          </Button>
-                        </div>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                              <MoreHorizontal className="w-7 h-7" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end" className="w-52">
+                            <DropdownMenuItem
+                              onClick={() => openModal(a, "reschedule")}
+                            >
+                              <CalendarClock className="mr-2 h-4 w-4 text-blue-500" />
+                              <span>Reschedule</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() => openModal(a, "cancel")}
+                            >
+                              <XCircle className="mr-2 h-4 w-4 text-red-500" />
+                              <span>Cancel</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                              onClick={() =>
+                                console.log("Assign Therapist", a.id)
+                              }
+                            >
+                              <UserCheck className="mr-2 h-4 w-4 text-green-500" />
+                              <span>Assign Therapist</span>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
                       ) : (
                         "-"
                       )}
