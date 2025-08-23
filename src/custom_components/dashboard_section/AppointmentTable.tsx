@@ -30,6 +30,10 @@ import { Badge } from "@/components/ui/badge";
 import { CalendarClock, XCircle } from "lucide-react";
 import { CalendarWithTime } from "@/components/calendar-20";
 import { AppointmentStatus, BookingResponse } from "@/types/booking";
+import {
+  TherapistDialog,
+  Therapist,
+} from "@/custom_components/dashboard_section/dialog/TherapistDialog";
 
 function getStatusBadge(status: AppointmentStatus) {
   const baseClass =
@@ -69,6 +73,7 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(undefined);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [showTherapistDialog, setShowTherapistDialog] = useState(false);
 
   const openModal = (
     appointment: BookingResponse,
@@ -98,9 +103,9 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
     <>
       {/* Main Modal */}
       <Dialog
-        open={!!selectedAppointment && !showConfirm}
-        onOpenChange={closeModal}
-      >
+      open={!!selectedAppointment && modalType !== null && !showConfirm}
+      onOpenChange={closeModal}
+        >
         {modalType === "reschedule" ? (
           <DialogContent className="sm:max-w-2xl w-full p-8">
             <DialogHeader>
@@ -138,43 +143,42 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
           </DialogContent>
         ) : (
           <DialogContent className="sm:max-w-2xl w-full p-10 text-center">
-          <DialogHeader>
-            <DialogTitle className="flex flex-col items-center gap-5 text-red-600">
-              <XCircle className="w-20 h-20" />
-              <span className="text-2xl font-bold">Cancel Appointment</span>
-            </DialogTitle>
-            <DialogDescription className="mt-4 text-lg text-gray-700 leading-relaxed">
-              Are you sure you want to{" "}
-              <span className="font-semibold text-red-600">Cancel</span> this
-              appointment?
-              <br />
-              <span className="block mt-2 text-red-600 font-semibold text-lg">
-                This action cannot be undone.
-              </span>
-            </DialogDescription>
-          </DialogHeader>
-        
-          <div className="flex gap-4 mt-10 justify-center">
-            <Button
-              onClick={closeModal}
-              variant="outline"
-              className="w-1/2 h-12 text-base border-gray-300 text-gray-700 hover:bg-gray-100"
-            >
-              Keep Appointment
-            </Button>
-            <Button
-              variant="destructive"
-              onClick={() => {
-                console.log("Cancelling:", selectedAppointment?.id);
-                closeModal();
-              }}
-              className="w-1/2 h-12 text-base"
-            >
-              Cancel Appointment
-            </Button>
-          </div>
-        </DialogContent>
-        
+            <DialogHeader>
+              <DialogTitle className="flex flex-col items-center gap-5 text-red-600">
+                <XCircle className="w-20 h-20" />
+                <span className="text-2xl font-bold">Cancel Appointment</span>
+              </DialogTitle>
+              <DialogDescription className="mt-4 text-lg text-gray-700 leading-relaxed">
+                Are you sure you want to{" "}
+                <span className="font-semibold text-red-600">Cancel</span> this
+                appointment?
+                <br />
+                <span className="block mt-2 text-red-600 font-semibold text-lg">
+                  This action cannot be undone.
+                </span>
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="flex gap-4 mt-10 justify-center">
+              <Button
+                onClick={closeModal}
+                variant="outline"
+                className="w-1/2 h-12 text-base border-gray-300 text-gray-700 hover:bg-gray-100"
+              >
+                Keep Appointment
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={() => {
+                  console.log("Cancelling:", selectedAppointment?.id);
+                  closeModal();
+                }}
+                className="w-1/2 h-12 text-base"
+              >
+                Cancel Appointment
+              </Button>
+            </div>
+          </DialogContent>
         )}
       </Dialog>
 
@@ -296,12 +300,15 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
                               <span>Cancel</span>
                             </DropdownMenuItem>
                             <DropdownMenuItem
-                              onClick={() =>
-                                console.log("Assign Therapist", a.id)
-                              }
+                              onClick={() => {
+                                setSelectedAppointment(a);
+                                setShowTherapistDialog(true);
+                              }}
                             >
                               <UserCheck className="mr-2 h-4 w-4 text-green-500" />
                               <span>Assign Therapist</span>
+
+
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -316,6 +323,15 @@ export default function AppointmentsTable({ data }: AppointmentsTableProps) {
           )}
         </CardContent>
       </Card>
+
+
+      <TherapistDialog
+  open={showTherapistDialog}
+  onClose={() => setShowTherapistDialog(false)}
+  onAssign={(therapist: Therapist) => {
+    console.log("Assigned:", therapist, "to", selectedAppointment?.id);
+  }}
+/>
     </>
   );
 }
