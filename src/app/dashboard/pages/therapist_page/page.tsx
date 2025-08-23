@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import DashboardHeader from "@/custom_components/dashboard_section/Header";
 import DashboardFooter from "@/custom_components/dashboard_section/Footer";
 import DashboardSidebar from "@/custom_components/dashboard_section/dashboard_sidebar";
-import TherapistsTable, { Therapist } from "@/custom_components/dashboard_section/TherapistTable"; 
+import TherapistsTable from "@/custom_components/dashboard_section/TherapistTable"; 
+import { Therapist, Specialty } from "@/types/therapist";
 import { withAuth } from "@/hoc/withAuth";
 
 function TherapistsPage() {
@@ -57,7 +58,7 @@ function TherapistsPage() {
               id: 3,
               name: "Anna Lopez",
               address: "Linao Ormoc City",
-              email: "anna24@gmail.com",
+              email: "anna@gmail.com",
               specialties: [
                 {
                   name: "Aromatherapy",
