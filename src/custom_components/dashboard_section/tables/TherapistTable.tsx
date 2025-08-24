@@ -1,16 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { UserCog } from "lucide-react";
-// import { Therapist } from "@/types/therapist";
 import AddTherapistDialog  from "@/custom_components/dashboard_section/dialog/AddTherapistDialog";
 import EditTherapistDialog from "@/custom_components/dashboard_section/dialog/EditTherapistDialog";
-import { Therapist, Specialty } from "@/types/therapist";
+import { TherapistPayload, Specialty, Therapist } from "@/types/therapist";
+import { UserServices } from "@/services/userService";
 interface TherapistsTableProps {
   data: Therapist[];
+  onSuccess: ()=> void;
 }
 
 function getStatusBadge(status: "Active" | "Inactive") {
@@ -25,30 +26,31 @@ function getStatusBadge(status: "Active" | "Inactive") {
   }
 }
 
-export default function TherapistsTable({ data }: TherapistsTableProps) {
-  const [selectedTherapist, setSelectedTherapist] = useState<Therapist | null>(null);
+export default function TherapistsTable({ data, onSuccess }: TherapistsTableProps) {
+  const [selectedTherapist, setSelectedTherapist] = useState<TherapistPayload | null>(null);
   const [openEdit, setOpenEdit] = useState(false);
-
-  const handleEditClick = (therapist: Therapist) => {
+  const [error, setError] = useState<string | null>(null);
+  const [therapists, setTherapists] = useState<Therapist[]>([]);
+  const [loading, setLoading] = useState(false);
+  const handleEditClick = (therapist: TherapistPayload) => {
     setSelectedTherapist(therapist);
     setOpenEdit(true);
   };
-
   return (
     <>
       {/* Edit Therapist */}
-      <EditTherapistDialog
+      {/* <EditTherapistDialog
         therapist={selectedTherapist}
         open={openEdit}
         onClose={() => setOpenEdit(false)}
         onSave={(updated) => console.log("Updated:", updated)}
-      />
+      /> */}
 
       {/* Table */}
       <Card className="shadow-lg border-none">
         <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <CardTitle className="text-xl text-[#5C4A42]">Therapists Overview</CardTitle>
-          <AddTherapistDialog onSubmit={(newTherapist) => console.log("Added:", newTherapist)} />
+          <AddTherapistDialog onSuccess={onSuccess}  />
         </CardHeader>
 
         <CardContent className="overflow-x-auto">
@@ -63,7 +65,7 @@ export default function TherapistsTable({ data }: TherapistsTableProps) {
                   <th className="px-4 py-3 font-medium">Contact</th>
                   <th className="px-4 py-3 font-medium">Email</th>
                   <th className="px-4 py-3 font-medium">Address</th>
-                  <th className="px-4 py-3 font-medium">Status</th>
+                  {/* <th className="px-4 py-3 font-medium">Status</th> */}
                   <th className="px-4 py-3 font-medium text-center">Action</th>
                 </tr>
               </thead>
@@ -72,13 +74,13 @@ export default function TherapistsTable({ data }: TherapistsTableProps) {
                   <tr key={t.id} className="hover:bg-[#FFF8F2] transition-colors">
                     <td className="px-4 py-3 whitespace-nowrap font-medium">{t.name}</td>
                     <td className="px-4 py-3 whitespace-nowrap">
-                      <div className="flex flex-wrap gap-1">
+                      <div className="flex flex-col gap-1">
                         {t.specialties.map((s, i) => (
                           <Badge
                             key={i}
                             className="bg-[#FA812F] text-white rounded-md px-1.5 py-0.5 text-[10px] font-medium"
                           >
-                            {s.name}
+                            {s.title}
                           </Badge>
                         ))}
                       </div>
@@ -86,7 +88,7 @@ export default function TherapistsTable({ data }: TherapistsTableProps) {
                     <td className="px-4 py-3 whitespace-nowrap">{t.contact}</td>
                     <td className="px-4 py-3 whitespace-nowrap">{t.email}</td>
                     <td className="px-4 py-3 whitespace-nowrap">{t.address}</td>
-                    <td className="px-4 py-3 whitespace-nowrap">{getStatusBadge(t.status)}</td>
+                   
                     <td className="px-4 py-3 text-center">
                       <div className="flex justify-center gap-2">
                         <Button

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -12,20 +12,8 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
-
-export interface Specialty {
-  name: string;
-  description: string;
-}
-
-export interface Therapist {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  specialties: Specialty[];
-  avatar?: string;
-}
+import { Therapist } from "@/types/therapist";
+import { UserServices } from "@/services/userService";
 
 interface TherapistDialogProps {
   open: boolean;
@@ -33,77 +21,40 @@ interface TherapistDialogProps {
   onAssign: (therapist: Therapist) => void;
 }
 
-const sampleTherapists: Therapist[] = [
-  {
-    id: "1",
-    name: "Anna Santos",
-    email: "anna@example.com",
-    phone: "+63 912 345 6789",
-    specialties: [
-      {
-        name: "Swedish Massage",
-        description:
-          "Gentle massage focused on relaxation and improving blood circulation.",
-      },
-      {
-        name: "Deep Tissue",
-        description:
-          "Targets deeper layers of muscles and connective tissue to relieve chronic tension.",
-      },
-      {
-        name: "Aromatherapy",
-        description:
-          "Massage using essential oils to enhance mood, reduce stress, and improve wellbeing.",
-      },
-    ],
-    avatar: "https://i.pravatar.cc/150?img=1",
-  },
-  {
-    id: "2",
-    name: "Marco Dela Cruz",
-    email: "marco@example.com",
-    phone: "+63 933 222 1111",
-    specialties: [
-      {
-        name: "Thai Massage",
-        description:
-          "Involves assisted yoga postures and stretching for improved flexibility.",
-      },
-      {
-        name: "Sports Massage",
-        description:
-          "Designed for athletes, focusing on preventing injuries and enhancing recovery.",
-      },
-    ],
-    avatar: "https://i.pravatar.cc/150?img=5",
-  },
-  {
-    id: "3",
-    name: "Sophia Reyes",
-    email: "sophia@example.com",
-    phone: "+63 977 111 2233",
-    specialties: [
-      {
-        name: "Shiatsu",
-        description:
-          "Japanese massage technique using finger pressure on energy pathways.",
-      },
-      {
-        name: "Prenatal Massage",
-        description:
-          "Tailored for pregnant women to reduce stress and relieve pregnancy discomforts.",
-      },
-    ],
-    avatar: "https://i.pravatar.cc/150?img=10",
-  },
-];
-
 export function TherapistDialog({
   open,
   onClose,
   onAssign,
 }: TherapistDialogProps) {
+  const [therapists, setTherapists] = useState<Therapist[]>([]);
   const [selected, setSelected] = useState<Therapist | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Fetch therapists from API on mount
+  useEffect(() => {
+    if (!open) return; // only fetch when dialog opens
+    const fetchTherapists = async () => {
+      try {
+        setLoading(true);
+        const response = await UserServices.getTherapists();
+        if (response.status) {
+          setTherapists(response.users); // API returns { status, users }
+          setError(null);
+        } else {
+          setTherapists([]);
+          setError("Failed to load therapists");
+        }
+      } catch (err: any) {
+        setTherapists([]);
+        setError(err.message || "Something went wrong");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTherapists();
+  }, [open]); // refetch every time dialog opens
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -117,26 +68,32 @@ export function TherapistDialog({
           </DialogHeader>
           <ScrollArea className="h-[calc(520px-48px)] px-2">
             <div className="space-y-3 py-2">
-              {sampleTherapists.map((t) => (
-                <button
-                  key={t.id}
-                  onClick={() => setSelected(t)}
-                  className={cn(
-                    "flex flex-col items-center p-3 rounded-lg transition w-full text-center",
-                    selected?.id === t.id
-                      ? "bg-orange-100 border border-orange-300"
-                      : "hover:bg-gray-100 bg-white"
-                  )}
-                >
-                  <Avatar className="w-14 h-14">
-                    <AvatarImage src={t.avatar} />
-                    <AvatarFallback>{t.name.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  <div className="mt-2">
-                    <p className="text-sm font-medium">{t.name}</p>
-                  </div>
-                </button>
-              ))}
+              {loading && <p className="text-center py-4 text-gray-500">Loading...</p>}
+              {error && <p className="text-center py-4 text-red-500">{error}</p>}
+              {!loading && !error && therapists.length === 0 && (
+                <p className="text-center py-4 text-gray-500">No therapists found.</p>
+              )}
+              {!loading &&
+                therapists.map((t) => (
+                  <button
+                    key={t.id}
+                    onClick={() => setSelected(t)}
+                    className={cn(
+                      "flex flex-col items-center p-3 rounded-lg transition w-full text-center",
+                      selected?.id === t.id
+                        ? "bg-orange-100 border border-orange-300"
+                        : "hover:bg-gray-100 bg-white"
+                    )}
+                  >
+                    <Avatar className="w-14 h-14">
+                      <AvatarImage src={ ""} />
+                      <AvatarFallback>{t.name.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div className="mt-2">
+                      <p className="text-sm font-medium">{t.name}</p>
+                    </div>
+                  </button>
+                ))}
             </div>
           </ScrollArea>
         </div>
@@ -152,7 +109,7 @@ export function TherapistDialog({
                 </h2>
               </div>
 
-              {/* Scrollable specialties with auto overflow */}
+              {/* Scrollable specialties */}
               <div className="flex-1 overflow-auto px-5 py-4">
                 <div className="space-y-4">
                   {selected.specialties.map((s, idx) => (
@@ -161,7 +118,7 @@ export function TherapistDialog({
                       className="p-4 border rounded-lg bg-white shadow-sm"
                     >
                       <h3 className="font-semibold text-sm text-[#FA812F]">
-                        {s.name}
+                        {s.title}
                       </h3>
                       <p className="text-sm text-gray-600 mt-1 leading-relaxed">
                         {s.description}
@@ -171,7 +128,7 @@ export function TherapistDialog({
                 </div>
               </div>
 
-              {/* Footer fixed */}
+              {/* Footer */}
               <DialogFooter className="p-4 border-t shrink-0">
                 <Button
                   onClick={() => {

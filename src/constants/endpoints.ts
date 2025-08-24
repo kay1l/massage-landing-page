@@ -17,7 +17,11 @@ export const ENDPOINTS = {
       LOGOUT: "/logout",
     },
     PROFILE: {
-      UPDATE: "updateRecord",
+      UPDATE: "/updateRecord",
+    },
+    USER: {
+      CREATE: "/createTherapist",
+      GET: "users/therapist",
     }
   };
   
