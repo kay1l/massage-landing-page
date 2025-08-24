@@ -22,7 +22,7 @@ import DashboardFooter from "@/custom_components/dashboard_section/Footer";
 import type { Service, ServicePayload } from "@/types/service";
 import { serviceServices } from "@/services/serviceTypesService";
 import { toast } from "sonner";
-import ServicesTable from "@/custom_components/dashboard_section/ServiceTable";
+import ServicesTable from "@/custom_components/dashboard_section/tables/ServiceTable";
 
 export default function ServicesPage() {
   const [services, setServices] = useState<Service[]>([]);

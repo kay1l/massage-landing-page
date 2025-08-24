@@ -9,220 +9,189 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { withAuth } from "@/hoc/withAuth";
 import DashboardSidebar from "@/custom_components/dashboard_section/dashboard_sidebar";
-import { Calendar, CheckCircle, Clock, Heart } from "lucide-react";
-
-// ✅ Chart.js imports
+import { Calendar, Users, DollarSign, Activity } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
-import { Line, Bar } from "react-chartjs-2";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Pie } from "react-chartjs-2";
+import RecentBookingsTable from "@/custom_components/dashboard_section/tables/RecentBookingsTable";
 
-// Register chart components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-// Sample Data
-const bookingData = [
-  { month: "Jan", bookings: 3 },
-  { month: "Feb", bookings: 5 },
-  { month: "Mar", bookings: 2 },
-  { month: "Apr", bookings: 6 },
-  { month: "May", bookings: 4 },
-  { month: "Jun", bookings: 7 },
-];
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 const serviceData = [
-  { service: "Swedish Massage", bookings: 7, fill: "#FA812F" }, // Orange
-  { service: "Aromatherapy", bookings: 5, fill: "#5C4A42" },   // Brown
-  { service: "Deep Tissue", bookings: 3, fill: "#4F46E5" },    // Indigo
+  { service: "Swedish Massage", bookings: 15, fill: "#FA812F" },
+  { service: "Aromatherapy", bookings: 10, fill: "#5C4A42" },
+  { service: "Deep Tissue", bookings: 8, fill: "#4F46E5" },
+];
+const bookings = [
+  {
+    client: "Maria Santos",
+    service: "Aromatherapy",
+    date: "Aug 24, 2:00 PM",
+    status: "Completed",
+    badgeClass: "bg-green-100 text-green-700",
+  },
+  {
+    client: "John Cruz",
+    service: "Swedish Massage",
+    date: "Aug 25, 4:00 PM",
+    status: "Upcoming",
+    badgeClass: "bg-yellow-100 text-yellow-700",
+  },
+  {
+    client: "Anna Dela Cruz",
+    service: "Deep Tissue",
+    date: "Aug 22, 11:00 AM",
+    status: "Cancelled",
+    badgeClass: "bg-red-100 text-red-700",
+  },
+  {
+    client: "Anna Dela Cruz",
+    service: "Deep Tissue",
+    date: "Aug 22, 11:00 AM",
+    status: "Cancelled",
+    badgeClass: "bg-red-100 text-red-700",
+  },
+  {
+    client: "Anna Dela Cruz",
+    service: "Deep Tissue",
+    date: "Aug 22, 11:00 AM",
+    status: "Cancelled",
+    badgeClass: "bg-red-100 text-red-700",
+  },
 ];
 
-// Chart.js Dataset Configs
-const lineChartData = {
-  labels: bookingData.map((d) => d.month),
-  datasets: [
-    {
-      label: "Bookings",
-      data: bookingData.map((d) => d.bookings),
-      borderColor: "#FA812F",
-      backgroundColor: "rgba(250, 129, 47, 0.2)",
-      tension: 0.3,
-      fill: true,
-    },
-  ],
-};
-
-const lineChartOptions = {
-  responsive: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    title: {
-      display: false,
-    },
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-      ticks: {
-        stepSize: 1,
-      },
-    },
-  },
-};
-
-const barChartData = {
+const pieChartData = {
   labels: serviceData.map((d) => d.service),
   datasets: [
     {
-      label: "Bookings",
       data: serviceData.map((d) => d.bookings),
       backgroundColor: serviceData.map((d) => d.fill),
-      borderRadius: 8,
-      barThickness: 80,      // fixed bar width in px
-    maxBarThickness: 80,
+      borderWidth: 1,
     },
   ],
 };
 
-const barChartOptions = {
+const pieChartOptions = {
   responsive: true,
-  plugins: {
-    legend: {
-      display: false,
-    },
-    title: {
-      display: false,
-    },
-  },
-  scales: {
-    y: {
-      beginAtZero: true,
-      ticks: {
-        stepSize: 1,
-      },
-    },
-  },
+  plugins: { legend: { position: "bottom" as const } },
 };
 
-function UserDashboard() {
+function AdminDashboard() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 1500);
     return () => clearTimeout(timer);
   }, []);
 
   if (isLoading) return <LoadingScreen />;
-
-  const handleClick = () => {
-    router.push("/dashboard/pages/booking_page");
-  };
 
   return (
     <div className="min-h-screen bg-[#FEF3E2] text-[#5C4A42] font-sans">
       <DashboardHeader />
       <DashboardSidebar />
 
-      <main className="pt-24 px-6 min-h-[calc(100vh-160px)] relative overflow-hidden">
-        {/* Insights Section */}
+      <main className="pt-24 px-6 min-h-[calc(100vh-160px)] relative overflow-auto">
+        {/* KPIs Section */}
         <section className="mb-10">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             <Card className="rounded-2xl shadow-md bg-white">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Upcoming Booking
+                  Total Bookings
                 </CardTitle>
                 <Calendar className="h-5 w-5 text-blue-500" />
               </CardHeader>
               <CardContent>
-                <p className="text-lg font-bold">Aug 25, 2:00 PM</p>
-                <p className="text-xs text-gray-500">
-                  Aromatherapy Massage
-                </p>
+                <p className="text-2xl font-bold">150</p>
+                <p className="text-xs text-gray-500">This year</p>
+              </CardContent>
+            </Card>
+
+            <Card className="rounded-2xl shadow-md bg-white">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium">Revenue</CardTitle>
+                <DollarSign className="h-5 w-5 text-green-600" />
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold">₱120,000</p>
+                <p className="text-xs text-gray-500">Gross earnings</p>
               </CardContent>
             </Card>
 
             <Card className="rounded-2xl shadow-md bg-white">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Completed Sessions
+                  Active Therapists
                 </CardTitle>
-                <CheckCircle className="h-5 w-5 text-green-500" />
+                <Users className="h-5 w-5 text-purple-600" />
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold">12</p>
-                <p className="text-xs text-gray-500">Great consistency!</p>
+                <p className="text-2xl font-bold">8</p>
+                <p className="text-xs text-gray-500">Currently available</p>
               </CardContent>
             </Card>
 
             <Card className="rounded-2xl shadow-md bg-white">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium">
-                  Total Hours
+                  Pending Approvals
                 </CardTitle>
-                <Clock className="h-5 w-5 text-yellow-500" />
+                <Activity className="h-5 w-5 text-red-500" />
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold">18 hrs</p>
-                <p className="text-xs text-gray-500">Across all sessions</p>
-              </CardContent>
-            </Card>
-
-            <Card className="rounded-2xl shadow-md bg-white">
-              <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">
-                  Favorite Service
-                </CardTitle>
-                <Heart className="h-5 w-5 text-pink-500" />
-              </CardHeader>
-              <CardContent>
-                <p className="text-lg font-semibold">Swedish Massage</p>
-                <p className="text-xs text-gray-500">Booked 7 times</p>
+                <p className="text-2xl font-bold">3</p>
+                <p className="text-xs text-gray-500">Need action</p>
               </CardContent>
             </Card>
           </div>
         </section>
 
-        {/* Analytics Section */}
-        <section>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Line Chart */}
-            <Card className="rounded-2xl shadow-md bg-white p-6">
-              <h4 className="text-md font-semibold mb-4">
-                Bookings Over Time
-              </h4>
-              <Line data={lineChartData} options={lineChartOptions} />
-            </Card>
+        {/* Bookings + Pie Chart */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Recent Bookings Table */}
+          {/* <Card className="rounded-2xl shadow-md bg-white p-4"> */}
+           
+            <RecentBookingsTable bookings={bookings} />
+           
+          {/* </Card> */}
 
-            {/* Bar Chart */}
-            <Card className="rounded-2xl shadow-md bg-white p-6">
-              <h4 className="text-md font-semibold mb-4">
-                Service Breakdown
-              </h4>
-              <Bar data={barChartData} options={barChartOptions} />
-            </Card>
-          </div>
+          {/* Pie Chart */}
+          <Card className="rounded-2xl shadow-md bg-white p-4 flex flex-col items-center">
+            <h4 className="text-lg font-semibold  self-start">
+              Service Distribution
+            </h4>
+            <div className="w-[300px] h-[300px]">
+              <Pie
+                data={pieChartData}
+                options={{
+                  responsive: true,
+                  plugins: {
+                    legend: {
+                      display: true,
+                      position: "top",
+                      labels: {
+                        usePointStyle: true,
+                        boxWidth: 12,
+                        padding: 15,
+                      },
+                    },
+                  },
+                }}
+              />
+            </div>
+          </Card>
         </section>
       </main>
 
@@ -231,4 +200,4 @@ function UserDashboard() {
   );
 }
 
-export default withAuth(UserDashboard);
+export default withAuth(AdminDashboard);

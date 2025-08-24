@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import DashboardHeader from "@/custom_components/dashboard_section/Header";
 import DashboardFooter from "@/custom_components/dashboard_section/Footer";
 import DashboardSidebar from "@/custom_components/dashboard_section/dashboard_sidebar";
-import TherapistsTable from "@/custom_components/dashboard_section/TherapistTable"; 
+import TherapistsTable from "@/custom_components/dashboard_section/tables/TherapistTable"; 
 import { Therapist, Specialty } from "@/types/therapist";
 import { withAuth } from "@/hoc/withAuth";
 
