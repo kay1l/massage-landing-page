@@ -37,6 +37,9 @@ export default function ServicesTable() {
     description: "",
   });
 
+  const [errors, setErrors] = useState<{ name?: string; price?: string; description?: string }>({}); // Validation state
+  const [editErrors, setEditErrors] = useState<{ name?: string; price?: string; description?: string }>({});
+
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -55,7 +58,13 @@ export default function ServicesTable() {
 
   // Add service
   const handleAddService = async () => {
-    if (!newService.name || !newService.price) return;
+    const newErrors: typeof errors = {};
+    if (!newService.name) newErrors.name = "Service name is required";
+    if (!newService.price) newErrors.price = "Price is required";
+
+    setErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
+
     setIsAdding(true);
     try {
       const response = await serviceServices.createService(newService);
@@ -74,7 +83,13 @@ export default function ServicesTable() {
 
   // Update service
   const handleUpdateService = async () => {
-    if (!editService.name || !editService.price) return;
+    const newErrors: typeof editErrors = {};
+    if (!editService.name) newErrors.name = "Service name is required";
+    if (!editService.price) newErrors.price = "Price is required";
+
+    setEditErrors(newErrors);
+    if (Object.keys(newErrors).length > 0) return;
+
     setIsUpdating(true);
     try {
       const response = await serviceServices.updateService(
@@ -105,6 +120,7 @@ export default function ServicesTable() {
       price: service.price,
       description: service.description,
     });
+    setEditErrors({});
     setEditDialogOpen(true);
   };
 
@@ -141,7 +157,11 @@ export default function ServicesTable() {
                 onChange={(e) =>
                   setEditService({ ...editService, name: e.target.value })
                 }
+                className={editErrors.name ? "border-red-500" : ""}
               />
+              {editErrors.name && (
+                <p className="text-xs text-red-500">{editErrors.name}</p>
+              )}
             </div>
             <div className="grid gap-2">
               <Label>Price (₱)</Label>
@@ -151,7 +171,11 @@ export default function ServicesTable() {
                 onChange={(e) =>
                   setEditService({ ...editService, price: e.target.value })
                 }
+                className={editErrors.price ? "border-red-500" : ""}
               />
+              {editErrors.price && (
+                <p className="text-xs text-red-500">{editErrors.price}</p>
+              )}
             </div>
             <div className="grid gap-2">
               <Label>Description</Label>
@@ -180,75 +204,83 @@ export default function ServicesTable() {
       </Dialog>
 
       <Card className="shadow-lg border-none">
-      <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+        <CardHeader className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <CardTitle className="text-xl text-[#5C4A42]">
             Appointments Overview
           </CardTitle>
-    
-                {/* Add Service Dialog */}
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button className="rounded-xl bg-[#FA812F] hover:bg-[#e76b1c]">
-                      + Add Service
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="sm:max-w-[425px]">
-                    <DialogHeader>
-                      <DialogTitle>Add New Service</DialogTitle>
-                      <DialogDescription>
-                        Fill out the form below to add a new service.
-                      </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                      <div className="grid gap-2">
-                        <Label htmlFor="name">Service Name</Label>
-                        <Input
-                          id="name"
-                          placeholder="e.g. Hot Stone Massage"
-                          value={newService.name}
-                          onChange={(e) =>
-                            setNewService({ ...newService, name: e.target.value })
-                          }
-                        />
-                      </div>
-                      <div className="grid gap-2">
-                        <Label htmlFor="price">Price (₱)</Label>
-                        <Input
-                          id="price"
-                          type="number"
-                          placeholder="e.g. 2000"
-                          value={newService.price}
-                          onChange={(e) =>
-                            setNewService({ ...newService, price: e.target.value })
-                          }
-                        />
-                      </div>
-                      <div className="grid gap-2">
-                        <Label htmlFor="description">Description</Label>
-                        <Input
-                          id="description"
-                          placeholder="e.g. Relieves muscle stiffness"
-                          value={newService.description}
-                          onChange={(e) =>
-                            setNewService({
-                              ...newService,
-                              description: e.target.value,
-                            })
-                          }
-                        />
-                      </div>
-                    </div>
-                    <Button
-                      onClick={handleAddService}
-                      className="w-full rounded-xl bg-[#FA812F] hover:bg-[#e76b1c] flex items-center justify-center gap-2"
-                      disabled={isAdding}
-                    >
-                      {isAdding && <Loader2 className="animate-spin h-4 w-4" />}
-                      {isAdding ? "Saving..." : "Save Service"}
-                    </Button>
-                  </DialogContent>
-                </Dialog>
-              </CardHeader>
+
+          {/* Add Service Dialog */}
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button className="rounded-xl bg-[#FA812F] hover:bg-[#e76b1c]">
+                + Add Service
+              </Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>Add New Service</DialogTitle>
+                <DialogDescription>
+                  Fill out the form below to add a new service.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="grid gap-4 py-4">
+                <div className="grid gap-2">
+                  <Label htmlFor="name">Service Name</Label>
+                  <Input
+                    id="name"
+                    placeholder="e.g. Hot Stone Massage"
+                    value={newService.name}
+                    onChange={(e) =>
+                      setNewService({ ...newService, name: e.target.value })
+                    }
+                    className={errors.name ? "border-red-500" : ""}
+                  />
+                  {errors.name && (
+                    <p className="text-xs text-red-500">{errors.name}</p>
+                  )}
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="price">Price (₱)</Label>
+                  <Input
+                    id="price"
+                    type="number"
+                    placeholder="e.g. 2000"
+                    value={newService.price}
+                    onChange={(e) =>
+                      setNewService({ ...newService, price: e.target.value })
+                    }
+                    className={errors.price ? "border-red-500" : ""}
+                  />
+                  {errors.price && (
+                    <p className="text-xs text-red-500">{errors.price}</p>
+                  )}
+                </div>
+                <div className="grid gap-2">
+                  <Label htmlFor="description">Description</Label>
+                  <Input
+                    id="description"
+                    placeholder="e.g. Relieves muscle stiffness"
+                    value={newService.description}
+                    onChange={(e) =>
+                      setNewService({
+                        ...newService,
+                        description: e.target.value,
+                      })
+                    }
+                  />
+                </div>
+              </div>
+              <Button
+                onClick={handleAddService}
+                className="w-full rounded-xl bg-[#FA812F] hover:bg-[#e76b1c] flex items-center justify-center gap-2"
+                disabled={isAdding}
+              >
+                {isAdding && <Loader2 className="animate-spin h-4 w-4" />}
+                {isAdding ? "Saving..." : "Save Service"}
+              </Button>
+            </DialogContent>
+          </Dialog>
+        </CardHeader>
 
         <CardContent className="overflow-x-auto">
           {paginatedData.length === 0 ? (
