@@ -32,9 +32,9 @@ import { CalendarWithTime } from "@/components/calendar-20";
 import { AppointmentStatus, BookingResponse } from "@/types/booking";
 import {
   TherapistDialog,
-  Therapist,
+  
 } from "@/custom_components/dashboard_section/dialog/TherapistDialog";
-
+import { Therapist } from "@/types/therapist";
 function getStatusBadge(status: AppointmentStatus) {
   const baseClass =
     "text-white px-1.5 py-0.5 rounded-md text-[9px] sm:text-[10px] sm:px-2 sm:py-0.5 whitespace-nowrap";
