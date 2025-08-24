@@ -5,91 +5,43 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import DashboardHeader from "@/custom_components/dashboard_section/Header";
 import DashboardFooter from "@/custom_components/dashboard_section/Footer";
 import DashboardSidebar from "@/custom_components/dashboard_section/dashboard_sidebar";
-import TherapistsTable from "@/custom_components/dashboard_section/tables/TherapistTable"; 
-import { Therapist, Specialty } from "@/types/therapist";
+import TherapistsTable from "@/custom_components/dashboard_section/tables/TherapistTable";
+import { Therapist } from "@/types/therapist";
 import { withAuth } from "@/hoc/withAuth";
+import { UserServices } from "@/services/userService";
 
 function TherapistsPage() {
   const [therapists, setTherapists] = useState<Therapist[]>([]);
-  const [loadingState, setLoadingState] = useState(true);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchTherapists() {
-      try {
-        // TODO: replace with API call
-        const mockData: Therapist[] = [
-            {
-              id: 1,
-              name: "Sarah Cruz",
-              address: "Bacong, Dumaguete",
-              email: "sarah@gmail.com",
-              specialties: [
-                {
-                  name: "Swedish Massage",
-                  description: "A relaxing full-body massage using long strokes and kneading."
-                },
-                {
-                  name: "Aromatherapy",
-                  description: "Massage with essential oils to improve mood and relaxation."
-                }
-              ],
-              contact: "0917-123-4567",
-              status: "Active",
-            },
-            {
-              id: 2,
-              name: "Michael Tan",
-              address: "Buntis, Dumaguete",
-              email: "michael@gmail.com",
-              specialties: [
-                {
-                  name: "Deep Tissue",
-                  description: "Targets deeper layers of muscles and connective tissue."
-                },
-                {
-                  name: "Sports Therapy",
-                  description: "Helps prevent and treat sports-related injuries."
-                }
-              ],
-              contact: "0927-555-2345",
-              status: "Inactive",
-            },
-            {
-              id: 3,
-              name: "Anna Lopez",
-              address: "Linao Ormoc City",
-              email: "anna@gmail.com",
-              specialties: [
-                {
-                  name: "Aromatherapy",
-                  description: "Massage therapy using essential oils to promote relaxation and wellness."
-                },
-                {
-                  name: "Prenatal Massage",
-                  description: "Gentle massage designed for pregnancy comfort and relaxation."
-                }
-              ],
-              contact: "0999-888-7777",
-              status: "Active",
-            },
-          ];
-          
-
-        setTherapists(mockData);
-      } catch (error) {
-        console.error("Error fetching therapists:", error);
-      } finally {
-        setLoadingState(false);
-      }
-    }
-
     fetchTherapists();
   }, []);
 
+  const fetchTherapists = async () => {
+    try {
+      setLoading(true);
+      const response = await UserServices.getTherapists();
+
+      if (response.status) {
+        setTherapists(response.users);
+      } else {
+        console.error("Failed to load therapists");
+        setTherapists([]);
+      }
+    } catch (error) {
+      console.error("Error fetching therapists:", error);
+      setTherapists([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  
   const summary = {
     total: therapists.length,
-    active: therapists.filter((t) => t.status === "Active").length,
-    inactive: therapists.filter((t) => t.status === "Inactive").length,
+    active: 5, 
+    inactive: 2, 
   };
 
   return (
@@ -139,16 +91,12 @@ function TherapistsPage() {
         </div>
 
         {/* Table Section */}
-        {loadingState ? (
-          <p className="text-center text-sm text-gray-500 py-4">
-            Loading therapists...
-          </p>
+        {loading ? (
+          <p className="text-center text-sm text-gray-500 py-4">Loading therapists...</p>
         ) : therapists.length === 0 ? (
-          <p className="text-center text-sm text-gray-500 py-4">
-            No therapists found.
-          </p>
+          <p className="text-center text-sm text-gray-500 py-4">No therapists found.</p>
         ) : (
-          <TherapistsTable data={therapists} />
+          <TherapistsTable data={therapists} onSuccess={fetchTherapists} />
         )}
       </div>
 

@@ -83,8 +83,8 @@ export default function EditTherapistDialog({
 
                 <Input
                   placeholder="Title"
-                  value={s.name}
-                  onChange={(e) => updateSpecialty(index, "name", e.target.value)}
+                  value={s.title}
+                  onChange={(e) => updateSpecialty(index, "title", e.target.value)}
                 />
                 <Input
                   placeholder="Description"

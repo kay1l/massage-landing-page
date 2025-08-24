@@ -12,21 +12,25 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Therapist, Specialty } from "@/types/therapist";
+import { Specialty, TherapistPayload } from "@/types/therapist";
+import { toast } from "sonner";
+import { UserServices } from "@/services/userService";
 
 interface AddTherapistDialogProps {
-  onSubmit: (therapist: Omit<Therapist, "id" | "status">) => void;
+
+  onSuccess: () => void; // optional callback after success
 }
 
-export default function AddTherapistDialog({ onSubmit }: AddTherapistDialogProps) {
+export default function AddTherapistDialog({ onSuccess }: AddTherapistDialogProps) {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [name, setName] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
   const [address, setAddress] = useState("");
   const [specialties, setSpecialties] = useState<Specialty[]>([
-    { name: "", description: "" },
+    { title: "", description: "" },
   ]);
 
   const resetForm = () => {
@@ -34,12 +38,12 @@ export default function AddTherapistDialog({ onSubmit }: AddTherapistDialogProps
     setContact("");
     setEmail("");
     setAddress("");
-    setSpecialties([{ name: "", description: "" }]);
+    setSpecialties([{ title: "", description: "" }]);
   };
 
   const addSpecialtyField = () => {
     if (specialties.length < 2) {
-      setSpecialties([...specialties, { name: "", description: "" }]);
+      setSpecialties([...specialties, { title: "", description: "" }]);
     }
   };
 
@@ -47,6 +51,35 @@ export default function AddTherapistDialog({ onSubmit }: AddTherapistDialogProps
     const updated = [...specialties];
     updated[index][field] = value;
     setSpecialties(updated);
+  };
+
+  const handleSubmit = async () => {
+    const payload: TherapistPayload = {
+      name,
+      contact,
+      email,
+      address,
+      specialties,
+    };
+    console.log("Submitting payload:", payload);
+
+    try {
+      setLoading(true);
+      const response = await UserServices.createTherapist(payload);
+
+      if (response.status) {
+        toast.success(response.message || "Therapist created successfully");
+        resetForm();
+        setOpen(false);
+        onSuccess(); 
+      } else {
+        toast.error(response.message || "Failed to create therapist");
+      }
+    } catch (error) {
+      toast.error("Error creating therapist");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -81,8 +114,8 @@ export default function AddTherapistDialog({ onSubmit }: AddTherapistDialogProps
               <div key={index} className="p-3 border rounded-md bg-gray-50 space-y-2">
                 <Input
                   placeholder="Title"
-                  value={s.name}
-                  onChange={(e) => updateSpecialty(index, "name", e.target.value)}
+                  value={s.title}
+                  onChange={(e) => updateSpecialty(index, "title", e.target.value)}
                 />
                 <Input
                   placeholder="Description"
@@ -92,7 +125,12 @@ export default function AddTherapistDialog({ onSubmit }: AddTherapistDialogProps
               </div>
             ))}
             {specialties.length < 2 && (
-              <Button type="button" variant="outline" onClick={addSpecialtyField} className="w-full">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={addSpecialtyField}
+                className="w-full"
+              >
                 + Add Specialty
               </Button>
             )}
@@ -100,15 +138,15 @@ export default function AddTherapistDialog({ onSubmit }: AddTherapistDialogProps
         </div>
 
         <DialogFooter className="mt-4">
-          <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
+          <Button variant="ghost" onClick={() => setOpen(false)}>
+            Cancel
+          </Button>
           <Button
+            disabled={loading}
             className="rounded-xl bg-[#FA812F] hover:bg-[#e76b1c]"
-            onClick={() => {
-              onSubmit({ name, contact, email, address, specialties });
-              setOpen(false);
-            }}
+            onClick={handleSubmit}
           >
-            Submit
+            {loading ? "Submitting..." : "Submit"}
           </Button>
         </DialogFooter>
       </DialogContent>
