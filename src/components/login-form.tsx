@@ -13,6 +13,7 @@ import { loginSuccess } from "@/redux/actions/userActions";
 import { useDispatch } from "react-redux";
 import { toast } from "sonner";
 import Image from "next/image";
+
 export function LoginForm({
   className,
   ...props
@@ -23,21 +24,53 @@ export function LoginForm({
   const handleClick = () => {
     router.push("/auth/register");
   };
+
   const [formData, setFormData] = useState<LoginPayload>({
     email: "",
     password: "",
   });
+
+  const [errors, setErrors] = useState<{ email?: string; password?: string }>(
+    {}
+  );
+
   const [loading, setLoading] = useState(false);
+
+  const validate = () => {
+    const newErrors: typeof errors = {};
+
+    if (!formData.email) {
+      newErrors.email = "Email is required.";
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = "Enter a valid email address.";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required.";
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
+
+    setErrors((prev) => ({ ...prev, [e.target.id]: undefined }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validate()) return;
+
     setLoading(true);
+
     try {
       const response = await authServices.loginUser(formData);
+
       if (response.status) {
         dispatch(loginSuccess(response.user));
         const { access_token } = response;
@@ -47,24 +80,34 @@ export function LoginForm({
         }
 
         toast.success("Login successful!", {
-          description: response.message,
+          description: response.message || "Welcome back!",
         });
 
         router.push("/dashboard");
       } else {
+        let errorMsg = response.message;
+        if (errorMsg?.toLowerCase().includes("invalid")) {
+          errorMsg = "Your email or password is incorrect.";
+        }
         toast.error("Login failed", {
-          description: response.message,
+          description: errorMsg || "Please try again.",
         });
       }
     } catch (error: any) {
-      toast.error("Login failed", {
-        description:
-          error.response?.data?.message || "An unexpected error occurred.",
-      });
+      let errorMsg = "Incorrect email or password.";
+      if (error.response?.status === 401) {
+        errorMsg = "Incorrect email or password.";
+      } else if (error.response?.status === 500) {
+        errorMsg = "Server error. Please try again later.";
+      } else if (error.message?.includes("Network Error")) {
+        errorMsg = "Unable to connect. Please check your internet connection.";
+      }
+      toast.error("Login failed", { description: errorMsg });
     } finally {
       setLoading(false);
     }
   };
+
   return (
     <div
       className={cn(
@@ -75,18 +118,17 @@ export function LoginForm({
     >
       <Card className="overflow-hidden p-0 bg-white shadow-md rounded-xl">
         <CardContent className="grid p-0 md:grid-cols-2">
-          <form className="p-6 md:p-8" onSubmit={handleSubmit}>
+          <form className="p-6 md:p-8" onSubmit={handleSubmit} noValidate>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
                 <h1 className="text-2xl text-[#5C4A42] font-bold">
                   Welcome back
                 </h1>
-                <p className="text-[#5C4A42]/70 text-balance">
-                  Login to your Acme Inc account
-                </p>
+                <p className="text-[#5C4A42]/70">Login to your account</p>
               </div>
 
-              <div className="grid gap-3">
+              {/* Email */}
+              <div className="grid gap-1.5">
                 <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
@@ -94,12 +136,18 @@ export function LoginForm({
                   placeholder="m@example.com"
                   value={formData.email}
                   onChange={handleChange}
-                  required
-                  className="rounded-xl border-gray-300 focus:ring-[#FFB22C]"
+                  className={cn(
+                    "rounded-xl border-gray-300 focus:ring-[#FFB22C]",
+                    errors.email && "border-red-500 focus:ring-red-500"
+                  )}
                 />
+                {errors.email && (
+                  <p className="text-sm text-red-500">{errors.email}</p>
+                )}
               </div>
 
-              <div className="grid gap-3">
+              {/* Password */}
+              <div className="grid gap-1.5">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                   <a
@@ -114,9 +162,14 @@ export function LoginForm({
                   type="password"
                   value={formData.password}
                   onChange={handleChange}
-                  required
-                  className="rounded-xl border-gray-300 focus:ring-[#FFB22C]"
+                  className={cn(
+                    "rounded-xl border-gray-300 focus:ring-[#FFB22C]",
+                    errors.password && "border-red-500 focus:ring-red-500"
+                  )}
                 />
+                {errors.password && (
+                  <p className="text-sm text-red-500">{errors.password}</p>
+                )}
               </div>
 
               <Button
@@ -127,7 +180,7 @@ export function LoginForm({
                 {loading ? "Logging in..." : "Login"}
               </Button>
 
-              <div className="after:border-[#F3C623] relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t">
+              <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-[#F3C623]">
                 <span className="bg-white text-[#5C4A42]/60 relative z-10 px-2"></span>
               </div>
 
@@ -155,7 +208,7 @@ export function LoginForm({
         </CardContent>
       </Card>
 
-      <div className="text-[#5C4A42]/70 *:[a]:hover:text-[#FA812F] text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
+      <div className="text-[#5C4A42]/70 text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4 *:[a]:hover:text-[#FA812F]">
         By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
         and <a href="#">Privacy Policy</a>.
       </div>
